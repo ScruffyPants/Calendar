@@ -7,9 +7,14 @@ public class Login extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1504199602031999L;
 	private static Time time = new Time();
 
+
+	JPanel panel = new JPanel();
+	
+	public static void main(String[] args) {
+		Login frameTabel = new Login();
+	}
 	JButton blogin = new JButton("Login");
 	JButton register = new JButton("Register");
-	JPanel panel = new JPanel();
 	JTextField txuser = new JTextField(15);
 	JPasswordField pass = new JPasswordField(15);
 	
@@ -60,6 +65,8 @@ public class Login extends JFrame implements ActionListener{
 					System.out.println("Logged in!");
 					System.out.println("name = " + user.getLname());
 					Body body = new Body(time, user);
+					JFrame w = (JFrame) SwingUtilities.getWindowAncestor(panel);
+                    w.dispose();
 				}
 				else System.out.println("Invalid login details.");
 			}
