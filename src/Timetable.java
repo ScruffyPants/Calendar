@@ -1,4 +1,3 @@
-import javax.swing.JFrame;
 
 public class Timetable {
 	private static int year;
@@ -9,7 +8,7 @@ public class Timetable {
 	public static void main(String[] args){
 		//===================PVZ kaip veikia time klase===============
 			year = time.getYear();
-			month = time.getMonth();
+			month = time.getMonth()+1;
 			day = time.getDay();
 			System.out.println(year+" "+month+" "+day);
 			
@@ -19,6 +18,8 @@ public class Timetable {
 			day = time.getDay();
 			System.out.println(year+" "+month+" "+day);
 		//=============================================================
+			
+		User user = new User("test", "test");
 	}
 	
 }
