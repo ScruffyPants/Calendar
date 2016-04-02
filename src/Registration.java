@@ -3,9 +3,10 @@ import java.awt.event.*;
  
 public class Registration extends JFrame implements ActionListener{
     private static final long serialVersionUID = 1504199602031999L;
+    private final String dir = System.getProperty("user.dir");
  
     public static void main(String[] args) {
-        Registration frameTabel = new Registration();
+        Registration frameTable = new Registration();
     }
     JButton register = new JButton("Register");
     JPanel panel = new JPanel();
@@ -57,6 +58,7 @@ public class Registration extends JFrame implements ActionListener{
                    created.setIsAdmin(true);
                System.out.println("Nickname: " + created.getNick() + ", hashed password: " + created.getPW_Hash());
                created.saveUser();
+               System.exit(0);
         }
     }
 }
