@@ -11,14 +11,13 @@ public class Body extends JFrame {
 	JMenuBar menuBar = new JMenuBar();
 	GridBagConstraints c = new GridBagConstraints();
 	Time time;
-	/*public static void main(String[] args) {
-		Body frameTabel = new Body();
-	}*/
+	User user;
 	
-	Body(Time t){
+	Body(Time t, User u){
 		time = t;
+		user = u;
+		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//frame.setSize(500, 300);
 		DrawMenu();
 		DrawCalendar();
 

@@ -8,6 +8,7 @@ public class Login extends JFrame implements ActionListener{
 	private static Time time = new Time();
 	private final String dir = System.getProperty("user.dir");
 
+
 	JPanel panel = new JPanel();
 	
 	public static void main(String[] args) {
@@ -64,9 +65,9 @@ public class Login extends JFrame implements ActionListener{
 				if(login){
 					System.out.println("Logged in!");
 					System.out.println("name = " + user.getLname());
-					Body body = new Body(time);
+					Body body = new Body(time, user);
 					JFrame w = (JFrame) SwingUtilities.getWindowAncestor(panel);
-					w.dispose();
+                    w.dispose();
 				}
 				else System.out.println("Invalid login details.");
 			}
