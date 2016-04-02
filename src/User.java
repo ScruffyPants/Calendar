@@ -1,23 +1,43 @@
 import java.util.LinkedList;
+import java.util.Objects;
 import java.io.*;
+import java.security.MessageDigest;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 
 public class User implements Serializable{
 	private static final long serialVersionUID = 1504199602031999L;
 	private String fname;
 	private String lname;
+	private String pw_hash;
 	private LinkedList<Event> events = new LinkedList<Event>();//User will have a linked list with "events" that are later represented in Calendar
 	private FileInputStream in = null;
 	private FileOutputStream out = null;
 	
 	//Constructor for user
-	public User(String fn, String ln){
+	public User(String fn, String ln, String pw){
 		fname = fn;
-		lname = ln; 
+		lname = ln;
+		try {
+		MessageDigest md = MessageDigest.getInstance("MD5");
+		byte[] pw_hash_bytes = md.digest(pw.getBytes("UTF-8"));
+        StringBuilder builder = new StringBuilder();
+        for( byte a : pw_hash_bytes )
+        {
+            builder.append(String.format("%02X ", a ));
+        }         
+        pw_hash = builder.toString();
+		} catch (UnsupportedEncodingException e) {
+			System.out.println("The specified encoding is not supported on your machine");
+		} catch (NoSuchAlgorithmException a) {
+			System.out.println("The specified hashing function is not supported by your java implementation");
+		}
 	}
 	
 	public User(){
 		fname=null;
 		lname=null;
+		pw_hash=null;
 	}
 	
 	public String getFname() {
@@ -36,11 +56,15 @@ public class User implements Serializable{
 		this.lname = lname;
 	}
 	
-	public void addEvent(Event event){
+	public void addEvent(Event event) {
 		events.add(events.size(), event);
 	}
 	
-	public void setEvents(LinkedList<Event> e){
+	public String getPW_Hash() {
+		return pw_hash;
+	}
+	
+	public void setEvents(LinkedList<Event> e) {
 		events = e;
 	}
 	
@@ -56,11 +80,35 @@ public class User implements Serializable{
 			//System.out.println("Year retrieved: " + given.getYear() + ", year specified: " + y);
 			//System.out.println("Month retrieved: " + given.getMonth() + ", month specified: " + m);
 			//System.out.println("Day retrieved: " + given.getDay() + ", day specified: " + d);
-			if( given.getYear() == y & given.getMonth() == m & given.getDay() == d)
+			if( given.getYear() == y & given.getMonth() == m & given.getDay() == d )
 				ret.add(given);
-						//System.out.println("Match found!");
+				//System.out.println("Match found!");
 		}
 		return ret;
+	}
+	
+	public boolean checkPassword (String pw)
+	{
+		try {
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			byte[] pw_hash_bytes = md.digest(pw.getBytes("UTF-8"));
+			StringBuilder builder = new StringBuilder();
+			for( byte a : pw_hash_bytes )
+			{
+				builder.append(String.format("%02X ", a ));
+			}         
+			String pw_hash_toCheck = builder.toString();
+			if(Objects.equals(pw_hash_toCheck, this.getPW_Hash()))
+				return true; 
+			else
+				return false; 
+		} catch (UnsupportedEncodingException e) {
+			System.out.println("The specified encoding is not supported on your machine");
+		} catch (NoSuchAlgorithmException a) {
+			System.out.println("The specified hashing function is not supported by your java implementation");
+		} 
+		System.out.println("Something went wrong...");
+		return false;
 	}
 	
 	public void saveUser(){
