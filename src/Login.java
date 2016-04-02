@@ -5,6 +5,7 @@ import java.io.File;
 
 public class Login extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1504199602031999L;
+	private static Time time = new Time();
 
 	public static void main(String[] args) {
 		Login frameTabel = new Login();
@@ -48,26 +49,26 @@ public class Login extends JFrame implements ActionListener{
 		blogin.addActionListener(this);
 		register.addActionListener(this);
 	}
-
+	
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == blogin){
+		if(e.getSource() == blogin) {
 			String puname = txuser.getText();
 			String ppaswd = pass.getText();
-			
-			File temp = new File("S:\\JAVA\\Calendar\\src\\Users\\"+puname+".txt"); 
+			File temp = new File("C:\\Users\\Jonas\\Eigene Dokumente\\GitHub\\Calendar\\src\\Users\\"+puname+".txt"); 
 			if(temp.exists() && !temp.isDirectory()){
 				User user = new User(puname);
 				user.loadUser(puname);
 				boolean login = user.checkPassword(ppaswd);
 				if(login){
 					System.out.println("Logged in!");
-					System.out.println("name = "+user.getLname());
+					System.out.println("name = " + user.getLname());
+					Body body = new Body(time);
 				}
-				else System.out.println("What is this?");
+				else System.out.println("Invalid login details.");
 			}
 		}
 		else if (e.getSource()==register){
-			Registration regFace =new Registration();
+			Registration regFace = new Registration();
 			dispose();
 		}
 	}
