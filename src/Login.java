@@ -10,9 +10,6 @@ public class Login extends JFrame implements ActionListener{
 
 	JPanel panel = new JPanel();
 	
-	public static void main(String[] args) {
-		Login frameTabel = new Login();
-	}
 	JButton blogin = new JButton("Login");
 	JButton register = new JButton("Register");
 	JTextField txuser = new JTextField(15);

@@ -2,6 +2,7 @@ import javax.swing.*;
 import javax.swing.JFrame;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.LinkedList;
 
 public class Body extends JFrame {
 	
@@ -101,10 +102,22 @@ public class Body extends JFrame {
 				a.setBorder(null);
 				a.setPreferredSize(new Dimension(100,100));
 				calendar.add(a);
+				a.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e) {
+						LinkedList<Event> events = user.getEventsByDate(time.getYear(), time.getMonth(), time.getDay());
+						Popout(events);
+					}
+				});
 			}
 			i++;
 		}
 		calendar.setPreferredSize(new Dimension(700,1000));
 		calendar.setBackground(Color.black);
+	}
+	
+	public void Popout(LinkedList<Event> events){
+		for(Event a: events){
+			System.out.println(a.getName());
+		}
 	}
 }
