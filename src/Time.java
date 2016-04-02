@@ -5,6 +5,7 @@ public class Time {
 	private int Day;
 	private int Hour;
 	private int Minute;
+	private int DaysInMonth;
 	private Calendar temp = Calendar.getInstance();
 	
 	public Time(){
@@ -52,5 +53,9 @@ public class Time {
 	public void setMinute(int minute) {
 		temp.set(Calendar.MINUTE, minute);
 		Minute = temp.get(Calendar.MINUTE);
+	}
+	
+	public int getDaysInMonth(){
+		return temp.getActualMaximum(Calendar.DAY_OF_MONTH);
 	}
 }

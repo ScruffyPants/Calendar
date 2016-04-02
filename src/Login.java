@@ -1,74 +1,59 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 
-public class Login extends JFrame implements ActionListener{
+public class Login extends JFrame {
 
 public static void main(String[] args) {
 	Login frameTabel = new Login();
 }
 
 	JButton blogin = new JButton("Login");
-	JButton register = new JButton("Register");
 	JPanel panel = new JPanel();
 	JTextField txuser = new JTextField(15);
 	JPasswordField pass = new JPasswordField(15);
-	
 
 	Login(){
 		super("Login Authentification");
-		setSize(320,200);
+		setSize(300,200);
 		setLocation(500,280);
 		panel.setLayout (null);
 
 
-		txuser.setBounds(90,30,150,20);
-		pass.setBounds(90,65,150,20);
-		blogin.setBounds(45,100,100,20);
-		register.setBounds(155,100,100,20);
+		txuser.setBounds(70,30,150,20);
+		pass.setBounds(70,65,150,20);
+		blogin.setBounds(110,100,80,20);
 	
 		panel.add(blogin);
 		panel.add(txuser);
 		panel.add(pass);
-		panel.add(register);
-		
-		JLabel usr = new JLabel("Username:");
-		JLabel pw = new JLabel("Password:");
-		usr.setLocation(15,30);
-		pw.setLocation(15,65);
-		pw.setSize(pw.getPreferredSize());
-		usr.setSize(usr.getPreferredSize());
-		panel.add(pw);
-		panel.add(usr);
 	
 		getContentPane().add(panel);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
-		blogin.addActionListener(this);
-		register.addActionListener(this);
+		actionlogin();
 	}
 
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource()==blogin){
-			String puname = txuser.getText();
-			String ppaswd = pass.getText();
+	public void actionlogin(){
+		blogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				String puname = txuser.getText();
+				String ppaswd = pass.getText();
+				
+				File temp = new File("S:\\JAVA\\Calendar\\src\\Users\\"+puname+".txt"); 
+				if(temp.exists() && !temp.isDirectory()){
+					User user = new User(puname);
+					user.loadUser(puname);
+					boolean login = user.checkPassword(ppaswd);
+					if(login){
+						System.out.println("Logged in!");
+						System.out.println("name = "+user.getLname());
+					}
+					else System.out.println("What is this?");
+				}
 
-			if(puname.equals("test") && ppaswd.equals("12345")) {
-				newframe regFace =new newframe();
-				regFace.setVisible(true);
-				dispose();
-			} 
-			else {
-				JOptionPane.showMessageDialog(null,"Wrong Password / Username");
-				txuser.setText("");
-				pass.setText("");
-				txuser.requestFocus();
-			}
-		}
-		else if (e.getSource()==register){
-			Registration regFace =new Registration();
-			regFace.setVisible(true);
-			dispose();
-		}
+			}	
+		});
 	}
 }
