@@ -4,6 +4,7 @@ import java.awt.event.*;
 import java.io.File;
 
 public class Login extends JFrame implements ActionListener{
+	private static final long serialVersionUID = 1504199602031999L;
 
 	public static void main(String[] args) {
 		Login frameTabel = new Login();
