@@ -50,6 +50,7 @@ public class Timetable {
 			LinkedList<Event> select = user.getEventsByDate(2002, 12, 4);
 			LinkedList<Event> select2 = user.getEventsByDateRange(2002, 12, 4, 2012, 12, 3);
 			Event given = null;
+			System.out.println("All events");
 			for( int i = 0; i < full.size(); i++ ) {
 				given = full.get(i);
 				System.out.println(given.getYear() + " " + given.getMonth() + " " + given.getDay() + " (" + given.getName() + ")");
