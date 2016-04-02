@@ -46,9 +46,11 @@ public static void main(String[] args) {
 					User user = new User(puname);
 					user.loadUser(puname);
 					boolean login = user.checkPassword(ppaswd);
-					if(login)System.out.println("Logged in!");
+					if(login){
+						System.out.println("Logged in!");
+						System.out.println("name = "+user.getLname());
+					}
 					else System.out.println("What is this?");
-					System.out.println("name = "+user.getLname());
 				}
 
 			}	
