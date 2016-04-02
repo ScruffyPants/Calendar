@@ -8,9 +8,27 @@ public class Registration {
    private JLabel headerLabel;
    private JLabel statusLabel;
    private JPanel controlPanel;
+   private String text;
+   private String pass;
 
    public Registration(){
       prepareGUI();
+   }
+   
+   public void setText(String a) {
+	   text = a;
+   }
+   
+   public String getText() {
+	   return text;
+   }
+   
+   public void setPass(String a ) {
+	   pass = a;
+   }
+   
+   public String getPass() {
+	   return pass;
    }
 
    public static void main(String[] args){
@@ -72,17 +90,21 @@ public class Registration {
 
       JScrollPane rankListScrollPane = new JScrollPane(rankCombo);    
       
-
+      
       JButton registerButton = new JButton("Register");
 
+      setText(txuser.getText());
+      setPass(pass.getText());
+      
       registerButton.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) { 
-        	 User created = new User(txuser.getText(),pass.getText());
+        	 User created = new User(getText(),getPass());
         	 if( rankCombo.getSelectedIndex() == 1 )
         		 created.setIsTeacher(true);
         	 else if( rankCombo.getSelectedIndex() == 2 )
         		 created.setIsAdmin(true);
-        	 created.saveUser();
+        	 System.out.println("Nickname: " + created.getNick() + ", hashed password: " + created.getPW_Hash());
+        	 //created.saveUser();
             }              
       }); 
       controlPanel.add(rankListScrollPane);          
