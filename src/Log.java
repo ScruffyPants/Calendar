@@ -34,10 +34,6 @@ public static void main(String[] args) {
 		actionlogin();
 	}
 
-
-
-
-
 	public void actionlogin(){
 		blogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {

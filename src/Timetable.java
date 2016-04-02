@@ -20,6 +20,12 @@ public class Timetable {
 		//=============================================================
 			
 		User user = new User("test", "test");
+		System.out.println(user.getFname());
+		user.saveUser();
+		User user2 = new User("test2","test2");
+		user2.saveUser();
+		user.loadUser("test2");
+		System.out.println(user.getFname());
 	}
 	
 }
