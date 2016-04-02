@@ -21,19 +21,21 @@ public class Timetable {
 			System.out.println(year+" "+month+" "+day);
 		*/
 		//==============================================================
-			
+			/*
 			User user = new User("test","test", "12345");
 			User user2 = new User("test2","test2", "123456");
 			user2.setLname("test2");
 			user.saveUser();
 			user2.saveUser();
 			Login login = new Login();
-			
+			*/
 			int daysinmonth = time.getDaysInMonth();
 			System.out.println("Days in month = "+daysinmonth);
+			
+			Body body = new Body(time);
 
 			//Event Debugging | Testing
-			
+			/*
 			Event one = new Event( "test", 2002, 12, 4 );
 			Event two = new Event( "test", 2002, 12, 5 );
 			Event three = new Event( "test", 2002, 11, 4 );
@@ -73,6 +75,8 @@ public class Timetable {
 			System.out.println("Testing password 'Dawg': " + test.checkPassword("Dawg"));
 			System.out.println("Testing password 'Allah': " + test.checkPassword("Allah"));
 			System.out.println("Testing password 'Snoop Dogg': " + test.checkPassword("Snoop Dogg"));
+			
+			*/
 		//=============================================================
 	}
 	
