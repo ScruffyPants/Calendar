@@ -64,6 +64,20 @@ public class Body extends JFrame {
 		Calendar.add(Exit);
 		Account.add(Logout);
 		
+		Exit.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e) {
+					frame.setVisible(false);
+					frame.dispose();
+				}
+		});
+		Logout.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				frame.dispose();
+				Timetable.main(null);
+			}
+		});
+		
 		menuBar.setPreferredSize(new Dimension(300,500));
 	}
 	
