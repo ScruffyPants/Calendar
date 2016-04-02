@@ -48,7 +48,7 @@ public class Body extends JFrame {
 		JMenuItem Exit, Logout;
 		Calendar = new JMenu("Calendar");
 		menuBar.add(Calendar);
-		menuBar.setSize(50,frame.getWidth());
+		menuBar.setSize(100,frame.getWidth());
 	}
 	
 	public void DrawCalendar(){

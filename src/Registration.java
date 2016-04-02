@@ -76,9 +76,13 @@ public class Registration {
       JButton registerButton = new JButton("Register");
  
       registerButton.addActionListener(new ActionListener() {
-         public void actionPerformed(ActionEvent e) {
-             User created = new User(txuser.getText(),pass.getText());
-             created.saveUser();
+         public void actionPerformed(ActionEvent e) { 
+        	 User created = new User(txuser.getText(),pass.getText());
+        	 if( rankCombo.getSelectedIndex() == 1 )
+        		 created.setIsTeacher(true);
+        	 else if( rankCombo.getSelectedIndex() == 2 )
+        		 created.setIsAdmin(true);
+        	 created.saveUser();
             }              
       });
       controlPanel.add(rankListScrollPane);          
