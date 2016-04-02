@@ -49,6 +49,7 @@ public class Timetable {
 			
 			LinkedList<Event> full = user.getEvents();
 			LinkedList<Event> select = user.getEventsByDate(2002, 12, 4);
+			LinkedList<Event> select2 = user.getEventsByDateRange(2002, 12, 4, 2012, 12, 3);
 			Event given = null;
 			for( int i = 0; i < full.size(); i++ ) {
 				given = full.get(i);
@@ -59,6 +60,12 @@ public class Timetable {
 			for( int i = 0; i < select.size(); i++ ) {
 				given2 = select.get(i);
 				System.out.println(given2.getYear() + " " + given2.getMonth() + " " + given2.getDay() + " (" + given2.getName() + ")");
+			}
+			Event given3 = null;
+			System.out.println("Events found when searching the range 2002 / 12 / 4  ---  2012 / 12 / 3:");
+			for( int i = 0; i < select2.size(); i++ ) {
+				given3 = select.get(i);
+				System.out.println(given3.getYear() + " " + given3.getMonth() + " " + given3.getDay() + " (" + given3.getName() + ")");
 			}
 			*/
 			User test = new User("test", "test", "Allah");
