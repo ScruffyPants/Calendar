@@ -4,7 +4,7 @@ import java.io.*;
 public class User implements Serializable{
 	private String fname;
 	private String lname;
-	private LinkedList<Event> events = new LinkedList<Event>();//User will have an array with "events" that are later represented in Calendar
+	private LinkedList<Event> events = new LinkedList<Event>();//User will have an linked list with "events" that are later represented in Calendar
 	private FileInputStream in = null;
 	private FileOutputStream out = null;
 	
