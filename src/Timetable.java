@@ -8,6 +8,7 @@ public class Timetable {
 	
 	public static void main(String[] args){
 		//===================PVZ kaip veikia time klase===============
+		/*
 			year = time.getYear();
 			month = time.getMonth()+1;
 			day = time.getDay();
@@ -18,15 +19,15 @@ public class Timetable {
 			year = time.getYear();
 			day = time.getDay();
 			System.out.println(year+" "+month+" "+day);
+		*/
+		//==============================================================
 			
-
-			User user = new User("test", "test", "");
-			System.out.println(user.getFname());
-			user.saveUser();
+			User user = new User("test","test", "");
 			User user2 = new User("test2","test2", "");
+			user2.setLname("test2");
+			user.saveUser();
 			user2.saveUser();
-			user.loadUser("test2");
-			System.out.println(user.getFname());
+			Log login = new Log();	
 
 			//Event Debugging | Testing
 			
