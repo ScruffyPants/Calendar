@@ -3,6 +3,7 @@ import java.util.GregorianCalendar;
 import javax.swing.*;
 
 public class Clock extends JFrame{
+	private static final long serialVersionUID = 1504199602031999L;
 	public static void main(String[] args) {
 		Clock frameTabel = new Clock();
 	}

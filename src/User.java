@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class User implements Serializable{
 	private static final long serialVersionUID = 1504199602031999L;
+	private final String dir = System.getProperty("user.dir");
 	private String fname;
 	private String lname;
 	private String nick;
@@ -191,7 +192,7 @@ public class User implements Serializable{
 	public void saveUser(){
 		try{
 			System.out.println("Saving User");
-			String temp = "C:\\Users\\Jonas\\Eigene Dokumente\\GitHub\\Calendar\\src\\Users\\"+this.getNick()+".txt"; // /Calendar/src/Users/test.txt
+			String temp = dir + "\\src\\Users\\"+this.getNick()+".txt";
 			System.out.println("File location = "+temp);
 			out = new FileOutputStream(temp);
 			ObjectOutputStream outObject = new ObjectOutputStream(out);
@@ -214,16 +215,17 @@ public class User implements Serializable{
 		}
 	}
 	
-	public void loadUser(String fName){
+	public void loadUser(String Nick){
 		try{
 			System.out.println("Loading User");
-			String temp = "C:\\Users\\Jonas\\Eigene Dokumente\\GitHub\\Calendar\\src\\Users\\"+fName+".txt";
+			String temp = dir + "\\src\\Users\\" + Nick + ".txt";
 			in = new FileInputStream(temp);
 			ObjectInputStream inObject = new ObjectInputStream(in);
 			User user = new User();
 			user = (User) inObject.readObject();
 			this.setFname(user.getFname());
 			this.setLname(user.getLname());
+			this.setNick(user.getNick());
 			this.setEvents(user.getEvents());
 			this.setPW_Hash(user.getPW_Hash());
 			inObject.close();

@@ -6,6 +6,7 @@ import java.io.File;
 public class Login extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1504199602031999L;
 	private static Time time = new Time();
+	private final String dir = System.getProperty("user.dir");
 
 	JPanel panel = new JPanel();
 	
@@ -55,7 +56,7 @@ public class Login extends JFrame implements ActionListener{
 		if(e.getSource() == blogin) {
 			String puname = txuser.getText();
 			String ppaswd = pass.getText();
-			File temp = new File("C:\\Users\\Jonas\\Eigene Dokumente\\GitHub\\Calendar\\src\\Users\\"+puname+".txt"); 
+			File temp = new File( dir + "\\src\\Users\\"+puname+".txt"); 
 			if(temp.exists() && !temp.isDirectory()){
 				User user = new User(puname);
 				user.loadUser(puname);
