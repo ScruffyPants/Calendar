@@ -2,9 +2,10 @@ import java.util.LinkedList;
 import java.io.*;
 
 public class User implements Serializable{
+	private static final long serialVersionUID = 1504199602031999L;
 	private String fname;
 	private String lname;
-	private LinkedList<Event> events = new LinkedList<Event>();//User will have an linked list with "events" that are later represented in Calendar
+	private LinkedList<Event> events = new LinkedList<Event>();//User will have a linked list with "events" that are later represented in Calendar
 	private FileInputStream in = null;
 	private FileOutputStream out = null;
 	
@@ -52,17 +53,12 @@ public class User implements Serializable{
 		Event given = events.getFirst();
 		for( int i = 0; i < events.size(); i++) {
 			given = events.get(i);
-			System.out.println("Year retrieved: " + given.getYear() + ", year specified: " + y);
-			System.out.println("Month retrieved: " + given.getMonth() + ", month specified: " + m);
-			System.out.println("Day retrieved: " + given.getDay() + ", day specified: " + d);
-			if( given.getYear() == y ) {
-				if( given.getMonth() == m ) {
-					if( given.getDay() == d ) {
-						ret.add(given);
-						System.out.println("Match found!");
-					}
-				}
-			}
+			//System.out.println("Year retrieved: " + given.getYear() + ", year specified: " + y);
+			//System.out.println("Month retrieved: " + given.getMonth() + ", month specified: " + m);
+			//System.out.println("Day retrieved: " + given.getDay() + ", day specified: " + d);
+			if( given.getYear() == y & given.getMonth() == m & given.getDay() == d)
+				ret.add(given);
+						//System.out.println("Match found!");
 		}
 		return ret;
 	}
