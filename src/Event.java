@@ -7,9 +7,9 @@ public class Event {
 	
 	public Event(String n, int y, int m, int d){
 		name = n;
-		year = y;
-		month = m;
-		day = d;
+		year = ( y >= 1970 ) ? y : 1970 ;
+		month = ( m >= 1 & m <= 12 ) ? m : 1 ;
+		day = ( d >= 1 & d <= 31 ) ? d : 1 ;
 	}
 
 	public String getName() {
