@@ -45,10 +45,16 @@ public class User implements Serializable{
 	
 	public void saveUser(){
 		try{
-			in = new FileInputStream("Users/"+getFname()+".txt");
-			
+			System.out.println("Saving User");
+			out = new FileOutputStream("Users/"+getFname()+".txt");
+			ObjectOutputStream outObject = new ObjectOutputStream(out);
+			outObject.writeObject(this);
+			outObject.close();
+			out.close();
 		}catch(FileNotFoundException e){
 			System.err.println("ERROR 404: FILE NOT FOUND");
+		}catch(IOException e){
+			System.err.println("IOException error");
 		}
 	}
 }
