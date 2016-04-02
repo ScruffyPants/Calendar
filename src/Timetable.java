@@ -35,7 +35,7 @@ public class Timetable {
 			int daysinmonth = time.getDaysInMonth();
 			System.out.println("Days in month = "+daysinmonth);
 			
-			Login.main(args);
+			Login login = new Login();
 			//Body body = new Body(time);
 
 			//Event Debugging | Testing

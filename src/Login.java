@@ -7,9 +7,6 @@ public class Login extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1504199602031999L;
 	private static Time time = new Time();
 
-	public static void main(String[] args) {
-		Login frameTabel = new Login();
-	}
 	JButton blogin = new JButton("Login");
 	JButton register = new JButton("Register");
 	JPanel panel = new JPanel();
@@ -54,7 +51,7 @@ public class Login extends JFrame implements ActionListener{
 		if(e.getSource() == blogin) {
 			String puname = txuser.getText();
 			String ppaswd = pass.getText();
-			File temp = new File("C:\\Users\\Jonas\\Eigene Dokumente\\GitHub\\Calendar\\src\\Users\\"+puname+".txt"); 
+			File temp = new File("S:\\JAVA\\Calendar\\src\\Users\\"+puname+".txt"); 
 			if(temp.exists() && !temp.isDirectory()){
 				User user = new User(puname);
 				user.loadUser(puname);
@@ -62,7 +59,7 @@ public class Login extends JFrame implements ActionListener{
 				if(login){
 					System.out.println("Logged in!");
 					System.out.println("name = " + user.getLname());
-					Body body = new Body(time);
+					Body body = new Body(time, user);
 				}
 				else System.out.println("Invalid login details.");
 			}
