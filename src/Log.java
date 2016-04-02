@@ -45,6 +45,9 @@ public static void main(String[] args) {
 				if(temp.exists() && !temp.isDirectory()){
 					User user = new User(puname);
 					user.loadUser(puname);
+					boolean login = user.checkPassword(ppaswd);
+					if(login)System.out.println("Logged in!");
+					else System.out.println("What is this?");
 					System.out.println("name = "+user.getLname());
 				}
 

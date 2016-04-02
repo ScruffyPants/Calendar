@@ -22,8 +22,8 @@ public class Timetable {
 		*/
 		//==============================================================
 			
-			User user = new User("test","test", "");
-			User user2 = new User("test2","test2", "");
+			User user = new User("test","test", "12345");
+			User user2 = new User("test2","test2", "123456");
 			user2.setLname("test2");
 			user.saveUser();
 			user2.saveUser();

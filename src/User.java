@@ -136,6 +136,7 @@ public class User implements Serializable{
 			user.setEvents(this.getEvents());
 			user.setFname(this.getFname());
 			user.setLname(this.getLname());
+			//user.getPW_Hash(this.set);
 			outObject.writeObject(user);
 			outObject.close();
 			out.close();
