@@ -1,15 +1,24 @@
+import java.util.LinkedList;
+import java.io.*;
 
 public class User {
 	private String fname;
 	private String lname;
-	private Event[] events;//User will have an array with "events" that are later represented in Calendar
+	private LinkedList<Event> events = new LinkedList<Event>();//User will have an array with "events" that are later represented in Calendar
+	private FileInputStream in = null;
+	private FileOutputStream out = null;
 	
 	//Constructor for user
 	public User(String fn, String ln){
 		fname = fn;
 		lname = ln; 
 	}
-
+	
+	public User(){
+		fname=null;
+		lname=null;
+	}
+	
 	public String getFname() {
 		return fname;
 	}
@@ -25,12 +34,20 @@ public class User {
 	public void setLname(String lname) {
 		this.lname = lname;
 	}
-
-	public Event[] getEvents() {
+	
+	public void addEvent(Event event){
+		events.add(events.size(), event);
+	}
+	
+	public LinkedList<Event> getEvents(){
 		return events;
 	}
-
-	public void setEvents(Event[] events) {
-		this.events = events;
+	
+	public void saveUser(){
+		try{
+			in = new FileInputStream("Users/"+getFname()+".txt");
+		}catch(FileNotFound e){
+			System.err.println("Just fuck me up fam");
+		}
 	}
 }
