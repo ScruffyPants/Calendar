@@ -17,7 +17,7 @@ public class Registration extends JFrame implements ActionListener{
    
    
     Registration(){
-        super("Login Authentification");
+        super("Account Registration");
         setSize(320,200);
         setLocation(500,280);
         panel.setLayout (null);
@@ -49,7 +49,7 @@ public class Registration extends JFrame implements ActionListener{
     }
  
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == register){
+        if (e.getSource() == register && !txuser.getText().isEmpty() ) {
             User created = new User(txuser.getText(), pass.getText());
                if( rank.getSelectedIndex() == 1 )
                    created.setIsTeacher(true);

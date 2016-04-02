@@ -191,12 +191,13 @@ public class User implements Serializable{
 	public void saveUser(){
 		try{
 			System.out.println("Saving User");
-			String temp = "C:\\Benutzer\\Jonas\\Eigene Dokumente\\GitHub\\Calendar\\src\\Users\\"+this.getFname()+".txt"; // /Calendar/src/Users/test.txt
+			String temp = "C:\\Users\\Jonas\\Eigene Dokumente\\GitHub\\Calendar\\src\\Users\\"+this.getNick()+".txt"; // /Calendar/src/Users/test.txt
 			System.out.println("File location = "+temp);
 			out = new FileOutputStream(temp);
 			ObjectOutputStream outObject = new ObjectOutputStream(out);
 			User user = new User();
 			user.setEvents(this.getEvents());
+			user.setNick(this.getNick());
 			user.setFname(this.getFname());
 			user.setLname(this.getLname());
 			user.setPW_Hash(this.getPW_Hash());
@@ -216,7 +217,7 @@ public class User implements Serializable{
 	public void loadUser(String fName){
 		try{
 			System.out.println("Loading User");
-			String temp = "S:\\JAVA\\Calendar\\src\\Users\\"+fName+".txt";
+			String temp = "C:\\Users\\Jonas\\Eigene Dokumente\\GitHub\\Calendar\\src\\Users\\"+fName+".txt";
 			in = new FileInputStream(temp);
 			ObjectInputStream inObject = new ObjectInputStream(in);
 			User user = new User();
