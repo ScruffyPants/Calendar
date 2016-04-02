@@ -39,6 +39,10 @@ public class User implements Serializable{
 		events.add(events.size(), event);
 	}
 	
+	public void setEvents(LinkedList<Event> e){
+		events = e;
+	}
+	
 	public LinkedList<Event> getEvents(){
 		return events;
 	}
@@ -66,15 +70,44 @@ public class User implements Serializable{
 	public void saveUser(){
 		try{
 			System.out.println("Saving User");
-			out = new FileOutputStream("Users/"+getFname()+".txt");
+			String temp = "S:\\JAVA\\Calendar\\src\\Users\\"+this.getFname()+".txt"; // /Calendar/src/Users/test.txt
+			System.out.println("File location = "+temp);
+			out = new FileOutputStream(temp);
 			ObjectOutputStream outObject = new ObjectOutputStream(out);
 			outObject.writeObject(this);
 			outObject.close();
 			out.close();
-		}catch(FileNotFoundException e){
+		}
+		catch(FileNotFoundException e){
 			System.err.println("ERROR 404: FILE NOT FOUND");
-		}catch(IOException e){
+		}
+		catch(IOException i){
 			System.err.println("IOException error");
+		}
+	}
+	
+	public void loadUser(String fName){
+		try{
+			System.out.println("Loading User");
+			String temp = "S:\\JAVA\\Calendar\\src\\Users\\"+fName+".txt";
+			in = new FileInputStream(temp);
+			ObjectInputStream inObject = new ObjectInputStream (in);
+			User user = new User();
+			user = (User) inObject.readObject();
+			this.setFname(user.getFname());
+			this.setLname(user.getLname());
+			this.setEvents(user.getEvents());
+			inObject.close();
+			out.close();
+		}
+		catch(FileNotFoundException e){
+			System.err.println("ERROR 404: FILE NOT FOUND");
+		}
+		catch(IOException e){
+			System.err.println("IOException error");
+		}
+		catch(ClassNotFoundException e){
+			System.err.println("User class not found");
 		}
 	}
 }

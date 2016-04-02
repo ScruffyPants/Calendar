@@ -19,9 +19,18 @@ public class Timetable {
 			day = time.getDay();
 			System.out.println(year+" "+month+" "+day);
 			
+
+			User user = new User("test", "test");
+			System.out.println(user.getFname());
+			user.saveUser();
+			User user2 = new User("test2","test2");
+			user2.saveUser();
+			user.loadUser("test2");
+			System.out.println(user.getFname());
+
 			//Event Debugging | Testing
 			
-			User user = new User("test", "test");
+			/*User user = new User("test", "test");
 			Event one = new Event( "test", 2002, 12, 4 );
 			Event two = new Event( "test", 2002, 12, 5 );
 			Event three = new Event( "test", 2002, 11, 4 );
@@ -47,7 +56,7 @@ public class Timetable {
 				given2 = select.get(i);
 				System.out.println(given2.getYear() + " " + given2.getMonth() + " " + given2.getDay() + " (" + given2.getName() + ")");
 			}
-				
+			*/
 		//=============================================================
 	}
 	
