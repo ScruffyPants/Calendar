@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 
 public class Log extends JFrame {
 
@@ -39,17 +40,12 @@ public static void main(String[] args) {
 			public void actionPerformed(ActionEvent ae) {
 				String puname = txuser.getText();
 				String ppaswd = pass.getText();
-
-				if(puname.equals("test") && ppaswd.equals("12345")) {
-					newframe regFace =new newframe();
-					regFace.setVisible(true);
-					dispose();
-				} 
-				else {
-					JOptionPane.showMessageDialog(null,"Wrong Password / Username");
-					txuser.setText("");
-					pass.setText("");
-					txuser.requestFocus();
+				
+				File temp = new File("S:\\JAVA\\Calendar\\src\\Users\\"+puname+".txt"); 
+				if(temp.exists() && !temp.isDirectory()){
+					User user = new User(puname);
+					user.loadUser(puname);
+					System.out.println("name = "+user.getLname());
 				}
 
 			}	

@@ -8,11 +8,17 @@ public class User implements Serializable{
 	private LinkedList<Event> events = new LinkedList<Event>();//User will have a linked list with "events" that are later represented in Calendar
 	private FileInputStream in = null;
 	private FileOutputStream out = null;
+	private boolean IsTeacher = false;
+	private boolean IsAdmin = false;
 	
 	//Constructor for user
 	public User(String fn, String ln){
 		fname = fn;
 		lname = ln; 
+	}
+	
+	public User(String fn){
+		fname = fn;
 	}
 	
 	public User(){
@@ -48,6 +54,14 @@ public class User implements Serializable{
 		return events;
 	}
 	
+	public void setIsTeacher(boolean a){
+		IsTeacher = a;
+	}
+	
+	public void setIsAdmin(boolean a){
+		IsAdmin = a;
+	}
+	
 	public LinkedList<Event> getEventsByDate(int y, int m, int d) {
 		LinkedList<Event> ret = new LinkedList<Event>();
 		Event given = events.getFirst();
@@ -73,7 +87,7 @@ public class User implements Serializable{
 			User user = new User();
 			user.setEvents(this.getEvents());
 			user.setFname(this.getFname());
-			user.setEvents(this.getEvents());
+			user.setLname(this.getLname());
 			outObject.writeObject(user);
 			outObject.close();
 			out.close();
@@ -92,20 +106,21 @@ public class User implements Serializable{
 			System.out.println("Loading User");
 			String temp = "S:\\JAVA\\Calendar\\src\\Users\\"+fName+".txt";
 			in = new FileInputStream(temp);
-			ObjectInputStream inObject = new ObjectInputStream (in);
+			ObjectInputStream inObject = new ObjectInputStream(in);
 			User user = new User();
 			user = (User) inObject.readObject();
 			this.setFname(user.getFname());
 			this.setLname(user.getLname());
 			this.setEvents(user.getEvents());
 			inObject.close();
-			out.close();
+			in.close();
 		}
 		catch(FileNotFoundException e){
 			System.err.println("ERROR 404: FILE NOT FOUND");
 		}
-		catch(IOException e){
+		catch(IOException i){
 			System.err.println("IOException error");
+			i.printStackTrace();
 		}
 		catch(ClassNotFoundException e){
 			System.err.println("User class not found");
