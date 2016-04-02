@@ -91,6 +91,17 @@ public class User implements Serializable{
 		return ret;
 	}
 	
+	public LinkedList<Event> getEventsByName(String toCheck) {
+		LinkedList<Event> ret = new LinkedList<Event>();
+		Event given = events.getFirst();
+		for( int i = 0; i < events.size(); i++) {
+			given = events.get(i);
+			if( Objects.equals(given.getName(), toCheck) )
+				ret.add(given);
+		}
+		return ret;
+	}
+	
 	private String hashPassword(String pw) {
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
