@@ -67,7 +67,7 @@ public class Login extends JFrame implements ActionListener{
 			}
 		}
 		else if (e.getSource()==register){
-			Registration regFace = new Registration();
+			Registration regFace =new Registration();
 			dispose();
 		}
 	}
