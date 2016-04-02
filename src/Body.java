@@ -22,8 +22,6 @@ public class Body extends JFrame {
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		c.gridx = 0;
-		c.gridy = 0;
 		panel.add(menuBar,c);
 		
 		c.anchor=GridBagConstraints.PAGE_END;
