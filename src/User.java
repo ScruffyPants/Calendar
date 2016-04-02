@@ -118,7 +118,11 @@ public class User implements Serializable{
 			System.out.println("File location = "+temp);
 			out = new FileOutputStream(temp);
 			ObjectOutputStream outObject = new ObjectOutputStream(out);
-			outObject.writeObject(this);
+			User user = new User();
+			user.setEvents(this.getEvents());
+			user.setFname(this.getFname());
+			user.setEvents(this.getEvents());
+			outObject.writeObject(user);
 			outObject.close();
 			out.close();
 		}
@@ -127,6 +131,7 @@ public class User implements Serializable{
 		}
 		catch(IOException i){
 			System.err.println("IOException error");
+			i.printStackTrace();
 		}
 	}
 	
