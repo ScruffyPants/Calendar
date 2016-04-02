@@ -1,30 +1,90 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.*;
+ 
+public class Registration {
+    
+   private JFrame mainFrame;
+   private JLabel headerLabel;
+   private JLabel statusLabel;
+   private JPanel controlPanel;
 
+   public Registration(){
+      prepareGUI();
+   }
 
-public class Registration extends JFrame {
+   public static void main(String[] args){
+      Registration swingControlDemo = new Registration();      
+   }
 
-public static void main(String[] args) {
-	Registration frameTabel = new Registration();
-	}
+   private void prepareGUI(){
+      mainFrame = new JFrame("Calendar Alpha");
+      mainFrame.setSize(300,230);
+      mainFrame.setLayout(null);
+      mainFrame.addWindowListener(new WindowAdapter() {
+         public void windowClosing(WindowEvent windowEvent){
+            System.exit(0);
+         }        
+      });    
+      headerLabel = new JLabel("",JLabel.CENTER);        
+      statusLabel = new JLabel("",JLabel.CENTER);   
+      JButton bregister = new JButton("Register");
+      JPanel panel = new JPanel(null);
+      JTextField txuser = new JTextField(15);
+      JPasswordField pass = new JPasswordField(15);
+      txuser.setBounds(80,30,150,20);
+      pass.setBounds(80,65,150,20);
+      bregister.setBounds(100,135,110,20);
+      
+      JLabel usr = new JLabel("Username:");
+      JLabel pw = new JLabel("Password:");
+      usr.setLocation(10,30);
+      pw.setLocation(10,65);
+      pw.setSize(pw.getPreferredSize());
+      usr.setSize(usr.getPreferredSize());
+      mainFrame.add(pw);
+      mainFrame.add(usr);
+      
 
-	JLabel text= new JLabel(":)");
-	JPanel panel = new JPanel();
+      statusLabel.setSize(350,100);
 
-	Registration(){
-		super("Registration");
-		setSize(300,200);
-		setLocation(500,280);
-		panel.setLayout (null);
+      controlPanel = new JPanel();
+      controlPanel.setLayout(new FlowLayout());
 
-		text.setBounds(70,50,150,60);
+      mainFrame.add(headerLabel);
+      mainFrame.add(controlPanel);
+      mainFrame.add(statusLabel);
+      mainFrame.add(txuser);
+      mainFrame.add(pass);
+      mainFrame.add(bregister);
+      //mainFrame.setVisible(true);  
+      headerLabel.setText("Registration"); 
 
-		panel.add(text);
+      final DefaultComboBoxModel rankName = new DefaultComboBoxModel();
 
-		getContentPane().add(panel);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setVisible(true);
-	}
+      rankName.addElement("Student");
+      rankName.addElement("Teacher");
+      rankName.addElement("Admin");
+
+      final JComboBox rankCombo = new JComboBox(rankName);    
+      rankCombo.setSelectedIndex(0);
+      rankCombo.setBounds(100,100,110,20);
+
+      JScrollPane rankListScrollPane = new JScrollPane(rankCombo);    
+      
+
+      JButton registerButton = new JButton("Register");
+
+      registerButton.addActionListener(new ActionListener() {
+         public void actionPerformed(ActionEvent e) { 
+        	 User created = new User(txuser.getText(),pass.getText());
+        	 created.saveUser();
+            }              
+      }); 
+      controlPanel.add(rankListScrollPane);          
+      controlPanel.add(registerButton);
+      mainFrame.add(rankCombo);
+      mainFrame.setVisible(true);             
+   }
 
 }
