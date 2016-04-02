@@ -43,10 +43,30 @@ public class User {
 		return events;
 	}
 	
+	public LinkedList<Event> getEventsByDate(int y, int m, int d) {
+		LinkedList<Event> ret = new LinkedList<Event>();
+		Event given = events.getFirst();
+		for( int i = 0; i < events.size(); i++) {
+			given = events.get(i);
+			System.out.println("Year retrieved: " + given.getYear() + ", year specified: " + y);
+			System.out.println("Month retrieved: " + given.getMonth() + ", month specified: " + m);
+			System.out.println("Day retrieved: " + given.getDay() + ", day specified: " + d);
+			if( given.getYear() == y ) {
+				if( given.getMonth() == m ) {
+					if( given.getDay() == d ) {
+						ret.add(given);
+						System.out.println("Match found!");
+					}
+				}
+			}
+		}
+		return ret;
+	}
+	
 	public void saveUser(){
 		try{
 			in = new FileInputStream("Users/"+getFname()+".txt");
-		}catch(FileNotFound e){
+		}catch(FileNotFoundException e){
 			System.err.println("Just fuck me up fam");
 		}
 	}
