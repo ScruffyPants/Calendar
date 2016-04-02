@@ -14,7 +14,7 @@ public static void main(String[] args) {
 	JPasswordField pass = new JPasswordField(15);
 
 	Log(){
-		super("Login Autentification");
+		super("Login Authentification");
 		setSize(300,200);
 		setLocation(500,280);
 		panel.setLayout (null);
