@@ -32,9 +32,18 @@ public class Registration {
       JPanel panel = new JPanel(null);
       JTextField txuser = new JTextField(15);
       JPasswordField pass = new JPasswordField(15);
-      txuser.setBounds(70,30,150,20);
-      pass.setBounds(70,65,150,20);
-      bregister.setBounds(90,135,110,20);
+      txuser.setBounds(80,30,150,20);
+      pass.setBounds(80,65,150,20);
+      bregister.setBounds(100,135,110,20);
+      
+      JLabel usr = new JLabel("Username:");
+      JLabel pw = new JLabel("Password:");
+      usr.setLocation(10,30);
+      pw.setLocation(10,65);
+      pw.setSize(pw.getPreferredSize());
+      usr.setSize(usr.getPreferredSize());
+      mainFrame.add(pw);
+      mainFrame.add(usr);
       
 
       statusLabel.setSize(350,100);
@@ -59,7 +68,7 @@ public class Registration {
 
       final JComboBox rankCombo = new JComboBox(rankName);    
       rankCombo.setSelectedIndex(0);
-      rankCombo.setBounds(95,100,100,20);
+      rankCombo.setBounds(100,100,110,20);
 
       JScrollPane rankListScrollPane = new JScrollPane(rankCombo);    
       
