@@ -91,6 +91,36 @@ public class User implements Serializable{
 		return ret;
 	}
 	
+	public LinkedList<Event> getEventsByDateRange(int y1, int m1, int d1, int y2, int m2, int d2) {
+		int yMax = (y1 > y2) ? y1 : y2;
+		int yMin = (y1 < y2) ? y1 : y2;
+		int mOfMax = (y1 > y2) ? m1 : m2;
+		int mOfMin = (y1 < y2) ? m1 : m2;
+		int dOfMax = (y1 > y2) ? d1 : d2;
+		int dOfMin = (y1 < y2) ? d1 : d2;
+		
+		LinkedList<Event> ret = new LinkedList<Event>();
+		Event given = events.getFirst();
+		for( int i = 0; i < events.size(); i++) {
+			given = events.get(i);
+			if( given.getYear()>= yMin && given.getYear() <= yMax ) {
+				if( given.getYear() == yMin) {
+					if( given.getMonth() >= mOfMin && given.getDay() >= dOfMin ) {
+						ret.add(given);
+					}
+				}
+				else if( given.getYear() == yMax ) {
+					if( given.getMonth() <= mOfMax && given.getDay() <= dOfMax ) {
+						ret.add(given);
+					}
+				}
+				else
+					ret.add(given);
+			}
+		}
+		return ret;
+	}
+	
 	public LinkedList<Event> getEventsByName(String toCheck) {
 		LinkedList<Event> ret = new LinkedList<Event>();
 		Event given = events.getFirst();

@@ -1,4 +1,4 @@
-//import java.util.LinkedList;
+import java.util.LinkedList;
 
 public class Timetable {
 	private static int year;
@@ -34,7 +34,6 @@ public class Timetable {
 
 			//Event Debugging | Testing
 			
-			/*User user = new User("test", "test", "");
 			Event one = new Event( "test", 2002, 12, 4 );
 			Event two = new Event( "test", 2002, 12, 5 );
 			Event three = new Event( "test", 2002, 11, 4 );
@@ -49,6 +48,7 @@ public class Timetable {
 			
 			LinkedList<Event> full = user.getEvents();
 			LinkedList<Event> select = user.getEventsByDate(2002, 12, 4);
+			LinkedList<Event> select2 = user.getEventsByDateRange(2002, 12, 4, 2012, 12, 3);
 			Event given = null;
 			for( int i = 0; i < full.size(); i++ ) {
 				given = full.get(i);
@@ -60,7 +60,13 @@ public class Timetable {
 				given2 = select.get(i);
 				System.out.println(given2.getYear() + " " + given2.getMonth() + " " + given2.getDay() + " (" + given2.getName() + ")");
 			}
-			*/
+			Event given3 = null;
+			System.out.println("Events found when searching the range 2002 / 12 / 4  ---  2012 / 12 / 3:");
+			for( int i = 0; i < select2.size(); i++ ) {
+				given3 = select2.get(i);
+				System.out.println(given3.getYear() + " " + given3.getMonth() + " " + given3.getDay() + " (" + given3.getName() + ")");
+			}
+			
 			User test = new User("test", "test", "Allah");
 			System.out.println("Testing password 'Bruh': " + test.checkPassword("Bruh"));
 			System.out.println("Testing password 'Dawg': " + test.checkPassword("Dawg"));
