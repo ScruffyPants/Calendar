@@ -8,18 +8,25 @@ public class User implements Serializable{
 	private static final long serialVersionUID = 1504199602031999L;
 	private String fname;
 	private String lname;
+	private String nick;
 	private String pw_hash;
 	private LinkedList<Event> events = new LinkedList<Event>();//User will have a linked list with "events" that are later represented in Calendar
 	private FileInputStream in = null;
 	private FileOutputStream out = null;
-	private boolean IsTeacher = false;
-	private boolean IsAdmin = false;
+	private boolean isTeacher = false;
+	private boolean isAdmin = false;
+	private boolean isVerified = false;
 	
 	//Constructor for user
 	public User(String fn, String ln, String pw){
 		fname = fn;
 		lname = ln; 
         pw_hash = hashPassword(pw);
+	}
+	
+	public User(String uname, String pw) {
+		nick = uname;
+		pw_hash = hashPassword(pw);
 	}
 	
 	public User(String fn){
@@ -36,16 +43,24 @@ public class User implements Serializable{
 		return fname;
 	}
 
-	public void setFname(String fname) {
-		this.fname = fname;
+	public void setFname(String a) {
+		fname = a;
 	}
 
 	public String getLname() {
 		return lname;
 	}
 
-	public void setLname(String lname) {
-		this.lname = lname;
+	public void setLname(String a) {
+		lname = a;
+	}
+	
+	public String getNick() {
+		return nick;
+	}
+	
+	public void setNick(String a) {
+		nick = a;
 	}
 	
 	public void addEvent(Event event) {
@@ -57,23 +72,39 @@ public class User implements Serializable{
 	}
 	
 	public void setPW_Hash(String pw_hash_new) {
-		this.pw_hash = pw_hash_new;
+		pw_hash = pw_hash_new;
 	}
 	
 	public void setEvents(LinkedList<Event> e) {
 		events = e;
 	}
 	
-	public LinkedList<Event> getEvents(){
+	public LinkedList<Event> getEvents() {
 		return events;
 	}
 	
-	public void setIsTeacher(boolean a){
-		IsTeacher = a;
+	public boolean getIsTeacher() {
+		return isTeacher;
 	}
 	
-	public void setIsAdmin(boolean a){
-		IsAdmin = a;
+	public void setIsTeacher(boolean a) {
+		isTeacher = a;
+	}
+	
+	public boolean getIsAdmin() {
+		return isAdmin;
+	}
+	
+	public void setIsAdmin(boolean a) {
+		isAdmin = a;
+	}
+	
+	public boolean getIsVerified() {
+		return isVerified;
+	}
+	
+	public void setIsVerified( boolean s) {
+		isVerified = s;
 	}
 	
 	public LinkedList<Event> getEventsByDate(int y, int m, int d) {
@@ -81,12 +112,8 @@ public class User implements Serializable{
 		Event given = events.getFirst();
 		for( int i = 0; i < events.size(); i++) {
 			given = events.get(i);
-			//System.out.println("Year retrieved: " + given.getYear() + ", year specified: " + y);
-			//System.out.println("Month retrieved: " + given.getMonth() + ", month specified: " + m);
-			//System.out.println("Day retrieved: " + given.getDay() + ", day specified: " + d);
 			if( given.getYear() == y & given.getMonth() == m & given.getDay() == d )
 				ret.add(given);
-				//System.out.println("Match found!");
 		}
 		return ret;
 	}
@@ -164,7 +191,7 @@ public class User implements Serializable{
 	public void saveUser(){
 		try{
 			System.out.println("Saving User");
-			String temp = "S:\\JAVA\\Calendar\\src\\Users\\"+this.getFname()+".txt"; // /Calendar/src/Users/test.txt
+			String temp = "C:\\Benutzer\\Jonas\\Eigene Dokumente\\GitHub\\Calendar\\src\\Users\\"+this.getFname()+".txt"; // /Calendar/src/Users/test.txt
 			System.out.println("File location = "+temp);
 			out = new FileOutputStream(temp);
 			ObjectOutputStream outObject = new ObjectOutputStream(out);
@@ -210,6 +237,14 @@ public class User implements Serializable{
 		}
 		catch(ClassNotFoundException e){
 			System.err.println("User class not found");
+		}
+	}
+	
+	public void verifyUser(User toVerify) {
+		if( isAdmin && isVerified ) {
+			toVerify.setIsVerified(true);
+		} else {
+			System.out.println("You are not authorized to perform this operation.");
 		}
 	}
 }
