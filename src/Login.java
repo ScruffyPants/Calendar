@@ -3,10 +3,10 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 
-public class Log extends JFrame {
+public class Login extends JFrame {
 
 public static void main(String[] args) {
-	Log frameTabel = new Log();
+	Login frameTabel = new Login();
 }
 
 	JButton blogin = new JButton("Login");
@@ -14,7 +14,7 @@ public static void main(String[] args) {
 	JTextField txuser = new JTextField(15);
 	JPasswordField pass = new JPasswordField(15);
 
-	Log(){
+	Login(){
 		super("Login Authentification");
 		setSize(300,200);
 		setLocation(500,280);
