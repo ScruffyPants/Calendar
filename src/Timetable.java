@@ -9,7 +9,7 @@ public class Timetable {
 	public static void main(String[] args){
 		//===================PVZ kaip veikia time klase===============
 			year = time.getYear();
-			month = time.getMonth() + 1;
+			month = time.getMonth()+1;
 			day = time.getDay();
 			System.out.println(year+" "+month+" "+day);
 			

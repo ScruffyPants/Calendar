@@ -1,7 +1,7 @@
 import java.util.LinkedList;
 import java.io.*;
 
-public class User {
+public class User implements Serializable{
 	private String fname;
 	private String lname;
 	private LinkedList<Event> events = new LinkedList<Event>();//User will have an array with "events" that are later represented in Calendar
@@ -65,9 +65,16 @@ public class User {
 	
 	public void saveUser(){
 		try{
-			in = new FileInputStream("Users/"+getFname()+".txt");
+			System.out.println("Saving User");
+			out = new FileOutputStream("Users/"+getFname()+".txt");
+			ObjectOutputStream outObject = new ObjectOutputStream(out);
+			outObject.writeObject(this);
+			outObject.close();
+			out.close();
 		}catch(FileNotFoundException e){
-			System.err.println("Just fuck me up fam");
+			System.err.println("ERROR 404: FILE NOT FOUND");
+		}catch(IOException e){
+			System.err.println("IOException error");
 		}
 	}
 }
