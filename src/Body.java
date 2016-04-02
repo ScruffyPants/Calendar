@@ -18,32 +18,31 @@ public class Body extends JFrame {
 	Body(Time t){
 		time = t;
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(500, 300);
+		//frame.setSize(500, 300);
 		DrawMenu();
 		DrawCalendar();
-		
+
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		c.ipady = 0;
+		c.ipady = 20;
 		c.weightx=1;
 		c.weighty=1;
 		panel.add(menuBar,c);
-
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.ipady = 100;
-		c.weightx = 0.0;
-		c.weighty = 0;
-		c.gridwidth = 3;
+		
+		c.fill = GridBagConstraints.BOTH;
+		c.anchor = GridBagConstraints.LAST_LINE_START;
+		c.ipady = 10;
+		c.insets = new Insets(23,0,0,0);
+		c.weightx = 1;
+		c.weighty = 1;
+		c.gridwidth = 2;
 		c.gridheight = 2;
 		c.gridx = 0;
-		c.gridy = 1;
+		c.gridy = 0;
 		panel.add(calendar,c);
-		panel.setBorder(BorderFactory.createEtchedBorder());
 		
-		//frame.setSize(menuBar.getHeight(),calendar.getWidth());
 		frame.add(panel);
 		frame.setMinimumSize(new Dimension(500,270));
-		frame.setMaximumSize(frame.getMinimumSize());
 		frame.setVisible(true);
 	}
 	
@@ -65,7 +64,7 @@ public class Body extends JFrame {
 		Calendar.add(Exit);
 		Account.add(Logout);
 		
-		//menuBar.setPreferredSize(new Dimension(100,500));
+		menuBar.setPreferredSize(new Dimension(300,500));
 	}
 	
 	public void DrawCalendar(){
@@ -87,12 +86,12 @@ public class Body extends JFrame {
 				a.setBackground(Color.white);
 				a.setHorizontalAlignment(SwingConstants.LEFT);
 				a.setBorder(null);
-				a.setPreferredSize(new Dimension(10,10));
+				a.setPreferredSize(new Dimension(100,100));
 				calendar.add(a);
 			}
 			i++;
 		}
-		calendar.setPreferredSize(new Dimension(30,100));
+		calendar.setPreferredSize(new Dimension(700,1000));
 		calendar.setBackground(Color.black);
 	}
 }
