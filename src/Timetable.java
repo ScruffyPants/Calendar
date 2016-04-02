@@ -27,7 +27,7 @@ public class Timetable {
 			user2.setLname("test2");
 			user.saveUser();
 			user2.saveUser();
-			//Log login = new Log();
+			Login login = new Login();
 			
 			int daysinmonth = time.getDaysInMonth();
 			System.out.println("Days in month = "+daysinmonth);
