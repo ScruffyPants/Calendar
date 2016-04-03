@@ -61,8 +61,8 @@ public class Time {
 	
 	public int getFirstDayOfMonth(Time time){
 		Calendar cal = time.temp;
-		cal.set(Calendar.DAY_OF_MONTH, 1);
-		return cal.get(Calendar.DAY_OF_WEEK)-1;
+		cal.set(Calendar.DAY_OF_MONTH, 0);
+		return cal.get(Calendar.DAY_OF_WEEK);
 	}
 	public String getMonthName(int month){
 		String[] monthNames = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};	
