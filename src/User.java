@@ -12,7 +12,7 @@ public class User implements Serializable{
 	private String nick;
 	private String pw_hash;
 	private LinkedList<Event> events = new LinkedList<Event>();//User will have a linked list with "events" that are later represented in Calendar
-	private LinkedList<Event> pEvents = new LinkedList<Event>();//Public event made by teacher and admin
+	private LinkedList<Event> pEvents = new LinkedList<Event>();//Public event made by teacher and admin (needs to implemented in saveUser() and loadUser())
 	private FileInputStream in = null;
 	private FileOutputStream out = null;
 	private boolean isTeacher = false;
@@ -260,6 +260,9 @@ public class User implements Serializable{
 			user.setFname(this.getFname());
 			user.setLname(this.getLname());
 			user.setPW_Hash(this.getPW_Hash());
+			user.setIsAdmin(this.getIsAdmin());
+			user.setIsTeacher(this.getIsTeacher());
+			user.setIsVerified(this.getIsVerified());
 			outObject.writeObject(user);
 			outObject.close();
 			out.close();
@@ -286,6 +289,9 @@ public class User implements Serializable{
 			this.setNick(user.getNick());
 			this.setEvents(user.getEvents());
 			this.setPW_Hash(user.getPW_Hash());
+			this.setIsAdmin(user.getIsAdmin());
+			this.setIsTeacher(user.getIsTeacher());
+			this.setIsVerified(user.getIsVerified());
 			inObject.close();
 			in.close();
 		}
