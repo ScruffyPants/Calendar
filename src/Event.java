@@ -4,17 +4,27 @@ import java.util.*;
 public class Event implements Serializable, Comparator<Event>{
 	private static final long serialVersionUID = 1504199602031999L;
 	private String name;
+	private String description;
 	private int year;
 	private int month;
 	private int day;
 	
-	public Event(String n, int y, int m, int d){
+	public Event(String n, int y, int m, int d, String ds){
 		name = n;
 		year = ( y >= 1970 ) ? y : 1970 ;
 		month = ( m >= 1 & m <= 12 ) ? m : 1 ;
 		day = ( d >= 1 & d <= 31 ) ? d : 1 ;
+		description = ds;
 	}
-
+	
+	public String getDescription(){
+		return description; 
+	}
+	
+	public void setDescription(String d){
+		this.description = d;
+	}
+	
 	public String getName() {
 		return name;
 	}
