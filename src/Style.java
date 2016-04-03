@@ -15,6 +15,61 @@ public class Style implements Serializable{
 	private Color dayBackground = Color.white;
 	private Color eventBackground = Color.green;
 	
+	private JFrame frame = new JFrame();
+	private JPanel panel = new JPanel();
+	
+	public void setStyle(){
+		frame = new JFrame();
+		panel = new JPanel(new GridLayout());
+		panel.setLayout(new GridLayout(0,1));
+		JButton setBackground = new JButton("Set Color of Background");
+		JButton setForeground = new JButton("Set Color of Foreground");
+		JButton setDayBackground = new JButton("Set Color of Day's Background");
+		JButton setEventBackground = new JButton("Set Color of Event's Background");
+		
+		panel.add(setBackground);
+		panel.add(setForeground);
+		panel.add(setDayBackground);
+		panel.add(setEventBackground);
+		
+		setBackground.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				Color color = makeColor();
+				setBackground(color);
+			}
+		});
+		
+		setForeground.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				Color color = makeColor();
+				setForeground(color);
+			}
+		});
+		
+		setDayBackground.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				Color color = makeColor();
+				setDayBackground(color);
+			}
+		});
+		
+		setEventBackground.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				Color color = makeColor();
+				setEventBackground(color);
+			}
+		});
+		
+		frame.add(panel);
+		frame.pack();
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
+	}
+	private Color makeColor(){
+		Color color = JColorChooser.showDialog(null, "Choose a color", Color.black);
+		return color;
+	}
 	public Color getBackground() {
 		return background;
 	}

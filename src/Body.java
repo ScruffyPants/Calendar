@@ -160,7 +160,7 @@ public class Body extends JFrame {
 	
 	public void DrawMenu(){
 		JMenu Calendar, Account, Info, Admin;
-		JMenuItem Exit, Logout, AddEvent, Reload, UserControl, AccountSettings, About, GetToDate;
+		JMenuItem Exit, Logout, AddEvent, Reload, UserControl, AccountSettings, About, GetToDate, Style;
 
 		
 		Calendar = new JMenu("Calendar");
@@ -183,6 +183,7 @@ public class Body extends JFrame {
 		menuBar.add(Account);
 		menuBar.add(Info);
 		
+		Style = new JMenuItem("Style");
 		Exit = new JMenuItem("Exit");
 		Logout = new JMenuItem("Logout");
 		AddEvent = new JMenuItem("Add Event");
@@ -198,6 +199,14 @@ public class Body extends JFrame {
 		Account.add(AddEvent);
 		Account.add(Logout);
 		Account.add(AccountSettings);
+		Account.add(Style);
+		
+		Style.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				user.getStyle().setStyle();
+				user.saveUser();
+			}
+		});
 		
 		Exit.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) {
@@ -591,4 +600,4 @@ public class Body extends JFrame {
 		pFrame.pack();
 		pFrame.setVisible(true);
 	}
-	}
+}
