@@ -135,6 +135,21 @@ public class User implements Serializable{
 		return events;
 	}
 	
+	public String printEvents() {
+		LinkedList<Event> events = getEvents();
+		StringBuilder sb = new StringBuilder();
+		if( events != null )
+		{
+			Event given = null;
+			for(int i = 0; i < events.size(); i++) {
+				given = events.get(i);
+				sb.append("==== " + given.getYear() + "/" + given.getMonth() + "/" + given.getDay() + ", " + given.getName() + " ");
+			}
+			return sb.toString();
+		}
+		return "No events.";
+	}
+	
 	public boolean getIsTeacher() {
 		return isTeacher;
 	}
@@ -306,6 +321,8 @@ public class User implements Serializable{
 			System.err.println("User class not found");
 		}
 	}
+	
+	//Deprecated
 	
 	public void verifyUser(User toVerify) {
 		if( isAdmin && isVerified ) {

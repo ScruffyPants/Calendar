@@ -8,6 +8,7 @@ import java.util.LinkedList;
 public class Body extends JFrame {
 	private static final long serialVersionUID = 1504199602031999L;
 	private final String dir = System.getProperty("user.dir");
+	private int ClickTracker = -1;
 	
 	JFrame frame = new JFrame("Calendar");
 	JFrame pFrame = new JFrame();
@@ -375,7 +376,9 @@ public class Body extends JFrame {
 		});
 		//pFrame.setResizable(false);
 	}
+	
 	public void PopoutPEventAdd(){
+		JFrame pFrame = new JFrame();
 		JButton submit = new JButton("Submit");
 		
 		pFrame.add(new JLabel("Name: "));
@@ -421,69 +424,98 @@ public class Body extends JFrame {
 		//pFrame.setResizable(false);
 	}
 	public void PopoutUserControlDialog() {
-		JPanel panel2 = new JPanel(new GridBagLayout());
-		JButton close = new JButton("Close");
+		JFrame pFrame = new JFrame();
 		JMenuBar adminMenuBar = new JMenuBar();
-		JMenu Options;
-		JMenuItem Ban, Verify, ChangeRank;
-		if( user.getIsAdmin() ) {
-			Options = new JMenu("Options");
-			Ban = new JMenuItem("Ban");
-			Verify = new JMenuItem("Verify");
-			ChangeRank = new JMenuItem("Change Rank");
-			Options.add(Ban);
-			Options.add(Verify);
-			Options.add(ChangeRank);
-			adminMenuBar.add(Options);
-			Ban.addActionListener(new ActionListener(){
-				public void actionPerformed(ActionEvent e) {
-					
-				}
-			});
-			Verify.addActionListener(new ActionListener(){
-				public void actionPerformed(ActionEvent e) {
-					
-				}
-			});
-			ChangeRank.addActionListener(new ActionListener(){
-				public void actionPerformed(ActionEvent e) {
-					
-				}
-			});
-		}
+		JMenu Options, Window;
+		JMenuItem Ban, Verify, ChangeRank, Refresh;
 		File temp = new File(dir + "\\src\\users");
-		String[] users = listFilesForFolder( temp ).replaceAll(".txt",  "").split(" ");
-		JList<String> scrollList = new JList<>(users);
-		JScrollPane sp = new JScrollPane(scrollList);
-		pFrame = new JFrame();
+		UserTable utable = new UserTable();
+		JTable table = utable.createUserTable();
+		JScrollPane sp = new JScrollPane(table);
+		
+		table.addMouseListener(new java.awt.event.MouseAdapter() {
+		    public void mouseClicked(java.awt.event.MouseEvent e) {
+		        int row = table.rowAtPoint(e.getPoint());
+		        int col = table.columnAtPoint(e.getPoint());
+		        if (row >= 0 && col >= 0) {
+		        	ClickTracker = row;
+		        	System.out.println("Clicked on the " + ClickTracker + "-th row.");
+		        }
+		        else
+		        	ClickTracker = -1;
+		    }
+		});
+		
 		Container paneC = pFrame.getContentPane();
 		JPanel pane = new JPanel();
-		pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
+		Options = new JMenu("Options");
+		Window = new JMenu("Window");
+		Refresh = new JMenuItem("Refresh");
+		Ban = new JMenuItem("Ban");
+		Verify = new JMenuItem("Toggle Verification");
+		ChangeRank = new JMenuItem("Change Rank");
+		Options.add(Ban);
+		Options.add(Verify);
+		Options.add(ChangeRank);
+		Window.add(Refresh);
+		adminMenuBar.add(Options);
+		adminMenuBar.add(Window);
+		Ban.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {	
+				System.out.println("Ban button pressed");
+				if( ClickTracker >= 0 ) {
+					File toDelete = new File(dir + "\\src\\Users\\" + table.getValueAt(ClickTracker, 0)); 
+					if(!toDelete.isDirectory())
+						toDelete.delete();
+				}
+			}
+		});
+		Verify.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Verification button pressed");
+				if( ClickTracker >= 0 ) {
+					String userS = (String) table.getValueAt(ClickTracker, 0);
+					User user = new User();
+					user.loadUser(userS);
+					user.setIsVerified(!user.getIsVerified());
+					user.saveUser();
+				}
+			}
+		});
+		ChangeRank.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Rank-changing button pressed");
+				if( ClickTracker >= 0 ) {
+					String userS = (String) table.getValueAt(ClickTracker, 0);
+					User user = new User();
+					user.loadUser(userS);
+				}
+			}
+		});
+		Refresh.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Refreshing button pressed");
+				pFrame.setVisible(false);
+				pFrame.dispose();
+				PopoutUserControlDialog();
+			}
+		});
+		pane.setLayout(new BoxLayout(pane, BoxLayout.PAGE_AXIS));
 		adminMenuBar.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		adminMenuBar.setMaximumSize(new Dimension(1920,30));
 		pane.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
-		sp.setAlignmentX(Component.CENTER_ALIGNMENT);
-		sp.setMaximumSize(new Dimension(300,300));
+		sp.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		
 		pane.add(adminMenuBar);
 		pane.add(sp);
 		pane.setMinimumSize(new Dimension(300,300));
 		paneC.add(pane);
 		paneC.setMinimumSize(new Dimension(300,300));
 		pane.setVisible(true);
+		
 		pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		pFrame.setMinimumSize(new Dimension(300,300));
 		pFrame.pack();
 		pFrame.setVisible(true);
 	}
-	
-	public String listFilesForFolder(final File folder) {
-		StringBuilder sb = new StringBuilder();
-	    for (final File fileEntry : folder.listFiles()) {
-	        //if (fileEntry.isDirectory()) {
-	        //    listFilesForFolder(fileEntry);
-	        //} else {
-	            sb.append(fileEntry.getName() + " ");
-	        }
-	    return sb.toString();
-	    }
 	}
