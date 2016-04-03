@@ -12,7 +12,7 @@ public class Body extends JFrame {
 	JFrame frame = new JFrame("Calendar");
 	JFrame pFrame = new JFrame();
 	JPanel panel = new JPanel(new GridBagLayout());
-	JPanel calendar = new JPanel(new GridLayout());
+	JPanel calendar = new JPanel();
 	JMenuBar menuBar = new JMenuBar();
 	JTextField name = new JTextField();
 	JTextField year = new JTextField();
@@ -66,6 +66,27 @@ public class Body extends JFrame {
 				}
 				else{
 					time.setMonth(time.getMonth()-1);
+				}
+				frame.validate();
+				frame.repaint();
+				panel.remove(calendar);
+				DrawCalendar();
+				DrawPanel();
+				frame.add(panel);
+				frame.validate();
+				frame.repaint();
+			}
+		});
+		
+		forwards.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				frame.remove(panel);
+				if(time.getMonth() == 11){
+					time.setMonth(0);
+					time.setYear(time.getYear()+1);
+				}
+				else{
+					time.setMonth(time.getMonth()+1);
 				}
 				frame.validate();
 				frame.repaint();
@@ -203,19 +224,32 @@ public class Body extends JFrame {
 	}
 	
 	public void DrawCalendar(){
-		calendar = new JPanel(new GridLayout());
+		JPanel main = new JPanel(new GridLayout());
+		calendar = new JPanel();
+		JLabel label = new JLabel(time.getYear()+" "+time.getMonthName(time.getMonth()));
+		label.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		label.setSize(100, 30);
+		label.setForeground(Color.white);
+		calendar.setLayout(new BoxLayout(calendar, BoxLayout.PAGE_AXIS));
+		calendar.add(label, calendar);
+		
+		main = new JPanel(new GridLayout());
 		double dim = (double)time.getDaysInMonth();
 		int rows = (int)Math.ceil(dim/7);
 		int cols = 7;
 		System.out.println(rows+" x "+cols+" ");
-		calendar.setLayout(new GridLayout(rows,cols,2,2));
+		main.setLayout(new GridLayout(rows,cols,2,2));
 		boolean done = false;
 		int i=1;
 		while(!done){
-			if(i>dim){
+			if(i>=dim){
 				JLabel a = new JLabel(" ");
-				calendar.add(a);
-				if(i%7==0)done = true;
+				main.add(a);
+				if(i%7==0){
+					done = true;
+					break;
+				}
 			}
 			else{
 				a = new JButton(Integer.toString(i));
@@ -224,7 +258,7 @@ public class Body extends JFrame {
 				a.setHorizontalAlignment(SwingConstants.LEFT);
 				a.setBorder(null);
 				a.setPreferredSize(new Dimension(90,90));
-				calendar.add(a);
+				main.add(a);
 				a.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e) {
 						System.out.println("you pressed: "+e.getActionCommand());
@@ -235,6 +269,8 @@ public class Body extends JFrame {
 			}
 			i++;
 		}
+		main.setBackground(Color.black);
+		calendar.add(main);
 		calendar.setPreferredSize(new Dimension(1000,1000));
 		calendar.setBackground(Color.black);
 	}

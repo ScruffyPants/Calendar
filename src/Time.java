@@ -58,4 +58,9 @@ public class Time {
 	public int getDaysInMonth(){
 		return temp.getActualMaximum(Calendar.DAY_OF_MONTH);
 	}
+	
+	public String getMonthName(int month){
+		String[] monthNames = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};	
+		return monthNames[month];
+	}
 }
