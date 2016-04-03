@@ -42,10 +42,18 @@ public class Timetable {
 			Event e2 = new Event("test2", 2010, 2, 15);
 			Event e3 = new Event("test3", 2016, 6, 23);
 			Event e4 = new Event("test4", 1999, 2, 30);
+			Event e5 = new Event("test5", 1999, 2, 29);
+			Event e6 = new Event("test6", 1999, 3, 30);
+			Event e7 = new Event("test7", 1999, 2, 30);
+			Event e8 = new Event("test8", 1998, 2, 30);
 			user.addEvent(e1);
 			user.addEvent(e2);
 			user.addEvent(e3);
 			user.addEvent(e4);
+			user.addEvent(e5);
+			user.addEvent(e6);
+			user.addEvent(e7);
+			user.addEvent(e8);
 			LinkedList<Event> test = user.sortEvent(user.getEvents());
 			for(Event a: test){
 				System.out.println(a.getYear()+" "+a.getMonth()+" "+a.getDay());
