@@ -7,6 +7,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.LinkedList;
 import java.util.Objects;
+import javax.swing.JTextField;
+import javax.swing.JPasswordField;
 
 public class Body extends JFrame {
 	private static final long serialVersionUID = 1504199602031999L;
@@ -160,8 +162,7 @@ public class Body extends JFrame {
 	
 	public void DrawMenu(){
 		JMenu Calendar, Account, Info, Admin;
-		JMenuItem Exit, Logout, AddEvent, Reload, UserControl, Settings, About, GetToDate;
-
+		JMenuItem Exit, Logout, AddEvent, Reload, UserControl, Settings, About, GetToDate, Style;
 		
 		Calendar = new JMenu("Calendar");
 		Account = new JMenu("Account");
@@ -183,6 +184,7 @@ public class Body extends JFrame {
 		menuBar.add(Account);
 		menuBar.add(Info);
 		
+		Style = new JMenuItem("Style");
 		Exit = new JMenuItem("Exit");
 		Logout = new JMenuItem("Logout");
 		AddEvent = new JMenuItem("Add Event");
@@ -196,8 +198,16 @@ public class Body extends JFrame {
 		Calendar.add(Reload);
 		Calendar.add(GetToDate);
 		Account.add(AddEvent);
+		Account.add(Style);
 		Account.add(Settings);
 		Account.add(Logout);
+		
+		Style.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				user.getStyle().setStyle();
+				user.saveUser();
+			}
+		});
 		
 		Exit.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) {
@@ -272,37 +282,72 @@ public class Body extends JFrame {
 				JPanel panel1 = new JPanel();
 				panel1.setLayout(new BoxLayout(panel1, BoxLayout.PAGE_AXIS));
 				JLabel fName1 = new JLabel("First Name:");
-				JLabel fName2 = new JLabel(user.getFname());
+				JTextField fName2 = new JTextField(user.getFname());
+				JButton editFName = new JButton("Edit First Name");
 				JLabel lName1 = new JLabel("Last Name:");
-				JLabel lName2 = new JLabel(user.getLname());
+				JTextField lName2 = new JTextField(user.getLname());
+				JButton editLName = new JButton("Edit Last Name");
 				JLabel nick1 = new JLabel("Nickname:");
-				JLabel nick2 = new JLabel(user.getNick());
+				JTextField nick2 = new JTextField(user.getNick());
+				JButton editNick = new JButton("Edit Nickname");
+				JLabel pass1 = new JLabel("Password:");
+				JPasswordField pass2 = new JPasswordField();
 				JButton changePass = new JButton("Change Password");
 				
 				panel1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-				fName1.setAlignmentX(Component.LEFT_ALIGNMENT);
-				lName1.setAlignmentX(Component.LEFT_ALIGNMENT);
-				nick1.setAlignmentX(Component.LEFT_ALIGNMENT);
-				fName2.setAlignmentX(Component.LEFT_ALIGNMENT);
-				lName2.setAlignmentX(Component.LEFT_ALIGNMENT);
-				nick2.setAlignmentX(Component.LEFT_ALIGNMENT);
+				fName1.setAlignmentX(Component.CENTER_ALIGNMENT);
+				editFName.setAlignmentX(Component.CENTER_ALIGNMENT);
+				lName1.setAlignmentX(Component.CENTER_ALIGNMENT);
+				editLName.setAlignmentX(Component.CENTER_ALIGNMENT);
+				nick1.setAlignmentX(Component.CENTER_ALIGNMENT);
+				editNick.setAlignmentX(Component.CENTER_ALIGNMENT);
+				fName2.setAlignmentX(Component.CENTER_ALIGNMENT);
+				lName2.setAlignmentX(Component.CENTER_ALIGNMENT);
+				pass1.setAlignmentX(Component.CENTER_ALIGNMENT);
+				pass2.setAlignmentX(Component.CENTER_ALIGNMENT);
+				changePass.setAlignmentX(Component.CENTER_ALIGNMENT);
+				nick2.setAlignmentX(Component.CENTER_ALIGNMENT);
 				
 				panel1.add(fName1);
 				panel1.add(fName2);
+				panel1.add(editFName);
 				panel1.add(lName1);
 				panel1.add(lName2);
+				panel1.add(editLName);
 				panel1.add(nick1);
 				panel1.add(nick2);
+				panel1.add(editNick);
+				panel1.add(pass1);
+				panel1.add(pass2);
 				panel1.add(changePass);
 				
 				pFrame.add(panel1);
 				pFrame.setVisible(true);
 				pFrame.setLocationRelativeTo(null);
 				pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-				pFrame.setSize(300, 300);
+				pFrame.setSize(250, 350);
+				editFName.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e) {
+						user.setFname(fName2.getText());
+						user.saveUser();
+					}
+					});
+				editLName.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e) {
+						user.setLname(lName2.getText());
+						user.saveUser();
+					}
+					});
+				editNick.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e) {
+						user.setNick(nick2.getText());
+						user.saveUser();
+					}
+					});
 				changePass.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e) {
-						
+						user.setPW_Hash(user.hashPassword(pass2.getText()));
+						user.saveUser();
 					}
 					});
 			}
@@ -470,7 +515,7 @@ public class Body extends JFrame {
 		pFrame = new JFrame();
 		JMenuBar adminMenuBar = new JMenuBar();
 
-		JMenu Options, Window, ChangeRank;
+		JMenu Options, Window, ChangeRank, Edit;
 		JMenuItem Ban, Verify, Student, Teacher, Admin, Refresh;
 		utable = new UserTable();
 		dtm = utable.createUserTable();
@@ -596,4 +641,4 @@ public class Body extends JFrame {
 		pFrame.pack();
 		pFrame.setVisible(true);
 	}
-	}
+}

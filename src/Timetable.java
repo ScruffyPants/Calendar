@@ -29,7 +29,6 @@ public class Timetable {
 			user2.saveUser();
 			Login login = new Login();
 			*/
-			
 			Login login = new Login();
 			/*User Admin = new User("admin", "admin");
 			Admin.setIsAdmin(true);

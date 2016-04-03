@@ -238,7 +238,7 @@ public class User implements Serializable{
 		return ret;
 	}
 	
-	private String hashPassword(String pw) {
+	public String hashPassword(String pw) {
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			byte[] pw_hash_bytes = md.digest(pw.getBytes("UTF-8"));
