@@ -62,6 +62,7 @@ public class Login extends JFrame implements ActionListener{
 				if(login){
 					System.out.println("Logged in!");
 					System.out.println("name = " + user.getLname());
+					System.out.println("Login Month: "+time.getMonth());
 					Body body = new Body(time, user);
 					JFrame w = (JFrame) SwingUtilities.getWindowAncestor(panel);
                     w.dispose();
