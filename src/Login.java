@@ -23,7 +23,6 @@ public class Login extends JFrame implements ActionListener{
 		setLocation(500,280);
 		panel.setLayout (null);
 	
-	
 		txuser.setBounds(90,30,150,20);
 		pass.setBounds(90,65,150,20);
 		blogin.setBounds(45,100,100,20);

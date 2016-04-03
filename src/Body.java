@@ -160,7 +160,7 @@ public class Body extends JFrame {
 	
 	public void DrawMenu(){
 		JMenu Calendar, Account, Info, Admin;
-		JMenuItem Exit, Logout, AddEvent, Reload, UserControl, AccountSettings, About, GetToDate;
+		JMenuItem Exit, Logout, AddEvent, Reload, UserControl, Settings, About, GetToDate;
 
 		
 		Calendar = new JMenu("Calendar");
@@ -187,7 +187,7 @@ public class Body extends JFrame {
 		Logout = new JMenuItem("Logout");
 		AddEvent = new JMenuItem("Add Event");
 		Reload = new JMenuItem("Reload");
-		AccountSettings = new JMenuItem("Account Settings");
+		Settings = new JMenuItem("Settings");
 		About = new JMenuItem("About");
 		GetToDate = new JMenuItem("Get To Date");
 		
@@ -196,8 +196,8 @@ public class Body extends JFrame {
 		Calendar.add(Reload);
 		Calendar.add(GetToDate);
 		Account.add(AddEvent);
+		Account.add(Settings);
 		Account.add(Logout);
-		Account.add(AccountSettings);
 		
 		Exit.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) {
@@ -266,28 +266,33 @@ public class Body extends JFrame {
 			}
 		});
 
-		AccountSettings.addActionListener(new ActionListener(){
-
+		Settings.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				pFrame = new JFrame();
 				JPanel panel1 = new JPanel();
 				panel1.setLayout(new BoxLayout(panel1, BoxLayout.PAGE_AXIS));
-				JLabel fName = new JLabel(user.getFname());
-				JLabel lName = new JLabel(user.getLname());
-				JLabel nick = new JLabel(user.getNick());
+				JLabel fName1 = new JLabel("First Name:");
+				JLabel fName2 = new JLabel(user.getFname());
+				JLabel lName1 = new JLabel("Last Name:");
+				JLabel lName2 = new JLabel(user.getLname());
+				JLabel nick1 = new JLabel("Nickname:");
+				JLabel nick2 = new JLabel(user.getNick());
 				JButton changePass = new JButton("Change Password");
 				
 				panel1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-				fName.setAlignmentX(Component.CENTER_ALIGNMENT);
-				lName.setAlignmentX(Component.CENTER_ALIGNMENT);
-				nick.setAlignmentX(Component.CENTER_ALIGNMENT);
+				fName1.setAlignmentX(Component.LEFT_ALIGNMENT);
+				lName1.setAlignmentX(Component.LEFT_ALIGNMENT);
+				nick1.setAlignmentX(Component.LEFT_ALIGNMENT);
+				fName2.setAlignmentX(Component.LEFT_ALIGNMENT);
+				lName2.setAlignmentX(Component.LEFT_ALIGNMENT);
+				nick2.setAlignmentX(Component.LEFT_ALIGNMENT);
 				
-				panel1.add(new JLabel("First Name:"));
-				panel1.add(fName);
-				panel1.add(new JLabel("Last Name:"));
-				panel1.add(lName);
-				panel1.add(new JLabel("Nickname:"));
-				panel1.add(nick);
+				panel1.add(fName1);
+				panel1.add(fName2);
+				panel1.add(lName1);
+				panel1.add(lName2);
+				panel1.add(nick1);
+				panel1.add(nick2);
 				panel1.add(changePass);
 				
 				pFrame.add(panel1);
