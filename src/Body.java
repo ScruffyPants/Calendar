@@ -56,7 +56,7 @@ public class Body extends JFrame {
 		
 		backwards.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				panel.remove(calendar);
+				frame.remove(panel);
 				if(time.getMonth() == 0){
 					time.setMonth(11);
 					time.setYear(time.getYear()-1);
@@ -64,11 +64,11 @@ public class Body extends JFrame {
 				else{
 					time.setMonth(time.getMonth()-1);
 				}
-				panel.validate();
-				panel.repaint();
+				frame.validate();
+				frame.repaint();
+				panel.remove(calendar);
 				DrawCalendar();
 				DrawPanel();
-				frame.remove(calendar);
 				frame.add(panel);
 				frame.validate();
 				frame.repaint();
@@ -83,6 +83,7 @@ public class Body extends JFrame {
 		frame.setVisible(true);
 	}
 	public void DrawPanel(){
+		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		c.ipady=20;
