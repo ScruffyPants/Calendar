@@ -257,50 +257,76 @@ public class Body extends JFrame {
 	
 	public void DrawCalendar(){
 		JPanel main = new JPanel(new GridLayout());
-		calendar = new JPanel();
+		JPanel weekpanel = new JPanel(new GridLayout());
 		JLabel label = new JLabel(time.getYear()+" "+time.getMonthName(time.getMonth()));
-		label.setAlignmentX(Component.CENTER_ALIGNMENT);
+		calendar = new JPanel();
+		boolean done = false;
+		int i=1;
+		int j=1;
 		
+		label.setAlignmentX(Component.CENTER_ALIGNMENT);
 		label.setSize(100, 30);
 		label.setForeground(Color.white);
 		calendar.setLayout(new BoxLayout(calendar, BoxLayout.PAGE_AXIS));
 		calendar.add(label, calendar);
 		
-		main = new JPanel(new GridLayout());
+		JLabel monday = new JLabel("Monday");
+		JLabel tuesday = new JLabel("Tuesday");
+		JLabel wednesday = new JLabel("Wednesday");
+		JLabel thursday = new JLabel("Thursday");
+		JLabel friday = new JLabel("Friday");
+		JLabel saturday = new JLabel("Saturday");
+		JLabel sunday = new JLabel("Sunday");
+		
+		weekpanel.setLayout(new GridLayout(0,7,2,2));
+		weekpanel.add(monday);
+		weekpanel.add(tuesday);
+		weekpanel.add(wednesday);
+		weekpanel.add(thursday);
+		weekpanel.add(friday);
+		weekpanel.add(saturday);
+		weekpanel.add(sunday);
+		calendar.add(weekpanel, calendar);
+		
 		double dim = (double)time.getDaysInMonth();
-		int rows = (int)Math.ceil(dim/7);
-		int cols = 7;
-		System.out.println(rows+" x "+cols+" ");
-		main.setLayout(new GridLayout(rows,cols,2,2));
-		boolean done = false;
-		int i=1;
+		int fdom = time.getFirstDayOfMonth(time);
+		main.setLayout(new GridLayout(0,7,2,2));
 		while(!done){
-			if(i>=dim){
-				JLabel a = new JLabel(" ");
-				main.add(a);
-				if(i%7==0){
-					done = true;
-					break;
+			if(j>=fdom){
+				if(i>dim){
+						done = true;
+						break;
 				}
+				else{
+					a = new JButton(Integer.toString(i));
+					if(user.getEventsByDate(time.getYear(), time.getMonth(), i).size()>0)a.setBackground(Color.green);
+					else a.setBackground(Color.white);
+					a.setHorizontalAlignment(SwingConstants.LEFT);
+					a.setVerticalAlignment(SwingConstants.TOP);
+					a.setBorder(null);
+					a.setPreferredSize(new Dimension(90,90));
+					main.add(a);
+					a.addActionListener(new ActionListener(){
+						public void actionPerformed(ActionEvent e) {
+							System.out.println("you pressed: "+e.getActionCommand());
+							LinkedList<Event> events = user.getEventsByDate(time.getYear(), time.getMonth(), Integer.parseInt(e.getActionCommand()));
+							PopoutEventShow(events);
+						}
+					});
+					if(i==dim && i%7==0){
+						done = true;
+						break;
+					}
+				}
+				i++;
 			}
 			else{
-				a = new JButton(Integer.toString(i));
-				if(user.getEventsByDate(time.getYear(), time.getMonth(), i).size()>0)a.setBackground(Color.green);
-				else a.setBackground(Color.white);
-				a.setHorizontalAlignment(SwingConstants.LEFT);
-				a.setBorder(null);
-				a.setPreferredSize(new Dimension(90,90));
+				JLabel a = new JLabel("");
 				main.add(a);
-				a.addActionListener(new ActionListener(){
-					public void actionPerformed(ActionEvent e) {
-						System.out.println("you pressed: "+e.getActionCommand());
-						LinkedList<Event> events = user.getEventsByDate(time.getYear(), time.getMonth(), Integer.parseInt(e.getActionCommand()));
-						PopoutEventShow(events);
-					}
-				});
 			}
-			i++;
+			j++;
 		}
+		
 		main.setBackground(Color.black);
 		calendar.add(main);
 		calendar.setPreferredSize(new Dimension(1000,1000));
@@ -377,6 +403,7 @@ public class Body extends JFrame {
 	}
 	public void PopoutPEventAdd(){
 		JButton submit = new JButton("Submit");
+		pFrame = new JFrame();
 		
 		pFrame.add(new JLabel("Name: "));
 		pFrame.add(name);
@@ -395,6 +422,7 @@ public class Body extends JFrame {
 		pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		pFrame.setLocationRelativeTo(null);
 		pFrame.pack();
+		pFrame.setSize(pFrame.getWidth()+100, pFrame.getHeight()+100);
 		pFrame.setVisible(true);
 		
 		submit.addActionListener(new ActionListener(){
@@ -421,8 +449,7 @@ public class Body extends JFrame {
 		//pFrame.setResizable(false);
 	}
 	public void PopoutUserControlDialog() {
-		JPanel panel2 = new JPanel(new GridBagLayout());
-		JButton close = new JButton("Close");
+		pFrame = new JFrame();
 		JMenuBar adminMenuBar = new JMenuBar();
 		JMenu Options;
 		JMenuItem Ban, Verify, ChangeRank;
@@ -462,7 +489,7 @@ public class Body extends JFrame {
 		adminMenuBar.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		adminMenuBar.setMaximumSize(new Dimension(1920,30));
 		pane.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
-		sp.setAlignmentX(Component.CENTER_ALIGNMENT);
+		sp.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		sp.setMaximumSize(new Dimension(300,300));
 		pane.add(adminMenuBar);
 		pane.add(sp);
