@@ -23,11 +23,17 @@ public class Body extends JFrame {
 	JTextField month = new JTextField();
 	JTextField day = new JTextField();
 	JTextField description = new JTextField();
+	JTextField enteredYear = new JTextField();
+	JTextField enteredMonth = new JTextField();
 	JButton forwards = new JButton(">");
 	JButton backwards = new JButton("<");
 	JButton a = new JButton();
 	JCheckBox pEvent = new JCheckBox();
+	JTable table = new JTable();
 	GridBagConstraints c = new GridBagConstraints();
+	UserTable utable = new UserTable();
+	DefaultTableModel dtm = utable.createUserTable();
+	String d = null;
 	Time time;
 	User user;
 	
@@ -126,7 +132,6 @@ public class Body extends JFrame {
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.VERTICAL;
 		c.anchor = GridBagConstraints.LINE_START;
-		//c.insets = new Insets(0,0,0,preferredWidth);
 		c.gridx = 0;
 		c.gridy = 1;
 		c.weighty = 1;
@@ -146,7 +151,6 @@ public class Body extends JFrame {
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.VERTICAL;
 		c.anchor = GridBagConstraints.LINE_END;
-		//c.insets = new Insets(0,preferredWidth,0,0);
 		c.gridx = 2;
 		c.gridy = 1;
 		c.weighty = 1;
@@ -156,7 +160,8 @@ public class Body extends JFrame {
 	
 	public void DrawMenu(){
 		JMenu Calendar, Account, Info, Admin;
-		JMenuItem Exit, Logout, AddEvent, Reload, UserControl, AccountSettings, About;
+		JMenuItem Exit, Logout, AddEvent, Reload, UserControl, AccountSettings, About, GetToDate;
+
 		
 		Calendar = new JMenu("Calendar");
 		Account = new JMenu("Account");
@@ -184,10 +189,12 @@ public class Body extends JFrame {
 		Reload = new JMenuItem("Reload");
 		AccountSettings = new JMenuItem("Account Settings");
 		About = new JMenuItem("About");
+		GetToDate = new JMenuItem("Get To Date");
 		
 		Info.add(About);
 		Calendar.add(Exit);
 		Calendar.add(Reload);
+		Calendar.add(GetToDate);
 		Account.add(AddEvent);
 		Account.add(Logout);
 		Account.add(AccountSettings);
@@ -221,7 +228,46 @@ public class Body extends JFrame {
 			}
 		});
 		
+
+		GetToDate.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				pFrame = new JFrame();
+				enteredYear = new JTextField(4);
+				enteredMonth = new JTextField(2);
+				JButton confirm = new JButton("GO");
+				
+				pFrame.setLayout(new FlowLayout());
+				pFrame.add(new JLabel("Year: "));
+				pFrame.add(enteredYear);
+				pFrame.add(new JLabel("Month: "));
+				pFrame.add(enteredMonth);
+				pFrame.add(confirm);
+				pFrame.pack();
+				pFrame.setVisible(true);
+				pFrame.setLocationRelativeTo(null);
+				pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				
+				confirm.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e) {
+						if(!enteredYear.getText().isEmpty() && !enteredMonth.getText().isEmpty())
+						time.setYear(Integer.parseInt(enteredYear.getText()));
+						time.setMonth(Integer.parseInt(enteredMonth.getText())-1);
+						frame.remove(panel);
+						frame.validate();
+						frame.repaint();
+						panel.remove(calendar);
+						DrawCalendar();
+						DrawPanel();
+						frame.add(panel);
+						frame.validate();
+						frame.repaint();
+					}
+				});
+			}
+		});
+
 		AccountSettings.addActionListener(new ActionListener(){
+
 			public void actionPerformed(ActionEvent e) {
 				pFrame = new JFrame();
 				JPanel panel1 = new JPanel();
@@ -305,8 +351,8 @@ public class Body extends JFrame {
 				}
 				else{
 					a = new JButton(Integer.toString(i));
-					if(user.getEventsByDate(time.getYear(), time.getMonth(), i).size()>0)a.setBackground(Color.green);
-					else a.setBackground(Color.white);
+					if(user.getEventsByDate(time.getYear(), time.getMonth(), i).size()>0)a.setBackground(user.getStyle().getDayBackground());
+					else a.setBackground(user.getStyle().getDayBackground());
 					a.setHorizontalAlignment(SwingConstants.LEFT);
 					a.setVerticalAlignment(SwingConstants.TOP);
 					a.setBorder(null);
@@ -316,7 +362,7 @@ public class Body extends JFrame {
 						public void actionPerformed(ActionEvent e) {
 							System.out.println("you pressed: "+e.getActionCommand());
 							LinkedList<Event> events = user.getEventsByDate(time.getYear(), time.getMonth(), Integer.parseInt(e.getActionCommand()));
-							PopoutEventShow(events);
+							PopoutEventShow(events, e.getActionCommand());
 						}
 					});
 					if(i==dim && i%7==0){
@@ -340,8 +386,9 @@ public class Body extends JFrame {
 		calendar.setBackground(Color.black);
 	}
 	
-	public void PopoutEventShow(LinkedList<Event> events){
+	public void PopoutEventShow(LinkedList<Event> events, String d){
 		pFrame = new JFrame();
+		JButton create = new JButton("Create event");
 		String string = "";
 		for(Event a: events){
 			string+=(a.getName());
@@ -415,13 +462,15 @@ public class Body extends JFrame {
 		});
 	}
 	public void PopoutUserControlDialog() {
-		JFrame pFrame = new JFrame();
+		pFrame = new JFrame();
 		JMenuBar adminMenuBar = new JMenuBar();
+
 		JMenu Options, Window, ChangeRank;
 		JMenuItem Ban, Verify, Student, Teacher, Admin, Refresh;
-		UserTable utable = new UserTable();
-		DefaultTableModel dtm = utable.createUserTable();
-		JTable table = new JTable(dtm);
+		utable = new UserTable();
+		dtm = utable.createUserTable();
+		table = new JTable(dtm);
+		
 		Container paneC = pFrame.getContentPane();
 		JScrollPane sp = new JScrollPane(table);
 		JPanel pane = new JPanel();
@@ -536,7 +585,6 @@ public class Body extends JFrame {
 		pane.setMinimumSize(new Dimension(300,300));
 		paneC.add(pane);
 		paneC.setMinimumSize(new Dimension(300,300));
-		//pane.setVisible(true);
 		
 		pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		pFrame.setMinimumSize(new Dimension(300,300));

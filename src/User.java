@@ -13,6 +13,7 @@ public class User implements Serializable{
 	private String pw_hash;
 	private LinkedList<Event> events = new LinkedList<Event>();//User will have a linked list with "events" that are later represented in Calendar
 	private LinkedList<Event> pEvents = new LinkedList<Event>();//Public event made by teacher and admin (needs to implemented in saveUser() and loadUser())
+	private Style style = new Style();
 	private FileInputStream in = null;
 	private FileOutputStream out = null;
 	private boolean isTeacher = false;
@@ -24,15 +25,18 @@ public class User implements Serializable{
 		fname = fn;
 		lname = ln; 
         pw_hash = hashPassword(pw);
+        style = new Style();
 	}
 	
 	public User(String uname, String pw) {
 		nick = uname;
 		pw_hash = hashPassword(pw);
+		style = new Style();
 	}
 	
 	public User(String fn){
 		fname = fn;
+		style = new Style();
 	}
 	
 	public User(){
@@ -40,6 +44,7 @@ public class User implements Serializable{
 		fname=null;
 		lname=null;
 		pw_hash=null;
+		style = new Style();
 	}
 	
 	public String getFname() {
@@ -278,6 +283,7 @@ public class User implements Serializable{
 			user.setIsAdmin(this.getIsAdmin());
 			user.setIsTeacher(this.getIsTeacher());
 			user.setIsVerified(this.getIsVerified());
+			user.setStyle(this.getStyle());
 			outObject.writeObject(user);
 			outObject.close();
 			out.close();
@@ -307,6 +313,7 @@ public class User implements Serializable{
 			this.setIsAdmin(user.getIsAdmin());
 			this.setIsTeacher(user.getIsTeacher());
 			this.setIsVerified(user.getIsVerified());
+			this.setStyle(user.getStyle());
 			inObject.close();
 			in.close();
 		}
@@ -330,5 +337,13 @@ public class User implements Serializable{
 		} else {
 			System.out.println("You are not authorized to perform this operation.");
 		}
+	}
+
+	public Style getStyle() {
+		return style;
+	}
+
+	public void setStyle(Style style) {
+		this.style = style;
 	}
 }
