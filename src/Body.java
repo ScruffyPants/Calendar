@@ -77,7 +77,8 @@ public class Body extends JFrame {
 					time.setYear(time.getYear()-1);
 				}
 				else{
-					time.setMonth(time.getMonth()-1);
+					int temp = time.getMonth()-1;
+					time.setMonth(temp);
 				}
 				frame.validate();
 				frame.repaint();
@@ -98,7 +99,8 @@ public class Body extends JFrame {
 					time.setYear(time.getYear()+1);
 				}
 				else{
-					time.setMonth(time.getMonth()+1);
+					int temp = time.getMonth()+1;
+					time.setMonth(temp);
 				}
 				frame.validate();
 				frame.repaint();
@@ -260,7 +262,8 @@ public class Body extends JFrame {
 					public void actionPerformed(ActionEvent e) {
 						if(!enteredYear.getText().isEmpty() && !enteredMonth.getText().isEmpty())
 						time.setYear(Integer.parseInt(enteredYear.getText()));
-						time.setMonth(Integer.parseInt(enteredMonth.getText())-1);
+						int temp = Integer.parseInt(enteredMonth.getText())-1;;;
+						time.setMonth(temp);
 						frame.remove(panel);
 						frame.validate();
 						frame.repaint();

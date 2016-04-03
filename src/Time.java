@@ -1,4 +1,5 @@
 import java.util.Calendar;
+import java.text.DateFormatSymbols;
 public class Time {
 	private int Year;
 	private int Month;
@@ -7,6 +8,7 @@ public class Time {
 	private int Minute;
 	private int DaysInMonth;
 	private Calendar temp = Calendar.getInstance();
+	private DateFormatSymbols time = new DateFormatSymbols();
 	
 	public Time(){
 		Year = temp.get(Calendar.YEAR);
@@ -38,6 +40,10 @@ public class Time {
 	public void setMonth(int month){
 		temp.set(Calendar.MONTH, month);
 		Month = temp.get(Calendar.MONTH);
+		if(Month!=month){
+			temp.set(Calendar.MONTH, month);
+			Month = temp.get(Calendar.MONTH);
+		}
 	}
 
 	public void setDay(int day) {
