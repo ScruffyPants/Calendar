@@ -1,6 +1,7 @@
 import java.io.Serializable;
+import java.util.*;
 
-public class Event implements Serializable{
+public class Event implements Serializable, Comparator<Event>{
 	private String name;
 	private int year;
 	private int month;
@@ -43,5 +44,14 @@ public class Event implements Serializable{
 
 	public void setDay(int day) {
 		this.day = day;
+	}
+	
+	@Override
+	public int compare(Event e1, Event e2){
+		if(e1.getYear() > e2.getYear())return 1;
+		else if(e1.getMonth() > e2.getMonth())return 1;
+		else if(e1.getDay() > e2.getDay())return 1;
+		else if(e1.getYear() == e2.getYear() && e1.getMonth() == e2.getMonth() && e1.getDay() == e1.getDay())return 0;
+		else return -1;
 	}
 }

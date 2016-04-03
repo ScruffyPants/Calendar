@@ -32,14 +32,28 @@ public class Timetable {
 			
 			Login login = new Login();
 			
-			int daysinmonth = time.getDaysInMonth();
-			System.out.println("Days in month = "+daysinmonth);
+			//int daysinmonth = time.getDaysInMonth();
+			//System.out.println("Days in month = "+daysinmonth);
 			
 			//Login login = new Login();
+		
+			User user = new User();
+			Event e1 = new Event("test", 2014, 3, 14);
+			Event e2 = new Event("test2", 2010, 2, 15);
+			Event e3 = new Event("test3", 2016, 6, 23);
+			Event e4 = new Event("test4", 1999, 2, 30);
+			user.addEvent(e1);
+			user.addEvent(e2);
+			user.addEvent(e3);
+			user.addEvent(e4);
+			LinkedList<Event> test = user.sortEvent(user.getEvents());
+			for(Event a: test){
+				System.out.println(a.getYear()+" "+a.getMonth()+" "+a.getDay());
+			}
 			//Body body = new Body(time);
 
 			//Event Debugging | Testing
-			
+			/*
 			User user = new User("test","test","12345");
 			
 			Event one = new Event( "test1", 2002, 12, 4 );

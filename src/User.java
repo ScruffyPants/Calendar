@@ -12,6 +12,7 @@ public class User implements Serializable{
 	private String nick;
 	private String pw_hash;
 	private LinkedList<Event> events = new LinkedList<Event>();//User will have a linked list with "events" that are later represented in Calendar
+	private LinkedList<Event> pEvents = new LinkedList<Event>();//Public event made by teacher and admin
 	private FileInputStream in = null;
 	private FileOutputStream out = null;
 	private boolean isTeacher = false;
@@ -65,59 +66,57 @@ public class User implements Serializable{
 		nick = a;
 	}
 	
+	public void addPEvent(Event e){
+		pEvents.add(e);
+	}
+	
+	public LinkedList<Event> sortEvent(LinkedList<Event> event){
+		LinkedList<Event> ans = new LinkedList<Event>();
+		if(events.size()>1){
+			int lenght = event.size(); 
+			ans = quickSort(0, lenght-1, event);
+			return ans;
+		}
+		return ans;
+	}
+	
+	private LinkedList<Event> quickSort(int lIndex, int hIndex, LinkedList<Event> event){
+		int i = lIndex;
+		int j = hIndex;
+		LinkedList<Event> ans = new LinkedList<Event>();
+		
+		int pivot = lIndex+(hIndex-lIndex)/2;
+		
+		while(i <= j){
+			while(event.get(i).compare(event.get(i),event.get(pivot))==-1){
+				i++;
+			}
+			while(event.get(i).compare(event.get(j), event.get(pivot))==1){
+				j--;
+			}
+			if(i<=j){
+				ans = exchangeNumbers(i,j,event);
+				i++;
+				j--;
+			}
+		}
+		
+		if(lIndex < j)quickSort(lIndex, j, event);
+		if(i < hIndex)quickSort(i, hIndex, event);
+		
+		return ans; 	
+	}
+	
+	private LinkedList<Event> exchangeNumbers(int i, int j, LinkedList<Event> event){
+		Event temp = event.get(i);
+		event.set(i, event.get(j));
+		event.set(j, temp);
+		return event;
+	}
+	
 	public void addEvent(Event event) {
 		System.out.println("Event to add: " + event.getYear() + "/" + event.getMonth() + "/" + event.getDay());
-		if( events.size() > 0 ) {
-			Event given = null;
-			for(int i = 0; i < events.size(); i++) {
-				given = events.get(i);
-				System.out.println("Comparing against " + given.getYear() + "/" + given.getMonth() + "/" + given.getDay());
-				if( event.getYear() > given.getYear()) {
-					if( i == events.size() - 1) {
-						events.add(event);
-						System.out.println("Comparing against last element, adding to end of the list");
-						break;
-					} else {continue;}
-				}	
-				else if( event.getYear() < given.getYear()) {
-					System.out.println("Year is less than the one against which it was compared, adding at " + i + "-th position");
-					events.add(i, event);
-					break;
-				} //Same year
-				else {
-					if( event.getMonth() > given.getMonth()) {
-						if( i == events.size() - 1) {
-							System.out.println("Comparing against last element, adding to end of the list");
-							events.add(event);
-							break;
-						} else {continue;}
-					}
-					else if( event.getMonth() < given.getMonth() ) {
-						System.out.println("Month is less than the one against which it was compared, adding at " + i + "-th position");
-						events.add(i , event);
-						break; 
-					} // Same month
-					else {
-						if( event.getDay() > given.getDay()) {
-							if( i == events.size() - 1) {
-								System.out.println("Comparing against last element, adding to end of the list");
-								events.add(event);
-								break;
-							} else {continue;}
-						}
-						else if( event.getDay() < given.getDay()) {
-							System.out.println("Day is less than the one against which it was compared, adding at " + i + "-th position");
-							events.add(i, event);
-							break;
-						}
-						else {continue;}
-					}
-				}	
-			}
-		} else {
-			System.out.println("Empty list");
-			events.add(event);
-		}
+		events.add(event);
 	}
 	
 	public String getPW_Hash() {
