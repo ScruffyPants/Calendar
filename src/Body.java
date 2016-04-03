@@ -350,11 +350,7 @@ public class Body extends JFrame {
 			adminMenuBar.add(Options);
 			Ban.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) {
-					Event PEvent = new Event(name.getText(), Integer.parseInt(year.getText(),10), Integer.parseInt(month.getText(),10), Integer.parseInt(day.getText(),10));
-					user.addPEvent(PEvent);
-					user.saveUser();
-					pFrame.setVisible(false);
-					pFrame.dispose();
+					
 				}
 			});
 			Verify.addActionListener(new ActionListener(){
@@ -368,17 +364,30 @@ public class Body extends JFrame {
 			});
 		}
 		File temp = new File(dir + "\\src\\users");
-		String[] users = listFilesForFolder( temp ).split(" ");
+		String[] users = listFilesForFolder( temp ).replaceAll(".txt",  "").split(" ");
 		JList<String> scrollList = new JList<>(users);
 		JScrollPane sp = new JScrollPane(scrollList);
-		panel.add(calendar,c);
-		panel2.add(adminMenuBar,c);
-		panel2.add(sp,c);
+		pFrame = new JFrame();
+		JPanel pane = new JPanel(new GridBagLayout());
+		GridBagConstraints c1 = new GridBagConstraints();
+		c.fill = GridBagConstraints.BOTH;
+		c.gridwidth = 3;
+		c.gridx = 0;
+		c.gridy = 0;
+		pane.add(adminMenuBar,c1);
+		GridBagConstraints c2 = new GridBagConstraints();
+		c2.fill = GridBagConstraints.BOTH;
+		c.gridwidth = 3;
+		c.gridheight = 2;
+		c2.gridx = 0;
+		c2.gridy = 1;
+		pane.add(sp,c2);
+		pane.setVisible(true);
+		/*pFrame.add(pane);
 		pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		pFrame.pack();
-		pFrame.add(panel2);
 		pFrame.setMinimumSize(new Dimension(500,270));
-		pFrame.setVisible(true);
+		pFrame.setVisible(true);*/
 	}
 	
 	public String listFilesForFolder(final File folder) {
