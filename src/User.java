@@ -148,7 +148,7 @@ public class User implements Serializable{
 			Event given = null;
 			for(int i = 0; i < events.size(); i++) {
 				given = events.get(i);
-				sb.append("==== Event #" + i + ": "+ given.getYear() + "/" + given.getMonth() + "/" + given.getDay() + ", " + given.getName() + " ");
+				sb.append("==== Event #" + i + ": "+ given.getYear() + "/" + given.getMonth() + "/" + given.getDay() + ", " + given.getName() + " (" + given.getDescription() + ")");
 			}
 			return sb.toString();
 		}
@@ -238,7 +238,7 @@ public class User implements Serializable{
 		return ret;
 	}
 	
-	private String hashPassword(String pw) {
+	public String hashPassword(String pw) {
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			byte[] pw_hash_bytes = md.digest(pw.getBytes("UTF-8"));
@@ -328,6 +328,14 @@ public class User implements Serializable{
 			System.err.println("User class not found");
 		}
 	}
+
+	public Style getStyle() {
+		return style;
+	}
+
+	public void setStyle(Style style) {
+		this.style = style;
+	}
 	
 	//Deprecated
 	
@@ -337,13 +345,5 @@ public class User implements Serializable{
 		} else {
 			System.out.println("You are not authorized to perform this operation.");
 		}
-	}
-
-	public Style getStyle() {
-		return style;
-	}
-
-	public void setStyle(Style style) {
-		this.style = style;
 	}
 }
