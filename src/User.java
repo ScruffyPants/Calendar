@@ -65,7 +65,58 @@ public class User implements Serializable{
 	}
 	
 	public void addEvent(Event event) {
-		events.add(events.size(), event);
+		System.out.println("Event to add: " + event.getYear() + "/" + event.getMonth() + "/" + event.getDay());
+		if( events.size() > 0 ) {
+			Event given = null;
+			for(int i = 0; i < events.size(); i++) {
+				given = events.get(i);
+				System.out.println("Comparing against " + given.getYear() + "/" + given.getMonth() + "/" + given.getDay());
+				if( event.getYear() > given.getYear()) {
+					if( i == events.size() - 1) {
+						events.add(event);
+						System.out.println("Comparing against last element, adding to end of the list");
+						break;
+					} else {continue;}
+				}	
+				else if( event.getYear() < given.getYear()) {
+					System.out.println("Year is less than the one against which it was compared, adding at " + i + "-th position");
+					events.add(i, event);
+					break;
+				} //Same year
+				else {
+					if( event.getMonth() > given.getMonth()) {
+						if( i == events.size() - 1) {
+							System.out.println("Comparing against last element, adding to end of the list");
+							events.add(event);
+							break;
+						} else {continue;}
+					}
+					else if( event.getMonth() < given.getMonth() ) {
+						System.out.println("Month is less than the one against which it was compared, adding at " + i + "-th position");
+						events.add(i , event);
+						break; 
+					} // Same month
+					else {
+						if( event.getDay() > given.getDay()) {
+							if( i == events.size() - 1) {
+								System.out.println("Comparing against last element, adding to end of the list");
+								events.add(event);
+								break;
+							} else {continue;}
+						}
+						else if( event.getDay() < given.getDay()) {
+							System.out.println("Day is less than the one against which it was compared, adding at " + i + "-th position");
+							events.add(i, event);
+							break;
+						}
+						else {continue;}
+					}
+				}	
+			}
+		} else {
+			System.out.println("Empty list");
+			events.add(event);
+		}
 	}
 	
 	public String getPW_Hash() {
@@ -110,13 +161,16 @@ public class User implements Serializable{
 	
 	public LinkedList<Event> getEventsByDate(int y, int m, int d) {
 		LinkedList<Event> ret = new LinkedList<Event>();
-		Event given = events.getFirst();
-		for( int i = 0; i < events.size(); i++) {
-			given = events.get(i);
-			if( given.getYear() == y & given.getMonth() == m & given.getDay() == d )
-				ret.add(given);
+		if( events.size() > 0 ) {
+			Event given = events.getFirst();
+			for( int i = 0; i < events.size(); i++) {
+				given = events.get(i);
+				if( given.getYear() == y & given.getMonth() == m & given.getDay() == d )
+					ret.add(given);
+			}
+			return ret;
 		}
-		return ret;
+		throw new RuntimeException();
 	}
 	
 	public LinkedList<Event> getEventsByDateRange(int y1, int m1, int d1, int y2, int m2, int d2) {
@@ -127,26 +181,29 @@ public class User implements Serializable{
 		int dOfMax = (y1 > y2) ? d1 : d2;
 		int dOfMin = (y1 < y2) ? d1 : d2;
 		
-		LinkedList<Event> ret = new LinkedList<Event>();
-		Event given = events.getFirst();
-		for( int i = 0; i < events.size(); i++) {
-			given = events.get(i);
-			if( given.getYear()>= yMin && given.getYear() <= yMax ) {
-				if( given.getYear() == yMin) {
-					if( given.getMonth() >= mOfMin && given.getDay() >= dOfMin ) {
-						ret.add(given);
+		if( events.size() > 0) {
+			LinkedList<Event> ret = new LinkedList<Event>();
+			Event given = events.getFirst();
+			for( int i = 0; i < events.size(); i++) {
+				given = events.get(i);
+				if( given.getYear()>= yMin && given.getYear() <= yMax ) {
+					if( given.getYear() == yMin) {
+						if( given.getMonth() >= mOfMin && given.getDay() >= dOfMin ) {
+							ret.add(given);
+						}
 					}
-				}
-				else if( given.getYear() == yMax ) {
-					if( given.getMonth() <= mOfMax && given.getDay() <= dOfMax ) {
-						ret.add(given);
+					else if( given.getYear() == yMax ) {
+						if( given.getMonth() <= mOfMax && given.getDay() <= dOfMax ) {
+							ret.add(given);
+						}
 					}
+					else
+						ret.add(given);
 				}
-				else
-					ret.add(given);
 			}
-		}
 		return ret;
+		}
+		throw new RuntimeException();
 	}
 	
 	public LinkedList<Event> getEventsByName(String toCheck) {

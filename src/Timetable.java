@@ -35,33 +35,37 @@ public class Timetable {
 			int daysinmonth = time.getDaysInMonth();
 			System.out.println("Days in month = "+daysinmonth);
 			
-			Login login = new Login();
+			//Login login = new Login();
 			//Body body = new Body(time);
 
 			//Event Debugging | Testing
-			/*
-			Event one = new Event( "test", 2002, 12, 4 );
-			Event two = new Event( "test", 2002, 12, 5 );
-			Event three = new Event( "test", 2002, 11, 4 );
-			Event four = new Event( "test", 2012, 12, 4 );
-			Event five = new Event( "tes1t", 2002, 12, 4 );
+			
+			User user = new User("test","test","12345");
+			
+			Event one = new Event( "test1", 2002, 12, 4 );
+			Event two = new Event( "test2", 2002, 12, 5 );
+			Event three = new Event( "test3", 2002, 11, 4 );
+			Event four = new Event( "test4", 2012, 12, 4 );
+			Event five = new Event( "test5", 2002, 12, 4 );
+			Event six = new Event( "test6", 2012, 3, 6);
 			
 			user.addEvent(one);
 			user.addEvent(two);
 			user.addEvent(three);
 			user.addEvent(four);
 			user.addEvent(five);
+			user.addEvent(six);
 			
 			LinkedList<Event> full = user.getEvents();
-			LinkedList<Event> select = user.getEventsByDate(2002, 12, 4);
-			LinkedList<Event> select2 = user.getEventsByDateRange(2002, 12, 4, 2012, 12, 3);
+			//LinkedList<Event> select = user.getEventsByDate(2002, 12, 4);
+			//LinkedList<Event> select2 = user.getEventsByDateRange(2002, 12, 4, 2012, 12, 3);
 			Event given = null;
 			System.out.println("All events");
 			for( int i = 0; i < full.size(); i++ ) {
 				given = full.get(i);
 				System.out.println(given.getYear() + " " + given.getMonth() + " " + given.getDay() + " (" + given.getName() + ")");
 			}
-			Event given2 = null;
+			/*Event given2 = null;
 			System.out.println("Events found when searching for 2002 / 12 / 4:");
 			for( int i = 0; i < select.size(); i++ ) {
 				given2 = select.get(i);
@@ -78,9 +82,9 @@ public class Timetable {
 			System.out.println("Testing password 'Bruh': " + test.checkPassword("Bruh"));
 			System.out.println("Testing password 'Dawg': " + test.checkPassword("Dawg"));
 			System.out.println("Testing password 'Allah': " + test.checkPassword("Allah"));
-			System.out.println("Testing password 'Snoop Dogg': " + test.checkPassword("Snoop Dogg"));
+			System.out.println("Testing password 'Snoop Dogg': " + test.checkPassword("Snoop Dogg"));*/
 			
-			*/
+			
 		//=============================================================
 	}
 	
