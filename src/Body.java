@@ -353,7 +353,7 @@ public class Body extends JFrame {
 		
 		pFrame.add(submit);
 		pFrame.setLayout(new GridLayout(0,1));
-		pFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		pFrame.pack();
 		pFrame.setVisible(true);
 		
@@ -391,6 +391,7 @@ public class Body extends JFrame {
 			});
 			Verify.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) {
+					
 				}
 			});
 			ChangeRank.addActionListener(new ActionListener(){
@@ -404,26 +405,24 @@ public class Body extends JFrame {
 		JList<String> scrollList = new JList<>(users);
 		JScrollPane sp = new JScrollPane(scrollList);
 		pFrame = new JFrame();
-		JPanel pane = new JPanel(new GridBagLayout());
-		GridBagConstraints c1 = new GridBagConstraints();
-		c.fill = GridBagConstraints.BOTH;
-		c.gridwidth = 3;
-		c.gridx = 0;
-		c.gridy = 0;
-		pane.add(adminMenuBar,c1);
-		GridBagConstraints c2 = new GridBagConstraints();
-		c2.fill = GridBagConstraints.BOTH;
-		c.gridwidth = 3;
-		c.gridheight = 2;
-		c2.gridx = 0;
-		c2.gridy = 1;
-		pane.add(sp,c2);
+		Container paneC = pFrame.getContentPane();
+		JPanel pane = new JPanel();
+		pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
+		adminMenuBar.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		adminMenuBar.setMaximumSize(new Dimension(100,1920));
+		pane.setBorder(BorderFactory.createEmptyBorder(0,10,10,10));
+		sp.setAlignmentX(Component.CENTER_ALIGNMENT);
+		sp.setMaximumSize(new Dimension(300,300));
+		pane.add(adminMenuBar);
+		pane.add(sp);
+		pane.setMinimumSize(new Dimension(300,300));
+		paneC.add(pane);
+		paneC.setMinimumSize(new Dimension(300,300));
 		pane.setVisible(true);
-		/*pFrame.add(pane);
 		pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		pFrame.setMinimumSize(new Dimension(300,300));
 		pFrame.pack();
-		pFrame.setMinimumSize(new Dimension(500,270));
-		pFrame.setVisible(true);*/
+		pFrame.setVisible(true);
 	}
 	
 	public String listFilesForFolder(final File folder) {
