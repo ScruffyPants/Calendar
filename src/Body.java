@@ -25,6 +25,9 @@ public class Body extends JFrame {
 		time = t;
 		user = u;
 		
+		JButton forwards = new JButton(">");
+		JButton backwards = new JButton("<");
+		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		DrawMenu();
 		DrawCalendar();
@@ -37,16 +40,23 @@ public class Body extends JFrame {
 		panel.add(menuBar,c);
 		
 		c.fill = GridBagConstraints.BOTH;
-		c.anchor = GridBagConstraints.LAST_LINE_START;
+		c.anchor = GridBagConstraints.PAGE_END;
 		c.ipady = 10;
 		c.insets = new Insets(23,0,0,0);
-		c.weightx = 1;
+		c.weightx = 0;
 		c.weighty = 1;
-		c.gridwidth = 2;
-		c.gridheight = 2;
-		c.gridx = 0;
+		c.gridwidth = 0;
+		c.gridheight = 1;
+		c.gridx = 1;
 		c.gridy = 0;
 		panel.add(calendar,c);
+		
+		c.fill = GridBagConstraints.VERTICAL;
+		c.anchor = GridBagConstraints.LINE_START;
+		c.insets = new Insets(23,0,0,0);
+		c.weighty = 1;
+		c.gridwidth = 1;
+		panel.add(backwards, c);
 		
 		frame.setLocationRelativeTo(null);
 		frame.add(panel);
