@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.io.*;
 import java.nio.file.Files;
-
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -27,6 +26,7 @@ public class Body extends JFrame {
 	JButton forwards = new JButton(">");
 	JButton backwards = new JButton("<");
 	JButton a = new JButton();
+	JCheckBox pEvent = new JCheckBox();
 	GridBagConstraints c = new GridBagConstraints();
 	Time time;
 	User user;
@@ -156,7 +156,7 @@ public class Body extends JFrame {
 	
 	public void DrawMenu(){
 		JMenu Calendar, Account, Info, Admin;
-		JMenuItem Exit, Logout, AddEvent, Reload, AddPublicEvent, UserControl, AccountInfo, About;
+		JMenuItem Exit, Logout, AddEvent, Reload, UserControl, AccountInfo, About;
 		
 		Calendar = new JMenu("Calendar");
 		Account = new JMenu("Account");
@@ -165,15 +165,8 @@ public class Body extends JFrame {
 		if(user.getIsAdmin() && user.getIsVerified()) {
 			Admin = new JMenu("Admin");
 			menuBar.add(Admin);
-			AddPublicEvent = new JMenuItem("Add Public Event");
 			UserControl = new JMenuItem("User Control Panel");
-			Admin.add(AddPublicEvent);
 			Admin.add(UserControl);
-			AddPublicEvent.addActionListener(new ActionListener(){
-				public void actionPerformed(ActionEvent e) {
-					PopoutPEventAdd();
-				}
-			});
 			UserControl.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) {
 					PopoutUserControlDialog();
@@ -284,6 +277,7 @@ public class Body extends JFrame {
 		JLabel sunday = new JLabel("Sunday");
 		
 		weekpanel.setLayout(new GridLayout(0,7,2,2));
+		weekpanel.setMaximumSize(new Dimension(9000,30));
 		weekpanel.add(monday);
 		weekpanel.add(tuesday);
 		weekpanel.add(wednesday);
@@ -335,6 +329,7 @@ public class Body extends JFrame {
 		main.setBackground(Color.black);
 		calendar.add(main);
 		calendar.setPreferredSize(new Dimension(1000,1000));
+		calendar.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
 		calendar.setBackground(Color.black);
 	}
 	
@@ -375,6 +370,12 @@ public class Body extends JFrame {
 		pFrame.add(new JLabel("description: "));
 		pFrame.add(description);
 		
+		if(user.getIsTeacher() || user.getIsAdmin()){
+			pEvent = new JCheckBox();
+			pFrame.add(new JLabel("Public Event: "));
+			pFrame.add(pEvent);
+		}
+		
 		pFrame.add(submit);
 		pFrame.setLayout(new GridLayout(0,1));
 		pFrame.setLocationRelativeTo(null);
@@ -387,7 +388,8 @@ public class Body extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(!name.getText().isEmpty() && !year.getText().isEmpty() && !month.getText().isEmpty() && !day.getText().isEmpty()){
 					Event event = new Event(name.getText(), Integer.parseInt(year.getText()), Integer.parseInt(month.getText())-1, Integer.parseInt(day.getText()), description.getText());
-					user.addEvent(event);
+					if(!pEvent.isSelected())user.addEvent(event);
+					else user.addPEvent(event);
 					user.saveUser();
 					pFrame.setVisible(false);
 					pFrame.dispose();
@@ -404,55 +406,6 @@ public class Body extends JFrame {
 				}
 			}
 		});
-		//pFrame.setResizable(false);
-	}
-	
-	public void PopoutPEventAdd(){
-		JFrame pFrame = new JFrame();
-		JButton submit = new JButton("Submit");
-		
-		pFrame.add(new JLabel("Name: "));
-		pFrame.add(name);
-		
-		pFrame.add(new JLabel("Year: "));
-		pFrame.add(year);
-		
-		pFrame.add(new JLabel("Month: "));
-		pFrame.add(month);
-		
-		pFrame.add(new JLabel("Day: "));
-		pFrame.add(day);
-		
-		pFrame.add(submit);
-		pFrame.setLayout(new GridLayout(0,1));
-		pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		pFrame.setLocationRelativeTo(null);
-		pFrame.pack();
-		pFrame.setSize(pFrame.getWidth()+100, pFrame.getHeight()+100);
-		pFrame.setVisible(true);
-		
-		submit.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				if(!name.getText().isEmpty() && !year.getText().isEmpty() && !month.getText().isEmpty() && !day.getText().isEmpty()){
-					Event PEvent = new Event(name.getText(), Integer.parseInt(year.getText(),10), Integer.parseInt(month.getText(),10), Integer.parseInt(day.getText(),10), description.getText());
-					user.addPEvent(PEvent);
-					user.saveUser();
-					pFrame.setVisible(false);
-					pFrame.dispose();
-					//Body body = new Body(time, user);
-				}
-				else{
-					JFrame bFrame = new JFrame();
-					bFrame.add(new JLabel("All fields must be filled!"));
-					bFrame.setVisible(true);
-					bFrame.setSize(200, 200);
-					bFrame.setLocationRelativeTo(null);
-					bFrame.setResizable(false);
-					bFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-				}
-			}
-		});
-		//pFrame.setResizable(false);
 	}
 	public void PopoutUserControlDialog() {
 		JFrame pFrame = new JFrame();
