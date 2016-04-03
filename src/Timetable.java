@@ -39,7 +39,7 @@ public class Timetable {
 			//int daysinmonth = time.getDaysInMonth();
 			//System.out.println("Days in month = "+daysinmonth);
 			
-			//Login login = new Login();
+			Login login = new Login();
 		
 			User user = new User();
 			Event e1 = new Event("test", 2014, 3, 14);
