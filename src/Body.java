@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.io.*;
 import java.nio.file.Files;
-import javax.swing.JFrame;
+
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
@@ -160,7 +160,8 @@ public class Body extends JFrame {
 	
 	public void DrawMenu(){
 		JMenu Calendar, Account, Info, Admin;
-		JMenuItem Exit, Logout, AddEvent, Reload, UserControl, AccountInfo, About, GetToDate;
+		JMenuItem Exit, Logout, AddEvent, Reload, UserControl, AccountSettings, About, GetToDate;
+
 		
 		Calendar = new JMenu("Calendar");
 		Account = new JMenu("Account");
@@ -186,7 +187,7 @@ public class Body extends JFrame {
 		Logout = new JMenuItem("Logout");
 		AddEvent = new JMenuItem("Add Event");
 		Reload = new JMenuItem("Reload");
-		AccountInfo = new JMenuItem("Account Info");
+		AccountSettings = new JMenuItem("Account Settings");
 		About = new JMenuItem("About");
 		GetToDate = new JMenuItem("Get To Date");
 		
@@ -196,7 +197,7 @@ public class Body extends JFrame {
 		Calendar.add(GetToDate);
 		Account.add(AddEvent);
 		Account.add(Logout);
-		Account.add(AccountInfo);
+		Account.add(AccountSettings);
 		
 		Exit.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) {
@@ -227,6 +228,7 @@ public class Body extends JFrame {
 			}
 		});
 		
+
 		GetToDate.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				pFrame = new JFrame();
@@ -263,8 +265,9 @@ public class Body extends JFrame {
 				});
 			}
 		});
-		
-		AccountInfo.addActionListener(new ActionListener(){
+
+		AccountSettings.addActionListener(new ActionListener(){
+
 			public void actionPerformed(ActionEvent e) {
 				pFrame = new JFrame();
 				JPanel panel1 = new JPanel();
@@ -272,11 +275,12 @@ public class Body extends JFrame {
 				JLabel fName = new JLabel(user.getFname());
 				JLabel lName = new JLabel(user.getLname());
 				JLabel nick = new JLabel(user.getNick());
+				JButton changePass = new JButton("Change Password");
 				
 				panel1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-				fName.setAlignmentX(Component.LEFT_ALIGNMENT);
-				lName.setAlignmentX(Component.LEFT_ALIGNMENT);
-				nick.setAlignmentX(Component.LEFT_ALIGNMENT);
+				fName.setAlignmentX(Component.CENTER_ALIGNMENT);
+				lName.setAlignmentX(Component.CENTER_ALIGNMENT);
+				nick.setAlignmentX(Component.CENTER_ALIGNMENT);
 				
 				panel1.add(new JLabel("First Name:"));
 				panel1.add(fName);
@@ -284,12 +288,18 @@ public class Body extends JFrame {
 				panel1.add(lName);
 				panel1.add(new JLabel("Nickname:"));
 				panel1.add(nick);
+				panel1.add(changePass);
 				
 				pFrame.add(panel1);
 				pFrame.setVisible(true);
 				pFrame.setLocationRelativeTo(null);
 				pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				pFrame.setSize(300, 300);
+				changePass.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e) {
+						
+					}
+					});
 			}
 		});
 		
@@ -454,11 +464,13 @@ public class Body extends JFrame {
 	public void PopoutUserControlDialog() {
 		pFrame = new JFrame();
 		JMenuBar adminMenuBar = new JMenuBar();
-		JMenu Options, Window;
-		JMenuItem Ban, Verify, ChangeRank, Refresh;
+
+		JMenu Options, Window, ChangeRank;
+		JMenuItem Ban, Verify, Student, Teacher, Admin, Refresh;
 		utable = new UserTable();
 		dtm = utable.createUserTable();
 		table = new JTable(dtm);
+		
 		Container paneC = pFrame.getContentPane();
 		JScrollPane sp = new JScrollPane(table);
 		JPanel pane = new JPanel();
@@ -468,8 +480,14 @@ public class Body extends JFrame {
 		Refresh = new JMenuItem("Refresh");
 		Ban = new JMenuItem("Ban");
 		Verify = new JMenuItem("Toggle Verification");
-		ChangeRank = new JMenuItem("Change Rank");
+		Student = new JMenuItem("Student");
+		Teacher = new JMenuItem("Teacher");
+		Admin = new JMenuItem("Admin");
+		ChangeRank = new JMenu("Change Rank");
 		
+		ChangeRank.add(Student);
+		ChangeRank.add(Teacher);
+		ChangeRank.add(Admin);
 		Options.add(Ban);
 		Options.add(Verify);
 		Options.add(ChangeRank);
@@ -511,12 +529,42 @@ public class Body extends JFrame {
 				}
 			}
 		});
-		ChangeRank.addActionListener(new ActionListener(){
+		Student.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				if( ClickTracker >= 0 & !Objects.equals(dtm.getValueAt(ClickTracker, 0), user.getNick())) {
 					String userS = (String) table.getValueAt(ClickTracker, 0);
 					User user2 = new User();
 					user2.loadUser(userS);
+					user2.setIsTeacher(false);
+					user2.setIsAdmin(false);
+					user2.saveUser();
+					table.setValueAt("Student", ClickTracker, 1);
+				}
+			}
+		});
+		Teacher.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				if( ClickTracker >= 0 & !Objects.equals(dtm.getValueAt(ClickTracker, 0), user.getNick())) {
+					String userS = (String) table.getValueAt(ClickTracker, 0);
+					User user2 = new User();
+					user2.loadUser(userS);
+					user2.setIsTeacher(true);
+					user2.setIsAdmin(false);
+					user2.saveUser();
+					table.setValueAt("Teacher", ClickTracker, 1);
+				}
+			}
+		});
+		Admin.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				if( ClickTracker >= 0 & !Objects.equals(dtm.getValueAt(ClickTracker, 0), user.getNick())) {
+					String userS = (String) table.getValueAt(ClickTracker, 0);
+					User user2 = new User();
+					user2.loadUser(userS);
+					user2.setIsTeacher(false);
+					user2.setIsAdmin(true);
+					user2.saveUser();
+					table.setValueAt("Admin", ClickTracker, 1);
 				}
 			}
 		});
@@ -531,7 +579,6 @@ public class Body extends JFrame {
 		pane.setLayout(new BoxLayout(pane, BoxLayout.PAGE_AXIS));
 		adminMenuBar.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		adminMenuBar.setMaximumSize(new Dimension(1920,30));
-		pane.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 		sp.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		pane.add(adminMenuBar);
 		pane.add(sp);

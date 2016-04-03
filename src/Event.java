@@ -67,8 +67,7 @@ public class Event implements Serializable, Comparator<Event>{
 			else { //Equal year and equal month
 				if(e1.getDay() > e2.getDay())return 1;
 				else if(e1.getDay() < e2.getDay())return -1;
-				else if(e1.getYear() == e2.getYear() && e1.getMonth() == e2.getMonth() && e1.getDay() == e1.getDay())return 0; //Equal year and equal month and equal day
-				else return 400; //This should never occur
+				else return 0; //Equal year, equal month and equal day
 			}
 		}
 	}

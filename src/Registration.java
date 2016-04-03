@@ -58,7 +58,7 @@ public class Registration extends JFrame implements ActionListener{
                    created.setIsAdmin(true);
                System.out.println("Nickname: " + created.getNick() + ", hashed password: " + created.getPW_Hash());
                created.saveUser();
-               System.exit(0);
+               
         }
     }
 }
