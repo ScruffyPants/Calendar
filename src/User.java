@@ -143,7 +143,7 @@ public class User implements Serializable{
 			Event given = null;
 			for(int i = 0; i < events.size(); i++) {
 				given = events.get(i);
-				sb.append("==== " + given.getYear() + "/" + given.getMonth() + "/" + given.getDay() + ", " + given.getName() + " ");
+				sb.append("==== Event #" + i + ": "+ given.getYear() + "/" + given.getMonth() + "/" + given.getDay() + ", " + given.getName() + " ");
 			}
 			return sb.toString();
 		}

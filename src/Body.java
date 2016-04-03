@@ -1,9 +1,13 @@
 import javax.swing.*;
 import java.io.*;
+import java.nio.file.Files;
+
 import javax.swing.JFrame;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.LinkedList;
+import java.util.Objects;
 
 public class Body extends JFrame {
 	private static final long serialVersionUID = 1504199602031999L;
@@ -258,50 +262,76 @@ public class Body extends JFrame {
 	
 	public void DrawCalendar(){
 		JPanel main = new JPanel(new GridLayout());
-		calendar = new JPanel();
+		JPanel weekpanel = new JPanel(new GridLayout());
 		JLabel label = new JLabel(time.getYear()+" "+time.getMonthName(time.getMonth()));
-		label.setAlignmentX(Component.CENTER_ALIGNMENT);
+		calendar = new JPanel();
+		boolean done = false;
+		int i=1;
+		int j=1;
 		
+		label.setAlignmentX(Component.CENTER_ALIGNMENT);
 		label.setSize(100, 30);
 		label.setForeground(Color.white);
 		calendar.setLayout(new BoxLayout(calendar, BoxLayout.PAGE_AXIS));
 		calendar.add(label, calendar);
 		
-		main = new JPanel(new GridLayout());
+		JLabel monday = new JLabel("Monday");
+		JLabel tuesday = new JLabel("Tuesday");
+		JLabel wednesday = new JLabel("Wednesday");
+		JLabel thursday = new JLabel("Thursday");
+		JLabel friday = new JLabel("Friday");
+		JLabel saturday = new JLabel("Saturday");
+		JLabel sunday = new JLabel("Sunday");
+		
+		weekpanel.setLayout(new GridLayout(0,7,2,2));
+		weekpanel.add(monday);
+		weekpanel.add(tuesday);
+		weekpanel.add(wednesday);
+		weekpanel.add(thursday);
+		weekpanel.add(friday);
+		weekpanel.add(saturday);
+		weekpanel.add(sunday);
+		calendar.add(weekpanel, calendar);
+		
 		double dim = (double)time.getDaysInMonth();
-		int rows = (int)Math.ceil(dim/7);
-		int cols = 7;
-		System.out.println(rows+" x "+cols+" ");
-		main.setLayout(new GridLayout(rows,cols,2,2));
-		boolean done = false;
-		int i=1;
+		int fdom = time.getFirstDayOfMonth(time);
+		main.setLayout(new GridLayout(0,7,2,2));
 		while(!done){
-			if(i>=dim){
-				JLabel a = new JLabel(" ");
-				main.add(a);
-				if(i%7==0){
-					done = true;
-					break;
+			if(j>=fdom){
+				if(i>dim){
+						done = true;
+						break;
 				}
+				else{
+					a = new JButton(Integer.toString(i));
+					if(user.getEventsByDate(time.getYear(), time.getMonth(), i).size()>0)a.setBackground(Color.green);
+					else a.setBackground(Color.white);
+					a.setHorizontalAlignment(SwingConstants.LEFT);
+					a.setVerticalAlignment(SwingConstants.TOP);
+					a.setBorder(null);
+					a.setPreferredSize(new Dimension(90,90));
+					main.add(a);
+					a.addActionListener(new ActionListener(){
+						public void actionPerformed(ActionEvent e) {
+							System.out.println("you pressed: "+e.getActionCommand());
+							LinkedList<Event> events = user.getEventsByDate(time.getYear(), time.getMonth(), Integer.parseInt(e.getActionCommand()));
+							PopoutEventShow(events);
+						}
+					});
+					if(i==dim && i%7==0){
+						done = true;
+						break;
+					}
+				}
+				i++;
 			}
 			else{
-				a = new JButton(Integer.toString(i));
-				if(user.getEventsByDate(time.getYear(), time.getMonth(), i).size()>0)a.setBackground(Color.green);
-				else a.setBackground(Color.white);
-				a.setHorizontalAlignment(SwingConstants.LEFT);
-				a.setBorder(null);
-				a.setPreferredSize(new Dimension(90,90));
+				JLabel a = new JLabel("");
 				main.add(a);
-				a.addActionListener(new ActionListener(){
-					public void actionPerformed(ActionEvent e) {
-						System.out.println("you pressed: "+e.getActionCommand());
-						LinkedList<Event> events = user.getEventsByDate(time.getYear(), time.getMonth(), Integer.parseInt(e.getActionCommand()));
-						PopoutEventShow(events);
-					}
-				});
 			}
-			i++;
+			j++;
 		}
+		
 		main.setBackground(Color.black);
 		calendar.add(main);
 		calendar.setPreferredSize(new Dimension(1000,1000));
@@ -398,6 +428,7 @@ public class Body extends JFrame {
 		pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		pFrame.setLocationRelativeTo(null);
 		pFrame.pack();
+		pFrame.setSize(pFrame.getWidth()+100, pFrame.getHeight()+100);
 		pFrame.setVisible(true);
 		
 		submit.addActionListener(new ActionListener(){
@@ -428,10 +459,26 @@ public class Body extends JFrame {
 		JMenuBar adminMenuBar = new JMenuBar();
 		JMenu Options, Window;
 		JMenuItem Ban, Verify, ChangeRank, Refresh;
-		File temp = new File(dir + "\\src\\users");
 		UserTable utable = new UserTable();
-		JTable table = utable.createUserTable();
+		DefaultTableModel dtm = utable.createUserTable();
+		JTable table = new JTable(dtm);
+		Container paneC = pFrame.getContentPane();
 		JScrollPane sp = new JScrollPane(table);
+		JPanel pane = new JPanel();
+		
+		Options = new JMenu("Options");
+		Window = new JMenu("Window");
+		Refresh = new JMenuItem("Refresh");
+		Ban = new JMenuItem("Ban");
+		Verify = new JMenuItem("Toggle Verification");
+		ChangeRank = new JMenuItem("Change Rank");
+		
+		Options.add(Ban);
+		Options.add(Verify);
+		Options.add(ChangeRank);
+		Window.add(Refresh);
+		adminMenuBar.add(Options);
+		adminMenuBar.add(Window);
 		
 		table.addMouseListener(new java.awt.event.MouseAdapter() {
 		    public void mouseClicked(java.awt.event.MouseEvent e) {
@@ -439,79 +486,62 @@ public class Body extends JFrame {
 		        int col = table.columnAtPoint(e.getPoint());
 		        if (row >= 0 && col >= 0) {
 		        	ClickTracker = row;
-		        	System.out.println("Clicked on the " + ClickTracker + "-th row.");
 		        }
 		        else
 		        	ClickTracker = -1;
 		    }
 		});
-		
-		Container paneC = pFrame.getContentPane();
-		JPanel pane = new JPanel();
-		Options = new JMenu("Options");
-		Window = new JMenu("Window");
-		Refresh = new JMenuItem("Refresh");
-		Ban = new JMenuItem("Ban");
-		Verify = new JMenuItem("Toggle Verification");
-		ChangeRank = new JMenuItem("Change Rank");
-		Options.add(Ban);
-		Options.add(Verify);
-		Options.add(ChangeRank);
-		Window.add(Refresh);
-		adminMenuBar.add(Options);
-		adminMenuBar.add(Window);
 		Ban.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {	
-				System.out.println("Ban button pressed");
-				if( ClickTracker >= 0 ) {
-					File toDelete = new File(dir + "\\src\\Users\\" + table.getValueAt(ClickTracker, 0)); 
-					if(!toDelete.isDirectory())
+				if( ClickTracker >= 0 & !Objects.equals(dtm.getValueAt(ClickTracker, 0), user.getNick())) {
+					File toDelete = new File(dir + "\\src\\Users\\" + dtm.getValueAt(ClickTracker, 0) + ".txt"); 
+					if(!toDelete.isDirectory()) {
 						toDelete.delete();
+						dtm.removeRow(ClickTracker);
+					}
 				}
 			}
 		});
 		Verify.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Verification button pressed");
-				if( ClickTracker >= 0 ) {
-					String userS = (String) table.getValueAt(ClickTracker, 0);
-					User user = new User();
-					user.loadUser(userS);
-					user.setIsVerified(!user.getIsVerified());
-					user.saveUser();
+				if( ClickTracker >= 0 & !Objects.equals(dtm.getValueAt(ClickTracker, 0), user.getNick()) ) {
+					String userS = (String) dtm.getValueAt(ClickTracker, 0);
+					User user2 = new User();
+					user2.loadUser(userS);
+					user2.setIsVerified(!user2.getIsVerified());
+					table.setValueAt("" + user2.getIsVerified(), ClickTracker, 2);
+					user2.saveUser();
 				}
 			}
 		});
 		ChangeRank.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Rank-changing button pressed");
-				if( ClickTracker >= 0 ) {
+				if( ClickTracker >= 0 & !Objects.equals(dtm.getValueAt(ClickTracker, 0), user.getNick())) {
 					String userS = (String) table.getValueAt(ClickTracker, 0);
-					User user = new User();
-					user.loadUser(userS);
+					User user2 = new User();
+					user2.loadUser(userS);
 				}
 			}
 		});
 		Refresh.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Refreshing button pressed");
 				pFrame.setVisible(false);
 				pFrame.dispose();
 				PopoutUserControlDialog();
 			}
 		});
+		
 		pane.setLayout(new BoxLayout(pane, BoxLayout.PAGE_AXIS));
 		adminMenuBar.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		adminMenuBar.setMaximumSize(new Dimension(1920,30));
 		pane.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 		sp.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		
 		pane.add(adminMenuBar);
 		pane.add(sp);
 		pane.setMinimumSize(new Dimension(300,300));
 		paneC.add(pane);
 		paneC.setMinimumSize(new Dimension(300,300));
-		pane.setVisible(true);
+		//pane.setVisible(true);
 		
 		pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		pFrame.setMinimumSize(new Dimension(300,300));

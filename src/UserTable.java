@@ -1,6 +1,7 @@
 
 import java.io.*;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class UserTable {
 	private static final long serialVersionUID = 1504199602031999L;
@@ -9,7 +10,7 @@ public class UserTable {
 	public UserTable() {
 	}
 	
-	public JTable createUserTable() {
+	public DefaultTableModel createUserTable() {
 		
 		String[] columns = {"User", "Rank", "Verified", "Events"};		
 		File temp = new File(dir + "\\src\\Users");
@@ -29,7 +30,7 @@ public class UserTable {
 			data[i][2] = "" + utemp.getIsVerified();
 			data[i][3] = utemp.printEvents();
 		}
-		JTable userTable = new JTable(data, columns);
+		DefaultTableModel userTable = new DefaultTableModel(data, columns);
 		return userTable;
 	}
 	
