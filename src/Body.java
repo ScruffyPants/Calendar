@@ -378,7 +378,6 @@ public class Body extends JFrame {
 		pFrame.add(panel2);
 		pFrame.setMinimumSize(new Dimension(500,270));
 		pFrame.setVisible(true);
-		
 	}
 	
 	public String listFilesForFolder(final File folder) {
