@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.Objects;
 
 public class Style implements Serializable{
+	private static final long serialVersionUID = 1504199602031999L;
 	private Color background = Color.black;
 	private Color foreground = Color.white;
 	private Color dayBackground = Color.white;
