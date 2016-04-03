@@ -43,11 +43,11 @@ public class Body extends JFrame {
 		int preferredWidth = 30;
 		Dimension dimension = new Dimension(preferredWidth, 0);
 		
-		backwards.setBackground(Color.black);
-		forwards.setBackground(Color.black);
+		backwards.setBackground(user.getStyle().getBackground());
+		forwards.setBackground(user.getStyle().getBackground());
 		
-		backwards.setForeground(Color.white);
-		forwards.setForeground(Color.white);
+		backwards.setForeground(user.getStyle().getForeground());
+		forwards.setForeground(user.getStyle().getForeground());
 		
 		backwards.setBorder(null);
 		forwards.setBorder(null);
@@ -317,7 +317,7 @@ public class Body extends JFrame {
 		
 		label.setAlignmentX(Component.CENTER_ALIGNMENT);
 		label.setSize(100, 30);
-		label.setForeground(Color.white);
+		label.setForeground(user.getStyle().getForeground());
 		calendar.setLayout(new BoxLayout(calendar, BoxLayout.PAGE_AXIS));
 		calendar.add(label, calendar);
 		
@@ -351,7 +351,7 @@ public class Body extends JFrame {
 				}
 				else{
 					a = new JButton(Integer.toString(i));
-					if(user.getEventsByDate(time.getYear(), time.getMonth(), i).size()>0)a.setBackground(user.getStyle().getDayBackground());
+					if(user.getEventsByDate(time.getYear(), time.getMonth(), i).size()>0)a.setBackground(user.getStyle().getEventBackground());
 					else a.setBackground(user.getStyle().getDayBackground());
 					a.setHorizontalAlignment(SwingConstants.LEFT);
 					a.setVerticalAlignment(SwingConstants.TOP);
@@ -379,11 +379,11 @@ public class Body extends JFrame {
 			j++;
 		}
 		
-		main.setBackground(Color.black);
+		main.setBackground(user.getStyle().getBackground());
 		calendar.add(main);
 		calendar.setPreferredSize(new Dimension(1000,1000));
 		calendar.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
-		calendar.setBackground(Color.black);
+		calendar.setBackground(user.getStyle().getBackground());
 	}
 	
 	public void PopoutEventShow(LinkedList<Event> events, String d){
