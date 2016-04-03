@@ -30,7 +30,11 @@ public class Timetable {
 			Login login = new Login();
 			*/
 			
-			//Login login = new Login();
+			Login login = new Login();
+			/*User Admin = new User("admin", "admin");
+			Admin.setIsAdmin(true);
+			Admin.setIsVerified(true);
+			Admin.saveUser();
 			
 			//int daysinmonth = time.getDaysInMonth();
 			//System.out.println("Days in month = "+daysinmonth);

@@ -1,10 +1,13 @@
 import javax.swing.*;
+import java.io.*;
 import javax.swing.JFrame;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.LinkedList;
 
 public class Body extends JFrame {
+	private static final long serialVersionUID = 1504199602031999L;
+	private final String dir = System.getProperty("user.dir");
 	
 	JFrame frame = new JFrame("Calendar");
 	JFrame pFrame = new JFrame();
@@ -125,12 +128,31 @@ public class Body extends JFrame {
 	}
 	
 	public void DrawMenu(){
-		JMenu Calendar, Account, Info;
-		JMenuItem Exit, Logout, AddEvent, Reload;
+		JMenu Calendar, Account, Info, Admin;
+		JMenuItem Exit, Logout, AddEvent, Reload, AddPublicEvent, UserControl;
 		
 		Calendar = new JMenu("Calendar");
 		Account = new JMenu("Account");
 		Info = new JMenu("Info");
+		
+		if(user.getIsAdmin() && user.getIsVerified()) {
+			Admin = new JMenu("Admin");
+			menuBar.add(Admin);
+			AddPublicEvent = new JMenuItem("Add Public Event");
+			UserControl = new JMenuItem("User Control Panel");
+			Admin.add(AddPublicEvent);
+			Admin.add(UserControl);
+			AddPublicEvent.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e) {
+					PopoutPEventAdd();
+				}
+			});
+			UserControl.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e) {
+					PopoutUserControlDialog();
+				}
+			});
+		}
 		
 		menuBar.add(Calendar);
 		menuBar.add(Account);
@@ -174,6 +196,8 @@ public class Body extends JFrame {
 				Body body = new Body(time, user);
 			}
 		});
+		
+		
 		
 		menuBar.setPreferredSize(new Dimension(300,500));
 	}
@@ -276,4 +300,96 @@ public class Body extends JFrame {
 		});
 		//pFrame.setResizable(false);
 	}
-}
+	public void PopoutPEventAdd(){
+		JButton submit = new JButton("Submit");
+		
+		pFrame.add(new JLabel("Name: "));
+		pFrame.add(name);
+		
+		pFrame.add(new JLabel("Year: "));
+		pFrame.add(year);
+		
+		pFrame.add(new JLabel("Month: "));
+		pFrame.add(month);
+		
+		pFrame.add(new JLabel("Day: "));
+		pFrame.add(day);
+		
+		pFrame.add(submit);
+		pFrame.setLayout(new GridLayout(0,1));
+		pFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		pFrame.pack();
+		pFrame.setVisible(true);
+		
+		submit.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				Event PEvent = new Event(name.getText(), Integer.parseInt(year.getText(),10), Integer.parseInt(month.getText(),10), Integer.parseInt(day.getText(),10));
+				user.addPEvent(PEvent);
+				user.saveUser();
+				pFrame.setVisible(false);
+				pFrame.dispose();
+				//Body body = new Body(time, user);
+			}
+		});
+		//pFrame.setResizable(false);
+	}
+	public void PopoutUserControlDialog() {
+		JPanel panel2 = new JPanel(new GridBagLayout());
+		JButton close = new JButton("Close");
+		JMenuBar adminMenuBar = new JMenuBar();
+		JMenu Options;
+		JMenuItem Ban, Verify, ChangeRank;
+		if( user.getIsAdmin() ) {
+			Options = new JMenu("Options");
+			Ban = new JMenuItem("Ban");
+			Verify = new JMenuItem("Verify");
+			ChangeRank = new JMenuItem("Change Rank");
+			Options.add(Ban);
+			Options.add(Verify);
+			Options.add(ChangeRank);
+			adminMenuBar.add(Options);
+			Ban.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e) {
+					Event PEvent = new Event(name.getText(), Integer.parseInt(year.getText(),10), Integer.parseInt(month.getText(),10), Integer.parseInt(day.getText(),10));
+					user.addPEvent(PEvent);
+					user.saveUser();
+					pFrame.setVisible(false);
+					pFrame.dispose();
+				}
+			});
+			Verify.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e) {
+				}
+			});
+			ChangeRank.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e) {
+					
+				}
+			});
+		}
+		File temp = new File(dir + "\\src\\users");
+		String[] users = listFilesForFolder( temp ).split(" ");
+		JList<String> scrollList = new JList<>(users);
+		JScrollPane sp = new JScrollPane(scrollList);
+		panel.add(calendar,c);
+		panel2.add(adminMenuBar,c);
+		panel2.add(sp,c);
+		pFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		pFrame.pack();
+		pFrame.add(panel2);
+		pFrame.setMinimumSize(new Dimension(500,270));
+		pFrame.setVisible(true);
+		
+	}
+	
+	public String listFilesForFolder(final File folder) {
+		StringBuilder sb = new StringBuilder();
+	    for (final File fileEntry : folder.listFiles()) {
+	        //if (fileEntry.isDirectory()) {
+	        //    listFilesForFolder(fileEntry);
+	        //} else {
+	            sb.append(fileEntry.getName() + " ");
+	        }
+	    return sb.toString();
+	    }
+	}
