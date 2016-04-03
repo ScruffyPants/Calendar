@@ -16,6 +16,7 @@ public class Body extends JFrame {
 	JTextField month = new JTextField();
 	JTextField day = new JTextField();
 	JButton a = new JButton();
+	JLabel label = new JLabel();
 	GridBagConstraints c = new GridBagConstraints();
 	Time time;
 	User user;
@@ -47,6 +48,7 @@ public class Body extends JFrame {
 		c.gridy = 0;
 		panel.add(calendar,c);
 		
+		frame.setLocationRelativeTo(null);
 		frame.add(panel);
 		frame.setMinimumSize(new Dimension(500,270));
 		frame.setVisible(true);
@@ -153,6 +155,8 @@ public class Body extends JFrame {
 		pFrame.add(label);
 		pFrame.pack();
 		pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		pFrame.setLocationRelativeTo(null);
+		pFrame.setMinimumSize(new Dimension(200,200));
 		pFrame.setVisible(true);
 	}
 	
@@ -171,20 +175,37 @@ public class Body extends JFrame {
 		pFrame.add(new JLabel("day: "));
 		pFrame.add(day);
 		
+		label = new JLabel("All fields must be filled!");
+		//label.setForeground(Color.red);
+		label.setVisible(false);
+		pFrame.add(label);
 		pFrame.add(submit);
+		
 		pFrame.setLayout(new GridLayout(0,1));
-		pFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		pFrame.pack();
 		pFrame.setVisible(true);
+		pFrame.setLocationRelativeTo(null);
+		pFrame.setSize(pFrame.getHeight()+50,pFrame.getWidth()+50);
 		
 		submit.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				Event event = new Event(name.getText(), Integer.parseInt(year.getText()), Integer.parseInt(month.getText()), Integer.parseInt(day.getText()));
-				user.addEvent(event);
-				user.saveUser();
-				pFrame.setVisible(false);
-				pFrame.dispose();
-				//Body body = new Body(time, user);
+				if(!name.getText().isEmpty() || !year.getText().isEmpty()|| !month.getText().isEmpty() || !day.getText().isEmpty()){
+					Event event = new Event(name.getText(), Integer.parseInt(year.getText()), Integer.parseInt(month.getText())-1, Integer.parseInt(day.getText()));
+					user.addEvent(event);
+					user.saveUser();
+					pFrame.setVisible(false);
+					pFrame.dispose();
+					//Body body = new Body(time, user);
+				}
+				else{
+					JFrame tFrame = new JFrame();
+					tFrame.add(new JLabel("All fields must be filled"));
+					tFrame.setSize(200, 200);
+					tFrame.setLocationRelativeTo(pFrame);
+					tFrame.setVisible(true);
+					tFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				}
 			}
 		});
 		//pFrame.setResizable(false);

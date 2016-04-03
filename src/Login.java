@@ -46,6 +46,7 @@ public class Login extends JFrame implements ActionListener{
 		getContentPane().add(panel);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
+		setResizable(false);
 		blogin.addActionListener(this);
 		register.addActionListener(this);
 	}
