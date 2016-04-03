@@ -45,7 +45,7 @@ public class Body extends JFrame {
 		c.insets = new Insets(23,0,0,0);
 		c.weightx = 0;
 		c.weighty = 1;
-		c.gridwidth = 0;
+		c.gridwidth = 2;
 		c.gridheight = 1;
 		c.gridx = 1;
 		c.gridy = 0;
