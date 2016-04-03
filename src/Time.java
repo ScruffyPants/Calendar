@@ -8,7 +8,6 @@ public class Time {
 	private int Minute;
 	private int DaysInMonth;
 	private Calendar temp = Calendar.getInstance();
-	private DateFormatSymbols time = new DateFormatSymbols();
 	
 	public Time(){
 		Year = temp.get(Calendar.YEAR);

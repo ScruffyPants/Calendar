@@ -322,19 +322,19 @@ public class Body extends JFrame {
 				pFrame.setSize(225, 250);
 				editFName.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e) {
-						user.setFname(fName2.getText());
+						//user.setFname(fName2.getText());
 						user.saveUser();
 					}
 					});
 				editLName.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e) {
-						user.setLname(lName2.getText());
+						//user.setLname(lName2.getText());
 						user.saveUser();
 					}
 					});
 				changePass.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e) {
-						user.setPW_Hash(user.hashPassword(pass2.getText()));
+						//user.setPW_Hash(user.hashPassword(pass2.getText()));
 						user.saveUser();
 					}
 					});
