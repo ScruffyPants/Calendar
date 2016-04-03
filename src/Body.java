@@ -18,6 +18,7 @@ public class Body extends JFrame {
 	JTextField year = new JTextField();
 	JTextField month = new JTextField();
 	JTextField day = new JTextField();
+	JTextField description = new JTextField();
 	JButton forwards = new JButton(">");
 	JButton backwards = new JButton("<");
 	JButton a = new JButton();
@@ -150,7 +151,7 @@ public class Body extends JFrame {
 	
 	public void DrawMenu(){
 		JMenu Calendar, Account, Info, Admin;
-		JMenuItem Exit, Logout, AddEvent, Reload, AddPublicEvent, UserControl;
+		JMenuItem Exit, Logout, AddEvent, Reload, AddPublicEvent, UserControl, AccountInfo, About;
 		
 		Calendar = new JMenu("Calendar");
 		Account = new JMenu("Account");
@@ -183,11 +184,15 @@ public class Body extends JFrame {
 		Logout = new JMenuItem("Logout");
 		AddEvent = new JMenuItem("Add Event");
 		Reload = new JMenuItem("Reload");
+		AccountInfo = new JMenuItem("Account Info");
+		About = new JMenuItem("About");
 		
+		Info.add(About);
 		Calendar.add(Exit);
 		Calendar.add(Reload);
 		Account.add(AddEvent);
 		Account.add(Logout);
+		Account.add(AccountInfo);
 		
 		Exit.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) {
@@ -218,7 +223,34 @@ public class Body extends JFrame {
 			}
 		});
 		
-		
+		AccountInfo.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				pFrame = new JFrame();
+				JPanel panel1 = new JPanel();
+				panel1.setLayout(new BoxLayout(panel1, BoxLayout.PAGE_AXIS));
+				JLabel fName = new JLabel(user.getFname());
+				JLabel lName = new JLabel(user.getLname());
+				JLabel nick = new JLabel(user.getNick());
+				
+				panel1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+				fName.setAlignmentX(Component.LEFT_ALIGNMENT);
+				lName.setAlignmentX(Component.LEFT_ALIGNMENT);
+				nick.setAlignmentX(Component.LEFT_ALIGNMENT);
+				
+				panel1.add(new JLabel("First Name:"));
+				panel1.add(fName);
+				panel1.add(new JLabel("Last Name:"));
+				panel1.add(lName);
+				panel1.add(new JLabel("Nickname:"));
+				panel1.add(nick);
+				
+				pFrame.add(panel1);
+				pFrame.setVisible(true);
+				pFrame.setLocationRelativeTo(null);
+				pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				pFrame.setSize(300, 300);
+			}
+		});
 		
 		menuBar.setPreferredSize(new Dimension(300,500));
 	}
@@ -307,17 +339,23 @@ public class Body extends JFrame {
 		pFrame.add(new JLabel("day: "));
 		pFrame.add(day);
 		
+		description = new JTextField();
+		description.setSize(100,100);
+		pFrame.add(new JLabel("description: "));
+		pFrame.add(description);
+		
 		pFrame.add(submit);
 		pFrame.setLayout(new GridLayout(0,1));
 		pFrame.setLocationRelativeTo(null);
 		pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		pFrame.pack();
+		pFrame.setSize(pFrame.getWidth()+100, pFrame.getHeight()+100);
 		pFrame.setVisible(true);
 		
 		submit.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				if(!name.getText().isEmpty() && !year.getText().isEmpty() && !month.getText().isEmpty() && !day.getText().isEmpty()){
-					Event event = new Event(name.getText(), Integer.parseInt(year.getText()), Integer.parseInt(month.getText())-1, Integer.parseInt(day.getText()));
+					Event event = new Event(name.getText(), Integer.parseInt(year.getText()), Integer.parseInt(month.getText())-1, Integer.parseInt(day.getText()), description.getText());
 					user.addEvent(event);
 					user.saveUser();
 					pFrame.setVisible(false);
@@ -329,6 +367,7 @@ public class Body extends JFrame {
 					bFrame.add(new JLabel("All fields must be filled!"));
 					bFrame.setVisible(true);
 					bFrame.setSize(200, 200);
+					bFrame.setLocationRelativeTo(null);
 					bFrame.setResizable(false);
 					bFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				}
@@ -354,17 +393,29 @@ public class Body extends JFrame {
 		pFrame.add(submit);
 		pFrame.setLayout(new GridLayout(0,1));
 		pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		pFrame.setLocationRelativeTo(null);
 		pFrame.pack();
 		pFrame.setVisible(true);
 		
 		submit.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				Event PEvent = new Event(name.getText(), Integer.parseInt(year.getText(),10), Integer.parseInt(month.getText(),10), Integer.parseInt(day.getText(),10));
-				user.addPEvent(PEvent);
-				user.saveUser();
-				pFrame.setVisible(false);
-				pFrame.dispose();
-				//Body body = new Body(time, user);
+				if(!name.getText().isEmpty() && !year.getText().isEmpty() && !month.getText().isEmpty() && !day.getText().isEmpty()){
+					Event PEvent = new Event(name.getText(), Integer.parseInt(year.getText(),10), Integer.parseInt(month.getText(),10), Integer.parseInt(day.getText(),10), description.getText());
+					user.addPEvent(PEvent);
+					user.saveUser();
+					pFrame.setVisible(false);
+					pFrame.dispose();
+					//Body body = new Body(time, user);
+				}
+				else{
+					JFrame bFrame = new JFrame();
+					bFrame.add(new JLabel("All fields must be filled!"));
+					bFrame.setVisible(true);
+					bFrame.setSize(200, 200);
+					bFrame.setLocationRelativeTo(null);
+					bFrame.setResizable(false);
+					bFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				}
 			}
 		});
 		//pFrame.setResizable(false);
