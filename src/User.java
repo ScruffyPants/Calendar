@@ -35,6 +35,7 @@ public class User implements Serializable{
 	}
 	
 	public User(){
+		nick=null;
 		fname=null;
 		lname=null;
 		pw_hash=null;
@@ -110,13 +111,18 @@ public class User implements Serializable{
 	
 	public LinkedList<Event> getEventsByDate(int y, int m, int d) {
 		LinkedList<Event> ret = new LinkedList<Event>();
-		Event given = events.getFirst();
-		for( int i = 0; i < events.size(); i++) {
-			given = events.get(i);
-			if( given.getYear() == y & given.getMonth() == m & given.getDay() == d )
-				ret.add(given);
+		if(events.size()!=0){
+			Event given = events.getFirst();
+			for( int i = 0; i < events.size(); i++) {
+				given = events.get(i);
+				if( given.getYear() == y & given.getMonth() == m & given.getDay() == d )
+					ret.add(given);
+			}
+			return ret;
 		}
-		return ret;
+		else{
+			return events;
+		}
 	}
 	
 	public LinkedList<Event> getEventsByDateRange(int y1, int m1, int d1, int y2, int m2, int d2) {
