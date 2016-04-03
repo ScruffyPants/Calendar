@@ -374,7 +374,7 @@ public class Body extends JFrame {
 		panel.add(calendar,c);
 		panel2.add(adminMenuBar,c);
 		panel2.add(sp,c);
-		pFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		pFrame.pack();
 		pFrame.add(panel2);
 		pFrame.setMinimumSize(new Dimension(500,270));
