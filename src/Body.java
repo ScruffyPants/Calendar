@@ -409,8 +409,8 @@ public class Body extends JFrame {
 		JPanel pane = new JPanel();
 		pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
 		adminMenuBar.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		adminMenuBar.setMaximumSize(new Dimension(100,1920));
-		pane.setBorder(BorderFactory.createEmptyBorder(0,10,10,10));
+		adminMenuBar.setMaximumSize(new Dimension(1920,30));
+		pane.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 		sp.setAlignmentX(Component.CENTER_ALIGNMENT);
 		sp.setMaximumSize(new Dimension(300,300));
 		pane.add(adminMenuBar);
