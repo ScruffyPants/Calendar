@@ -11,7 +11,6 @@ import java.util.Objects;
 public class Body extends JFrame {
 	private static final long serialVersionUID = 1504199602031999L;
 	private final String dir = System.getProperty("user.dir");
-	private int ClickTracker = -1;
 	
 	JFrame frame = new JFrame("Calendar");
 	JFrame pFrame = new JFrame();
@@ -647,6 +646,7 @@ public class Body extends JFrame {
 		});
 		Account.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
+				//Edited duplicate of SettingsActionListener code
 				String userS = (String) table.getValueAt(table.getSelectedRow(), 0);
 				User user2 = new User();
 				user2.loadUser(userS);
