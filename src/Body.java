@@ -7,6 +7,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.LinkedList;
 import java.util.Objects;
+import java.util.List;
+import java.util.Arrays;
 
 public class Body extends JFrame {
 	private static final long serialVersionUID = 1504199602031999L;
@@ -526,8 +528,19 @@ public class Body extends JFrame {
 		
 		submit.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
+				List<String> MonthsUC = Arrays.asList("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+				List<String> monthsLC = Arrays.asList("january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december");
 				if(!name.getText().isEmpty() && !year.getText().isEmpty() && !month.getText().isEmpty() && !day.getText().isEmpty()){
-					Event event = new Event(name.getText(), Integer.parseInt(year.getText()), Integer.parseInt(month.getText())-1, Integer.parseInt(day.getText()), description.getText());
+					Event event;
+					if( MonthsUC.contains(month.getText()) ) {
+						event = new Event(name.getText(), Integer.parseInt(year.getText()), MonthsUC.indexOf(month.getText()), Integer.parseInt(day.getText()), description.getText());
+					}
+					else if( monthsLC.contains(month.getText()) ) {
+						event = new Event(name.getText(), Integer.parseInt(year.getText()), monthsLC.indexOf(month.getText()), Integer.parseInt(day.getText()), description.getText());
+					}
+					else {
+						event = new Event(name.getText(), Integer.parseInt(year.getText()), Integer.parseInt(month.getText())-1, Integer.parseInt(day.getText()), description.getText());
+					}
 					if(!pEvent.isSelected())user.addEvent(event);
 					else user.addPEvent(event);
 					user.saveUser();
