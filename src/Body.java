@@ -40,6 +40,7 @@ public class Body extends JFrame {
 	Body(Time t, User u){
 		time = t;
 		user = u;
+		System.out.println("Constructor month: "+time.getMonth());
 		int preferredWidth = 30;
 		Dimension dimension = new Dimension(preferredWidth, 0);
 		
@@ -343,6 +344,7 @@ public class Body extends JFrame {
 	}
 	
 	public void DrawCalendar(){
+		System.out.println("Draw calendar month: "+time.getMonth());
 		JPanel main = new JPanel(new GridLayout());
 		JPanel weekpanel = new JPanel(new GridLayout());
 		JLabel label = new JLabel(time.getYear()+" "+time.getMonthName(time.getMonth()));
