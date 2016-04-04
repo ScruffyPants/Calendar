@@ -11,12 +11,12 @@ import java.util.Objects;
 public class Body extends JFrame {
 	private static final long serialVersionUID = 1504199602031999L;
 	private final String dir = System.getProperty("user.dir");
-	private int ClickTracker = -1;
 	
 	JFrame frame = new JFrame("Calendar");
 	JFrame pFrame = new JFrame();
 	JPanel panel = new JPanel(new GridBagLayout());
 	JPanel calendar = new JPanel();
+	User user2 = new User();
 	JMenuBar menuBar = new JMenuBar();
 	JTextField name = new JTextField();
 	JTextField year = new JTextField();
@@ -25,6 +25,9 @@ public class Body extends JFrame {
 	JTextField description = new JTextField();
 	JTextField enteredYear = new JTextField();
 	JTextField enteredMonth = new JTextField();
+	JTextField fName2 = new JTextField();
+	JTextField lName2 = new JTextField();
+	JPasswordField pass2 = new JPasswordField();
 	JButton forwards = new JButton(">");
 	JButton backwards = new JButton("<");
 	JButton a = new JButton();
@@ -280,17 +283,17 @@ public class Body extends JFrame {
 
 		Settings.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				pFrame = new JFrame();
+				JFrame pFrame = new JFrame();
 				JPanel panel1 = new JPanel();
 				panel1.setLayout(new BoxLayout(panel1, BoxLayout.PAGE_AXIS));
 				JLabel fName1 = new JLabel("First Name:");
-				JTextField fName2 = new JTextField(user.getFname());
+				fName2 = new JTextField(user.getFname());
 				JButton editFName = new JButton("Edit");
 				JLabel lName1 = new JLabel("Last Name:");
-				JTextField lName2 = new JTextField(user.getLname());
+				lName2 = new JTextField(user.getLname());
 				JButton editLName = new JButton("Edit");
 				JLabel pass1 = new JLabel("Password:");
-				JPasswordField pass2 = new JPasswordField();
+				pass2 = new JPasswordField();
 				JButton changePass = new JButton("Edit");
 				
 				panel1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -305,35 +308,44 @@ public class Body extends JFrame {
 				changePass.setAlignmentX(Component.CENTER_ALIGNMENT);
 				
 				panel1.add(fName1);
+				panel1.add((Box.createRigidArea(new Dimension(0, 5))));
 				panel1.add(fName2);
+				panel1.add((Box.createRigidArea(new Dimension(0, 5))));
 				panel1.add(editFName);
+				panel1.add((Box.createRigidArea(new Dimension(0, 5))));
 				panel1.add(lName1);
+				panel1.add((Box.createRigidArea(new Dimension(0, 5))));
 				panel1.add(lName2);
+				panel1.add((Box.createRigidArea(new Dimension(0, 5))));
 				panel1.add(editLName);
+				panel1.add((Box.createRigidArea(new Dimension(0, 5))));
 				panel1.add(pass1);
+				panel1.add((Box.createRigidArea(new Dimension(0, 5))));
 				panel1.add(pass2);
+				panel1.add((Box.createRigidArea(new Dimension(0, 5))));
 				panel1.add(changePass);
+				panel1.add((Box.createRigidArea(new Dimension(0, 5))));
 				
 				pFrame.add(panel1);
 				pFrame.setVisible(true);
 				pFrame.setLocationRelativeTo(null);
 				pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-				pFrame.setSize(225, 250);
+				pFrame.setSize(225, 300);
 				editFName.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e) {
-						//user.setFname(fName2.getText());
+						user.setFname(fName2.getText());
 						user.saveUser();
 					}
 					});
 				editLName.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e) {
-						//user.setLname(lName2.getText());
+						user.setLname(lName2.getText());
 						user.saveUser();
 					}
 					});
 				changePass.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e) {
-						//user.setPW_Hash(user.hashPassword(pass2.getText()));
+						user.setPW_Hash(user.hashPassword(pass2.getText()));
 						user.saveUser();
 					}
 					});
@@ -472,21 +484,21 @@ public class Body extends JFrame {
 		JButton submit = new JButton("Submit");
 		pFrame = new JFrame();
 		
-		pFrame.add(new JLabel("name: "));
+		pFrame.add(new JLabel("Name: "));
 		pFrame.add(name);
 		
-		pFrame.add(new JLabel("year: "));
+		pFrame.add(new JLabel("Year: "));
 		pFrame.add(year);
 		
-		pFrame.add(new JLabel("month: "));
+		pFrame.add(new JLabel("Month: "));
 		pFrame.add(month);
 		
-		pFrame.add(new JLabel("day: "));
+		pFrame.add(new JLabel("Day: "));
 		pFrame.add(day);
 		
 		description = new JTextField();
 		description.setSize(100,100);
-		pFrame.add(new JLabel("description: "));
+		pFrame.add(new JLabel("Description: "));
 		pFrame.add(description);
 		
 		if(user.getIsTeacher() || user.getIsAdmin()){
@@ -531,7 +543,7 @@ public class Body extends JFrame {
 		JMenuBar adminMenuBar = new JMenuBar();
 
 		JMenu Options, Window, ChangeRank, Edit;
-		JMenuItem Ban, Verify, Student, Teacher, Admin, Refresh;
+		JMenuItem Ban, Verify, Student, Teacher, Admin, Refresh, Account, Events;
 		utable = new UserTable();
 		dtm = utable.createUserTable();
 		table = new JTable(dtm);
@@ -541,14 +553,20 @@ public class Body extends JFrame {
 		JPanel pane = new JPanel();
 		
 		Options = new JMenu("Options");
-		Window = new JMenu("Window");
-		Refresh = new JMenuItem("Refresh");
 		Ban = new JMenuItem("Ban");
 		Verify = new JMenuItem("Toggle Verification");
+		
+		ChangeRank = new JMenu("Change Rank");
 		Student = new JMenuItem("Student");
 		Teacher = new JMenuItem("Teacher");
 		Admin = new JMenuItem("Admin");
-		ChangeRank = new JMenu("Change Rank");
+		
+		Window = new JMenu("Window");
+		Refresh = new JMenuItem("Refresh");
+		
+		Edit = new JMenu("Edit");
+		Account = new JMenuItem("Account");
+		Events = new JMenuItem("Events");
 		
 		ChangeRank.add(Student);
 		ChangeRank.add(Teacher);
@@ -557,79 +575,71 @@ public class Body extends JFrame {
 		Options.add(Verify);
 		Options.add(ChangeRank);
 		Window.add(Refresh);
+		Edit.add(Account);
+		Edit.add(Events);
 		adminMenuBar.add(Options);
 		adminMenuBar.add(Window);
+		adminMenuBar.add(Edit);
 		
-		table.addMouseListener(new java.awt.event.MouseAdapter() {
-		    public void mouseClicked(java.awt.event.MouseEvent e) {
-		        int row = table.rowAtPoint(e.getPoint());
-		        int col = table.columnAtPoint(e.getPoint());
-		        if (row >= 0 && col >= 0) {
-		        	ClickTracker = row;
-		        }
-		        else
-		        	ClickTracker = -1;
-		    }
-		});
 		Ban.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {	
-				if( ClickTracker >= 0 & !Objects.equals(dtm.getValueAt(ClickTracker, 0), user.getNick())) {
-					File toDelete = new File(dir + "\\src\\Users\\" + dtm.getValueAt(ClickTracker, 0) + ".txt"); 
+				if( table.getSelectedRow() >= 0 & !Objects.equals(dtm.getValueAt(table.getSelectedRow(), 0), user.getNick())) {
+					File toDelete = new File(dir + "\\src\\Users\\" + dtm.getValueAt(table.getSelectedRow(), 0) + ".txt"); 
 					if(!toDelete.isDirectory()) {
 						toDelete.delete();
-						dtm.removeRow(ClickTracker);
+						dtm.removeRow(table.getSelectedRow());
 					}
 				}
 			}
 		});
 		Verify.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				if( ClickTracker >= 0 & !Objects.equals(dtm.getValueAt(ClickTracker, 0), user.getNick()) ) {
-					String userS = (String) dtm.getValueAt(ClickTracker, 0);
+				if( table.getSelectedRow() >= 0 & !Objects.equals(dtm.getValueAt(table.getSelectedRow(), 0), user.getNick()) ) {
+					String userS = (String) dtm.getValueAt(table.getSelectedRow(), 0);
 					User user2 = new User();
 					user2.loadUser(userS);
 					user2.setIsVerified(!user2.getIsVerified());
-					table.setValueAt("" + user2.getIsVerified(), ClickTracker, 2);
+					table.setValueAt("" + user2.getIsVerified(), table.getSelectedRow(), 2);
 					user2.saveUser();
 				}
 			}
 		});
 		Student.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				if( ClickTracker >= 0 & !Objects.equals(dtm.getValueAt(ClickTracker, 0), user.getNick())) {
-					String userS = (String) table.getValueAt(ClickTracker, 0);
+				if( table.getSelectedRow() >= 0 & !Objects.equals(dtm.getValueAt(table.getSelectedRow(), 0), user.getNick())) {
+					String userS = (String) table.getValueAt(table.getSelectedRow(), 0);
 					User user2 = new User();
 					user2.loadUser(userS);
 					user2.setIsTeacher(false);
 					user2.setIsAdmin(false);
 					user2.saveUser();
-					table.setValueAt("Student", ClickTracker, 1);
+					table.setValueAt("Student", table.getSelectedRow(), 1);
 				}
 			}
 		});
 		Teacher.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				if( ClickTracker >= 0 & !Objects.equals(dtm.getValueAt(ClickTracker, 0), user.getNick())) {
-					String userS = (String) table.getValueAt(ClickTracker, 0);
+				if( table.getSelectedRow() >= 0 & !Objects.equals(dtm.getValueAt(table.getSelectedRow(), 0), user.getNick())) {
+					String userS = (String) table.getValueAt(table.getSelectedRow(), 0);
 					User user2 = new User();
 					user2.loadUser(userS);
 					user2.setIsTeacher(true);
 					user2.setIsAdmin(false);
 					user2.saveUser();
-					table.setValueAt("Teacher", ClickTracker, 1);
+					table.setValueAt("Teacher", table.getSelectedRow(), 1);
 				}
 			}
 		});
 		Admin.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				if( ClickTracker >= 0 & !Objects.equals(dtm.getValueAt(ClickTracker, 0), user.getNick())) {
-					String userS = (String) table.getValueAt(ClickTracker, 0);
+				if( table.getSelectedRow() >= 0 & !Objects.equals(dtm.getValueAt(table.getSelectedRow(), 0), user.getNick())) {
+					String userS = (String) table.getValueAt(table.getSelectedRow(), 0);
 					User user2 = new User();
 					user2.loadUser(userS);
 					user2.setIsTeacher(false);
 					user2.setIsAdmin(true);
 					user2.saveUser();
-					table.setValueAt("Admin", ClickTracker, 1);
+					table.setValueAt("Admin", table.getSelectedRow(), 1);
 				}
 			}
 		});
@@ -638,6 +648,88 @@ public class Body extends JFrame {
 				pFrame.setVisible(false);
 				pFrame.dispose();
 				PopoutUserControlDialog();
+			}
+		});
+		Account.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				//Edited duplicate of SettingsActionListener code
+				String userS = (String) table.getValueAt(table.getSelectedRow(), 0);
+				user2 = new User();
+				user2.loadUser(userS);
+				JFrame pFrame = new JFrame();
+				JPanel panel1 = new JPanel();
+				panel1.setLayout(new BoxLayout(panel1, BoxLayout.PAGE_AXIS));
+				JLabel fName1 = new JLabel("First Name:");
+				fName2 = new JTextField(user2.getFname());
+				JButton editFName = new JButton("Edit");
+				JLabel lName1 = new JLabel("Last Name:");
+				lName2 = new JTextField(user2.getLname());
+				JButton editLName = new JButton("Edit");
+				JLabel pass1 = new JLabel("Password:");
+				pass2 = new JPasswordField();
+				JButton changePass = new JButton("Edit");
+				
+				panel1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+				fName1.setAlignmentX(Component.CENTER_ALIGNMENT);
+				editFName.setAlignmentX(Component.CENTER_ALIGNMENT);
+				lName1.setAlignmentX(Component.CENTER_ALIGNMENT);
+				editLName.setAlignmentX(Component.CENTER_ALIGNMENT);
+				fName2.setAlignmentX(Component.CENTER_ALIGNMENT);
+				lName2.setAlignmentX(Component.CENTER_ALIGNMENT);
+				pass1.setAlignmentX(Component.CENTER_ALIGNMENT);
+				pass2.setAlignmentX(Component.CENTER_ALIGNMENT);
+				changePass.setAlignmentX(Component.CENTER_ALIGNMENT);
+				
+				panel1.add(fName1);
+				panel1.add((Box.createRigidArea(new Dimension(0, 5))));
+				panel1.add(fName2);
+				panel1.add((Box.createRigidArea(new Dimension(0, 5))));
+				panel1.add(editFName);
+				panel1.add((Box.createRigidArea(new Dimension(0, 5))));
+				panel1.add(lName1);
+				panel1.add((Box.createRigidArea(new Dimension(0, 5))));
+				panel1.add(lName2);
+				panel1.add((Box.createRigidArea(new Dimension(0, 5))));
+				panel1.add(editLName);
+				panel1.add((Box.createRigidArea(new Dimension(0, 5))));
+				panel1.add(pass1);
+				panel1.add((Box.createRigidArea(new Dimension(0, 5))));
+				panel1.add(pass2);
+				panel1.add((Box.createRigidArea(new Dimension(0, 5))));
+				panel1.add(changePass);
+				panel1.add((Box.createRigidArea(new Dimension(0, 5))));
+				
+				pFrame.add(panel1);
+				pFrame.setVisible(true);
+				pFrame.setLocationRelativeTo(null);
+				pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				pFrame.setSize(225, 300);
+				editFName.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e) {
+						user2.setFname(fName2.getText());
+						user2.saveUser();
+					}
+					});
+				editLName.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e) {
+						user2.setLname(lName2.getText());
+						user2.saveUser();
+					}
+					});
+				changePass.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e) {
+						user.setPW_Hash(user.hashPassword(pass2.getText()));
+						user2.saveUser();
+					}
+					});
+			}
+		});
+		Events.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				String userS = (String) table.getValueAt(table.getSelectedRow(), 0);
+				User user2 = new User();
+				user2.loadUser(userS);
+				//Load event visualization/editing window of user2
 			}
 		});
 		
