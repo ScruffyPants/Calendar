@@ -6,9 +6,6 @@ public class Registration extends JFrame implements ActionListener{
     private static final long serialVersionUID = 1504199602031999L;
     private final String dir = System.getProperty("user.dir");
  
-    public static void main(String[] args) {
-        Registration frameTable = new Registration();
-    }
     JButton register = new JButton("Register");
     JPanel panel = new JPanel();
     JTextField txuser = new JTextField(15);
@@ -62,6 +59,9 @@ public class Registration extends JFrame implements ActionListener{
                	System.out.println("Nickname: " + created.getNick() + ", hashed password: " + created.getPW_Hash());
                	created.setIsVerified(true); //█████████████████████████████ NEEDS TO BE DELETED BEFORE FINAL COMPILE  ███████████████████████████████████████
                	created.saveUser();
+               	
+               	setVisible(false);
+               	dispose();
                	Timetable.main(null);
         	}
         	else System.out.println("User already exists");
