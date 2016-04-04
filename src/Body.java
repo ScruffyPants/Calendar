@@ -238,6 +238,7 @@ public class Body extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
 				frame.dispose();
+				user.saveUser();
 				Body body = new Body(time, user);
 			}
 		});
@@ -599,7 +600,7 @@ public class Body extends JFrame {
 					User user2 = new User();
 					user2.loadUser(userS);
 					user2.setIsVerified(!user2.getIsVerified());
-					table.setValueAt("" + user2.getIsVerified(), table.getSelectedRow(), 2);
+					table.setValueAt("" + user2.getIsVerified(), table.getSelectedRow(), 3);
 					user2.saveUser();
 				}
 			}
@@ -613,7 +614,7 @@ public class Body extends JFrame {
 					user2.setIsTeacher(false);
 					user2.setIsAdmin(false);
 					user2.saveUser();
-					table.setValueAt("Student", table.getSelectedRow(), 1);
+					table.setValueAt("Student", table.getSelectedRow(), 2);
 				}
 			}
 		});
@@ -626,7 +627,7 @@ public class Body extends JFrame {
 					user2.setIsTeacher(true);
 					user2.setIsAdmin(false);
 					user2.saveUser();
-					table.setValueAt("Teacher", table.getSelectedRow(), 1);
+					table.setValueAt("Teacher", table.getSelectedRow(), 2);
 				}
 			}
 		});
@@ -639,7 +640,7 @@ public class Body extends JFrame {
 					user2.setIsTeacher(false);
 					user2.setIsAdmin(true);
 					user2.saveUser();
-					table.setValueAt("Admin", table.getSelectedRow(), 1);
+					table.setValueAt("Admin", table.getSelectedRow(), 2);
 				}
 			}
 		});
