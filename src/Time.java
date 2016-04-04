@@ -1,5 +1,7 @@
 import java.util.Calendar;
-import java.text.DateFormatSymbols;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+
 public class Time {
 	private int Year;
 	private int Month;
@@ -66,8 +68,11 @@ public class Time {
 	
 	public int getFirstDayOfMonth(Time time){
 		Calendar cal = time.temp;
-		cal.set(Calendar.DAY_OF_MONTH, 0);
-		return cal.get(Calendar.DAY_OF_WEEK);
+		System.out.println("Month in getFirstDayOfMonth: "+time.getMonth());
+		cal.set(Calendar.DAY_OF_MONTH, cal.getActualMinimum(Calendar.MONTH)+1);
+		System.out.println("Month in getFirstDayOfMonth: "+time.getMonth());
+		SimpleDateFormat sdf = new SimpleDateFormat("u");
+		return Integer.parseInt(sdf.format(cal.getTime()));
 	}
 	public String getMonthName(int month){
 		String[] monthNames = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};	
