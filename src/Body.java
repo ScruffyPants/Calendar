@@ -121,7 +121,7 @@ public class Body extends JFrame {
 		frame.setLocationRelativeTo(null);
 		frame.add(panel);
 		frame.setMinimumSize(new Dimension(500,270));
-		frame.setSize(500, 280);
+		frame.setSize(700, 500);
 		frame.setVisible(true);
 	}
 	public void DrawPanel(){
@@ -238,6 +238,7 @@ public class Body extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
 				frame.dispose();
+				user.saveUser();
 				Body body = new Body(time, user);
 			}
 		});
@@ -401,7 +402,15 @@ public class Body extends JFrame {
 				}
 				else{
 					a = new JButton(Integer.toString(i));
-					if(user.getEventsByDate(time.getYear(), time.getMonth(), i).size()>0)a.setBackground(user.getStyle().getEventBackground());
+					a.setLayout(new GridLayout(0,1));
+					if(user.getEventsByDate(time.getYear(), time.getMonth(), i).size()>0){
+						a.setBackground(user.getStyle().getEventBackground());
+						for(Event e: user.getEventsByDate(time.getYear(), time.getMonth(), i)){
+							JLabel eventlabel = new JLabel(e.getName());
+							eventlabel.setHorizontalAlignment(SwingConstants.CENTER);
+							a.add(eventlabel);
+						}
+					}
 					else a.setBackground(user.getStyle().getDayBackground());
 					a.setHorizontalAlignment(SwingConstants.LEFT);
 					a.setVerticalAlignment(SwingConstants.TOP);
@@ -473,7 +482,7 @@ public class Body extends JFrame {
 			
 			pFrame.add(panel);
 		}
-		pFrame.setLayout(new GridLayout(0,1));
+		pFrame.setLayout(new GridLayout(2,5));
 		pFrame.pack();
 		pFrame.setLocationRelativeTo(null);
 		pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
