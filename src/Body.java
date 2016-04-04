@@ -22,11 +22,11 @@ public class Body extends JFrame {
 	JTextField year = new JTextField();
 	JTextField month = new JTextField();
 	JTextField day = new JTextField();
-	JTextField description = new JTextField();
 	JTextField enteredYear = new JTextField();
 	JTextField enteredMonth = new JTextField();
 	JTextField fName2 = new JTextField();
 	JTextField lName2 = new JTextField();
+	JTextPane description = new JTextPane();
 	JPasswordField pass2 = new JPasswordField();
 	JButton forwards = new JButton(">");
 	JButton backwards = new JButton("<");
@@ -492,23 +492,38 @@ public class Body extends JFrame {
 	public void PopoutEventAdd(){
 		JButton submit = new JButton("Submit");
 		pFrame = new JFrame();
+		JPanel basicinfo = new JPanel(new GridLayout(0,1));
 		
-		pFrame.add(new JLabel("Name: "));
-		pFrame.add(name);
+		name = new JTextField(20);
+		year = new JTextField(20);
+		month = new JTextField(20);
+		day = new JTextField(20);
 		
-		pFrame.add(new JLabel("Year: "));
-		pFrame.add(year);
+		basicinfo.add(new JLabel("Name: "));
+		name.setHorizontalAlignment(SwingConstants.LEFT);
+		basicinfo.add(name);
 		
-		pFrame.add(new JLabel("Month: "));
-		pFrame.add(month);
+		basicinfo.add(new JLabel("Year: "));
+		name.setHorizontalAlignment(SwingConstants.LEFT);
+		basicinfo.add(year);
 		
-		pFrame.add(new JLabel("Day: "));
-		pFrame.add(day);
+		basicinfo.add(new JLabel("Month: "));
+		name.setHorizontalAlignment(SwingConstants.LEFT);
+		basicinfo.add(month);
 		
-		description = new JTextField();
-		description.setSize(100,100);
+		basicinfo.add(new JLabel("Day: "));
+		name.setHorizontalAlignment(SwingConstants.LEFT);
+		basicinfo.add(day);
+		
+		description = new JTextPane();
+		JScrollPane scrollpane = new JScrollPane(description,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollpane.setPreferredSize(new Dimension(300,300));
+		scrollpane.setMinimumSize(new Dimension(20,20));
+		
+		pFrame.setLayout(new FlowLayout());
+		pFrame.add(basicinfo);
 		pFrame.add(new JLabel("Description: "));
-		pFrame.add(description);
+		pFrame.add(scrollpane);
 		
 		if(user.getIsTeacher() || user.getIsAdmin()){
 			pEvent = new JCheckBox();
@@ -517,12 +532,12 @@ public class Body extends JFrame {
 		}
 		
 		pFrame.add(submit);
-		pFrame.setLayout(new GridLayout(0,1));
 		pFrame.setLocationRelativeTo(null);
 		pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		pFrame.pack();
-		pFrame.setSize(pFrame.getWidth()+100, pFrame.getHeight()+100);
+		pFrame.setMinimumSize(new Dimension(150,150));
+		pFrame.setSize(700,400);
 		pFrame.setVisible(true);
+		pFrame.setResizable(false);
 		
 		submit.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
