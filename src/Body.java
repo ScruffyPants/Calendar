@@ -7,8 +7,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.LinkedList;
 import java.util.Objects;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
 
 public class Body extends JFrame {
 	private static final long serialVersionUID = 1504199602031999L;
@@ -436,16 +434,43 @@ public class Body extends JFrame {
 	public void PopoutEventShow(LinkedList<Event> events, String d){
 		pFrame = new JFrame();
 		JButton create = new JButton("Create event");
-		String string = "";
+		
 		for(Event a: events){
-			string+=(a.getName());
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridBagLayout());
+			
+			JLabel info = new JLabel(a.getName()+" ("+Integer.toString(a.getYear())+" "+Integer.toString(a.getMonth())+" "+Integer.toString(a.getDay())+")");
+			JLabel desc = new JLabel("Description: \n"+a.getDescription());
+			
+			info.setSize(100000, 50);
+			info.setHorizontalAlignment(SwingConstants.LEFT);
+			info.setVerticalAlignment(SwingConstants.BOTTOM);
+			desc.setHorizontalAlignment(SwingConstants.LEFT);
+			desc.setVerticalAlignment(SwingConstants.TOP);
+			
+			c = new GridBagConstraints();
+			c.anchor = GridBagConstraints.FIRST_LINE_START;
+			c.gridx = 0;
+			c.gridy = 0;
+			panel.add(info,c);
+			
+			c = new GridBagConstraints();
+			c.anchor = GridBagConstraints.LINE_START;
+			c.gridx = 0;
+			c.gridy = 1;
+			JScrollPane scrollPane = new JScrollPane(desc);
+			scrollPane.setPreferredSize(new Dimension(300,300));
+			panel.add(scrollPane,c);
+			panel.setBorder(BorderFactory.createEmptyBorder(0, 5, 10, 5));
+			panel.setBorder(BorderFactory.createEtchedBorder());
+			panel.setBackground(user.getStyle().getBackground());
+			panel.setForeground(user.getStyle().getForeground());
+			
+			pFrame.add(panel);
 		}
-		JLabel label = new JLabel(string);
 		pFrame.setLayout(new GridLayout(0,1));
-		pFrame.add(label);
 		pFrame.pack();
 		pFrame.setLocationRelativeTo(null);
-		pFrame.setMinimumSize(new Dimension(200,200));
 		pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		pFrame.setVisible(true);
 	}
