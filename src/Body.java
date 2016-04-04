@@ -16,6 +16,7 @@ public class Body extends JFrame {
 	JFrame pFrame = new JFrame();
 	JPanel panel = new JPanel(new GridBagLayout());
 	JPanel calendar = new JPanel();
+	User user2 = new User();
 	JMenuBar menuBar = new JMenuBar();
 	JTextField name = new JTextField();
 	JTextField year = new JTextField();
@@ -24,6 +25,9 @@ public class Body extends JFrame {
 	JTextField description = new JTextField();
 	JTextField enteredYear = new JTextField();
 	JTextField enteredMonth = new JTextField();
+	JTextField fName2 = new JTextField();
+	JTextField lName2 = new JTextField();
+	JPasswordField pass2 = new JPasswordField();
 	JButton forwards = new JButton(">");
 	JButton backwards = new JButton("<");
 	JButton a = new JButton();
@@ -39,6 +43,7 @@ public class Body extends JFrame {
 	Body(Time t, User u){
 		time = t;
 		user = u;
+		System.out.println("Constructor month: "+time.getMonth());
 		int preferredWidth = 30;
 		Dimension dimension = new Dimension(preferredWidth, 0);
 		
@@ -282,13 +287,13 @@ public class Body extends JFrame {
 				JPanel panel1 = new JPanel();
 				panel1.setLayout(new BoxLayout(panel1, BoxLayout.PAGE_AXIS));
 				JLabel fName1 = new JLabel("First Name:");
-				JTextField fName2 = new JTextField(user.getFname());
+				fName2 = new JTextField(user.getFname());
 				JButton editFName = new JButton("Edit");
 				JLabel lName1 = new JLabel("Last Name:");
-				JTextField lName2 = new JTextField(user.getLname());
+				lName2 = new JTextField(user.getLname());
 				JButton editLName = new JButton("Edit");
 				JLabel pass1 = new JLabel("Password:");
-				JPasswordField pass2 = new JPasswordField();
+				pass2 = new JPasswordField();
 				JButton changePass = new JButton("Edit");
 				
 				panel1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -351,6 +356,7 @@ public class Body extends JFrame {
 	}
 	
 	public void DrawCalendar(){
+		System.out.println("Draw calendar month: "+time.getMonth());
 		JPanel main = new JPanel(new GridLayout());
 		JPanel weekpanel = new JPanel(new GridLayout());
 		JLabel label = new JLabel(time.getYear()+" "+time.getMonthName(time.getMonth()));
@@ -648,19 +654,19 @@ public class Body extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				//Edited duplicate of SettingsActionListener code
 				String userS = (String) table.getValueAt(table.getSelectedRow(), 0);
-				User user2 = new User();
+				user2 = new User();
 				user2.loadUser(userS);
 				JFrame pFrame = new JFrame();
 				JPanel panel1 = new JPanel();
 				panel1.setLayout(new BoxLayout(panel1, BoxLayout.PAGE_AXIS));
 				JLabel fName1 = new JLabel("First Name:");
-				JTextField fName2 = new JTextField(user2.getFname());
+				fName2 = new JTextField(user2.getFname());
 				JButton editFName = new JButton("Edit");
 				JLabel lName1 = new JLabel("Last Name:");
-				JTextField lName2 = new JTextField(user2.getLname());
+				lName2 = new JTextField(user2.getLname());
 				JButton editLName = new JButton("Edit");
 				JLabel pass1 = new JLabel("Password:");
-				JPasswordField pass2 = new JPasswordField();
+				pass2 = new JPasswordField();
 				JButton changePass = new JButton("Edit");
 				
 				panel1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
