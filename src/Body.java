@@ -718,14 +718,14 @@ public class Body extends JFrame {
 					});
 			}
 		});
-		Events.addActionListener(new ActionListener(){
+		/*Events.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				String userS = (String) table.getValueAt(table.getSelectedRow(), 0);
 				User user2 = new User();
 				user2.loadUser(userS);
 				//Load event visualization/editing window of user2
 			}
-		});
+		});*/
 		
 		pane.setLayout(new BoxLayout(pane, BoxLayout.PAGE_AXIS));
 		adminMenuBar.setAlignmentX(Component.RIGHT_ALIGNMENT);
