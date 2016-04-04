@@ -284,30 +284,24 @@ public class Body extends JFrame {
 				panel1.setLayout(new BoxLayout(panel1, BoxLayout.PAGE_AXIS));
 				JLabel fName1 = new JLabel("First Name:");
 				JTextField fName2 = new JTextField(user.getFname());
-				JButton editFName = new JButton("Edit First Name");
+				JButton editFName = new JButton("Edit");
 				JLabel lName1 = new JLabel("Last Name:");
 				JTextField lName2 = new JTextField(user.getLname());
-				JButton editLName = new JButton("Edit Last Name");
-				JLabel nick1 = new JLabel("Nickname:");
-				JTextField nick2 = new JTextField(user.getNick());
-				JButton editNick = new JButton("Edit Nickname");
+				JButton editLName = new JButton("Edit");
 				JLabel pass1 = new JLabel("Password:");
 				JPasswordField pass2 = new JPasswordField();
-				JButton changePass = new JButton("Change Password");
+				JButton changePass = new JButton("Edit");
 				
 				panel1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 				fName1.setAlignmentX(Component.CENTER_ALIGNMENT);
 				editFName.setAlignmentX(Component.CENTER_ALIGNMENT);
 				lName1.setAlignmentX(Component.CENTER_ALIGNMENT);
 				editLName.setAlignmentX(Component.CENTER_ALIGNMENT);
-				nick1.setAlignmentX(Component.CENTER_ALIGNMENT);
-				editNick.setAlignmentX(Component.CENTER_ALIGNMENT);
 				fName2.setAlignmentX(Component.CENTER_ALIGNMENT);
 				lName2.setAlignmentX(Component.CENTER_ALIGNMENT);
 				pass1.setAlignmentX(Component.CENTER_ALIGNMENT);
 				pass2.setAlignmentX(Component.CENTER_ALIGNMENT);
 				changePass.setAlignmentX(Component.CENTER_ALIGNMENT);
-				nick2.setAlignmentX(Component.CENTER_ALIGNMENT);
 				
 				panel1.add(fName1);
 				panel1.add(fName2);
@@ -315,9 +309,6 @@ public class Body extends JFrame {
 				panel1.add(lName1);
 				panel1.add(lName2);
 				panel1.add(editLName);
-				panel1.add(nick1);
-				panel1.add(nick2);
-				panel1.add(editNick);
 				panel1.add(pass1);
 				panel1.add(pass2);
 				panel1.add(changePass);
@@ -326,7 +317,7 @@ public class Body extends JFrame {
 				pFrame.setVisible(true);
 				pFrame.setLocationRelativeTo(null);
 				pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-				pFrame.setSize(250, 350);
+				pFrame.setSize(225, 250);
 				editFName.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e) {
 						//user.setFname(fName2.getText());
@@ -336,12 +327,6 @@ public class Body extends JFrame {
 				editLName.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e) {
 						//user.setLname(lName2.getText());
-						user.saveUser();
-					}
-					});
-				editNick.addActionListener(new ActionListener(){
-					public void actionPerformed(ActionEvent e) {
-						//user.setNick(nick2.getText());
 						user.saveUser();
 					}
 					});
