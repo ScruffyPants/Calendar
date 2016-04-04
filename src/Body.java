@@ -565,7 +565,7 @@ public class Body extends JFrame {
 		JMenuBar adminMenuBar = new JMenuBar();
 
 		JMenu Options, Window, ChangeRank, Edit;
-		JMenuItem Ban, Verify, Student, Teacher, Admin, Refresh, Account, Events;
+		JMenuItem Ban, Verify, Student, Teacher, Admin, Refresh, Account;
 		utable = new UserTable();
 		dtm = utable.createUserTable();
 		table = new JTable(dtm);
@@ -588,7 +588,6 @@ public class Body extends JFrame {
 		
 		Edit = new JMenu("Edit");
 		Account = new JMenuItem("Account");
-		Events = new JMenuItem("Events");
 		
 		ChangeRank.add(Student);
 		ChangeRank.add(Teacher);
@@ -598,7 +597,6 @@ public class Body extends JFrame {
 		Options.add(ChangeRank);
 		Window.add(Refresh);
 		Edit.add(Account);
-		Edit.add(Events);
 		adminMenuBar.add(Options);
 		adminMenuBar.add(Window);
 		adminMenuBar.add(Edit);
@@ -746,14 +744,6 @@ public class Body extends JFrame {
 					});
 			}
 		});
-		/*Events.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				String userS = (String) table.getValueAt(table.getSelectedRow(), 0);
-				User user2 = new User();
-				user2.loadUser(userS);
-				//Load event visualization/editing window of user2
-			}
-		});*/
 		
 		pane.setLayout(new BoxLayout(pane, BoxLayout.PAGE_AXIS));
 		adminMenuBar.setAlignmentX(Component.RIGHT_ALIGNMENT);
