@@ -194,6 +194,21 @@ public class User implements Serializable{
 		}
 	}
 	
+	public LinkedList<Event> getPEventsByDate(int y, int m, int d) {
+		LinkedList<Event> ret = new LinkedList<Event>();
+		if( pEvents.size() > 0 ) {
+			Event given = pEvents.getFirst();
+			for( int i = 0; i < pEvents.size(); i++) {
+				given = pEvents.get(i);
+				if( given.getYear() == y & given.getMonth() == m & given.getDay() == d )
+					ret.add(given);
+			}
+			return ret; }
+		else{
+			return events;
+		}
+	}
+	
 	public LinkedList<Event> getEventsByDateRange(int y1, int m1, int d1, int y2, int m2, int d2) {
 		int yMax = (y1 > y2) ? y1 : y2;
 		int yMin = (y1 < y2) ? y1 : y2;
@@ -335,6 +350,14 @@ public class User implements Serializable{
 
 	public void setStyle(Style style) {
 		this.style = style;
+	}
+	
+	public void clearPEvents(){
+		pEvents = new LinkedList<Event>();
+	}
+	
+	public void clearEvents(){
+		events = new LinkedList<Event>();
 	}
 	
 	//Deprecated

@@ -405,8 +405,16 @@ public class Body extends JFrame {
 				}
 				else{
 					a = new JButton(Integer.toString(i));
-					a.setLayout(new GridLayout(0,1));
+					a.setLayout(new GridLayout(0,2));
 					if(user.getEventsByDate(time.getYear(), time.getMonth(), i).size()>0){
+						a.setBackground(user.getStyle().getEventBackground());
+						for(Event e: user.getEventsByDate(time.getYear(), time.getMonth(), i)){
+							JLabel eventlabel = new JLabel(e.getName());
+							eventlabel.setHorizontalAlignment(SwingConstants.CENTER);
+							a.add(eventlabel);
+						}
+					}
+					if(user.getPEventsByDate(time.getYear(), time.getMonth(), i).size()>0){
 						a.setBackground(user.getStyle().getEventBackground());
 						for(Event e: user.getEventsByDate(time.getYear(), time.getMonth(), i)){
 							JLabel eventlabel = new JLabel(e.getName());
