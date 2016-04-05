@@ -551,6 +551,7 @@ public class Body extends JFrame {
 		pFrame.setResizable(false);
 		
 		submit.addActionListener(new ActionListener(){
+			@SuppressWarnings("unchecked")
 			public void actionPerformed(ActionEvent e) {
 				List<String> MonthsUC = Arrays.asList("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
 				List<String> monthsLC = Arrays.asList("january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december");
@@ -566,7 +567,27 @@ public class Body extends JFrame {
 						event = new Event(name.getText(), Integer.parseInt(year.getText()), Integer.parseInt(month.getText())-1, Integer.parseInt(day.getText()), description.getText());
 					}
 					if(!pEvent.isSelected())user.addEvent(event);
-					else user.addPEvent(event);
+					else {
+						try {
+							FileInputStream fInTemp = new FileInputStream(dir + "\\src\\pEvents\\pEvents.txt");
+							ObjectInputStream inObject = new ObjectInputStream(fInTemp);
+							LinkedList<Event> pEvents = new LinkedList<Event>();
+							pEvents = (LinkedList<Event>) inObject.readObject();
+							inObject.close();
+							pEvents.add(event);
+							user.setPEvents(pEvents);
+							FileOutputStream fOutTemp = new FileOutputStream(dir + "\\src\\pEvents\\pEvents.txt");
+							ObjectOutputStream outObject = new ObjectOutputStream(fOutTemp);
+							outObject.writeObject(pEvents);
+							outObject.close();
+						} catch(FileNotFoundException ee) {
+							System.out.println("404 ERROR: pEvents.txt or target directory not found");
+						} catch(ClassNotFoundException a) {
+							System.out.println("Corrupted pEvents.txt");
+						} catch(IOException oo) {
+							System.out.println("IOException");
+						}
+					}
 					user.saveUser();
 					pFrame.setVisible(false);
 					pFrame.dispose();
