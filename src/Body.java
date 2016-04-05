@@ -773,7 +773,7 @@ public class Body extends JFrame {
 					});
 				changePass.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e) {
-						user.setPW_Hash(user.hashPassword(pass2.getText()));
+						user2.setPW_Hash(user2.hashPassword(pass2.getText()));
 						user2.saveUser();
 					}
 					});
