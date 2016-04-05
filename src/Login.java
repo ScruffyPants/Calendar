@@ -74,11 +74,6 @@ public class Login extends JFrame implements ActionListener{
 					ObjectInputStream object = new ObjectInputStream(ftemp);
 					LinkedList<Event> pEvents = new LinkedList<Event>();
 					pEvents = (LinkedList<Event>) object.readObject();
-					Event given = null;
-					for(int i = 0; i < pEvents.size(); i++) {
-						given = pEvents.get(i);
-						System.out.println("==== Event #" + i + ": "+ given.getYear() + "/" + given.getMonth() + "/" + given.getDay() + ", " + given.getName() + " (" + given.getDescription() + ")");
-					}
 					object.close();
 					user.setPEvents(pEvents);
 					} catch(FileNotFoundException ee) {

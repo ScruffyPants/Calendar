@@ -160,7 +160,6 @@ public class User implements Serializable{
 	}
 	
 	public String printPEvents() {
-		LinkedList<Event> pEvents = getPEvents();
 		StringBuilder sb = new StringBuilder();
 		if( pEvents != null )
 		{

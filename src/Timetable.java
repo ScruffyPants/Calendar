@@ -42,7 +42,7 @@ public class Timetable {
 				System.out.println("404 ERROR: pEvents.txt not found");
 			} catch(IOException oo) {
 				System.out.println("IOException");
-			}
+			}*/
 			/*User Admin = new User("admin", "admin");
 			Admin.setIsAdmin(true);
 			Admin.setIsVerified(true);
@@ -52,28 +52,31 @@ public class Timetable {
 			//System.out.println("Days in month = "+daysinmonth);
 			
 			Login login = new Login();
-		
-			User user = new User();
-			Event e1 = new Event("test", 2014, 3, 14);
-			Event e2 = new Event("test2", 2010, 2, 15);
-			Event e3 = new Event("test3", 2016, 6, 23);
-			Event e4 = new Event("test4", 1999, 2, 30);
-			Event e5 = new Event("test5", 1999, 2, 29);
-			Event e6 = new Event("test6", 1999, 3, 30);
-			Event e7 = new Event("test7", 1999, 2, 30);
-			Event e8 = new Event("test8", 1998, 2, 30);
-			user.addEvent(e1);
-			user.addEvent(e2);
-			user.addEvent(e3);
-			user.addEvent(e4);
-			user.addEvent(e5);
-			user.addEvent(e6);
-			user.addEvent(e7);
-			user.addEvent(e8);
+		*/
+			/*User user = new User();
+			Event e1 = new Event("test", 2014, 3, 14, "test");
+			Event e2 = new Event("test2", 2010, 2, 15, "test2");
+			Event e3 = new Event("test3", 2016, 6, 23, "test3");
+			Event e4 = new Event("test4", 1999, 2, 30, "test4");
+			Event e5 = new Event("test5", 1999, 2, 29, "test5");
+			Event e6 = new Event("test6", 1999, 3, 30, "test6");
+			Event e7 = new Event("test7", 1999, 2, 30, "test7");
+			Event e8 = new Event("test8", 1998, 2, 30, "test8");
+			user.addPEvent(e1);
+			user.addPEvent(e2);
+			user.addPEvent(e3);
+			user.addPEvent(e4);
+			user.addPEvent(e5);
+			user.addPEvent(e6);
+			user.addPEvent(e7);
+			user.addPEvent(e8);
+			System.out.println(user.printPEvents());
+			/*
 			LinkedList<Event> test = user.sortEvent(user.getEvents());
 			for(Event a: test){
 				System.out.println(a.getYear()+" "+a.getMonth()+" "+a.getDay());
 			}
+			/*
 			//Body body = new Body(time);
 
 			//Event Debugging | Testing
