@@ -270,7 +270,7 @@ public class User implements Serializable{
 	public void saveUser(){
 		try{
 			System.out.println("Saving User");
-			String temp = dir + "\\src\\Users\\"+this.getNick()+".txt";
+			String temp = dir + "/src/Users/"+this.getNick()+".txt";
 			System.out.println("File location = "+temp);
 			out = new FileOutputStream(temp);
 			ObjectOutputStream outObject = new ObjectOutputStream(out);
@@ -300,7 +300,7 @@ public class User implements Serializable{
 	public void loadUser(String Nick){
 		try{
 			System.out.println("Loading User");
-			String temp = dir + "\\src\\Users\\" + Nick + ".txt";
+			String temp = dir + "/src/Users/" + Nick + ".txt";
 			in = new FileInputStream(temp);
 			ObjectInputStream inObject = new ObjectInputStream(in);
 			User user = new User();

@@ -41,6 +41,7 @@ public class Body extends JFrame {
 	String d = null;
 	Time time;
 	User user;
+	int select = table.getSelectedRow();
 	
 	Body(Time t, User u){
 		time = t;
@@ -688,7 +689,7 @@ public class Body extends JFrame {
 		Account.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				//Edited duplicate of SettingsActionListener code
-				int select = table.getSelectedRow();
+				select = table.getSelectedRow();
 				String userS = (String) table.getValueAt(table.getSelectedRow(), 0);
 				user2 = new User();
 				user2.loadUser(userS);
