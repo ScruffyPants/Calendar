@@ -49,7 +49,7 @@ public class Registration extends JFrame implements ActionListener{
  
     public void actionPerformed(ActionEvent e) {
     	if(e.getSource() == register && !txuser.getText().isEmpty() ) {
-    		String temp = dir + "\\src\\Users\\" + txuser.getText() + ".txt";
+    		String temp = dir + "/src/Users/" + txuser.getText() + ".txt";
     		File f = new File(temp);
         	if(!f.exists()){
         		User created = new User(txuser.getText(), pass.getText());

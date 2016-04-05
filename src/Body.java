@@ -41,6 +41,7 @@ public class Body extends JFrame {
 	String d = null;
 	Time time;
 	User user;
+	int select = table.getSelectedRow();
 	
 	Body(Time t, User u){
 		time = t;
