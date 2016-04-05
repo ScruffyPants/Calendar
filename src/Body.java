@@ -688,6 +688,7 @@ public class Body extends JFrame {
 		Account.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				//Edited duplicate of SettingsActionListener code
+				if( table.getSelectedRow() >= 0 ) {
 				int select = table.getSelectedRow();
 				String userS = (String) table.getValueAt(table.getSelectedRow(), 0);
 				user2 = new User();
@@ -775,6 +776,7 @@ public class Body extends JFrame {
 						user2.saveUser();
 					}
 					});
+				}
 			}
 		});
 		
