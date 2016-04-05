@@ -538,7 +538,7 @@ public class Body extends JFrame {
 		pFrame.setLocationRelativeTo(null);
 		pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		pFrame.setMinimumSize(new Dimension(150,150));
-		pFrame.setSize(700,400);
+		pFrame.setSize(750,400);
 		pFrame.setVisible(true);
 		pFrame.setResizable(false);
 		
