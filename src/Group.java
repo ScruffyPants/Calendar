@@ -5,6 +5,9 @@ public class Group implements Serializable{
 	private String name;
 	private LinkedList<User> users = new LinkedList<User>();
 	private LinkedList<Event> events = new LinkedList<Event>();
+	public Group(String n){
+		name = n;
+	}
 	public String getName() {
 		return name;
 	}
