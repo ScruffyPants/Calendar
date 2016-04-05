@@ -13,6 +13,7 @@ public class User implements Serializable{
 	private String pw_hash;
 	private LinkedList<Event> events = new LinkedList<Event>();//User will have a linked list with "events" that are later represented in Calendar
 	private LinkedList<Event> pEvents = new LinkedList<Event>();//Public event made by teacher and admin (needs to implemented in saveUser() and loadUser())
+	private LinkedList<Group> groups = new LinkedList<Group>();
 	private Style style = new Style();
 	private FileInputStream in = null;
 	private FileOutputStream out = null;
