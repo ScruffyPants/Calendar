@@ -431,8 +431,8 @@ public class Body extends JFrame {
 					a.addActionListener(new ActionListener(){
 						public void actionPerformed(ActionEvent e) {
 							System.out.println("you pressed: "+e.getActionCommand());
-							LinkedList<Event> events = user.getEventsByDate(time.getYear(), time.getMonth(), Integer.parseInt(e.getActionCommand()));
-							PopoutEventShow(events, e.getActionCommand());
+							//LinkedList<Event> events = user.getEventsByDate(time.getYear(), time.getMonth(), Integer.parseInt(e.getActionCommand()));
+							PopoutEventShow(Integer.parseInt(e.getActionCommand()));
 						}
 					});
 					if(i==dim && i%7==0){
@@ -456,11 +456,48 @@ public class Body extends JFrame {
 		calendar.setBackground(user.getStyle().getBackground());
 	}
 	
-	public void PopoutEventShow(LinkedList<Event> events, String d){
+	public void PopoutEventShow(int d){
 		pFrame = new JFrame();
 		JButton create = new JButton("Create event");
 		
+		LinkedList<Event> events = user.getEventsByDate(time.getYear(), time.getMonth(), d);
+		LinkedList<Event> pevents = user.getPEventsByDate(time.getYear(), time.getMonth(), d);
+		
 		for(Event a: events){
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridBagLayout());
+			
+			JLabel info = new JLabel(a.getName()+" ("+Integer.toString(a.getYear())+" "+Integer.toString(a.getMonth())+" "+Integer.toString(a.getDay())+")");
+			JLabel desc = new JLabel("Description: \n"+a.getDescription());
+			
+			info.setSize(100000, 50);
+			info.setHorizontalAlignment(SwingConstants.LEFT);
+			info.setVerticalAlignment(SwingConstants.BOTTOM);
+			desc.setHorizontalAlignment(SwingConstants.LEFT);
+			desc.setVerticalAlignment(SwingConstants.TOP);
+			
+			c = new GridBagConstraints();
+			c.anchor = GridBagConstraints.FIRST_LINE_START;
+			c.gridx = 0;
+			c.gridy = 0;
+			panel.add(info,c);
+			
+			c = new GridBagConstraints();
+			c.anchor = GridBagConstraints.LINE_START;
+			c.gridx = 0;
+			c.gridy = 1;
+			JScrollPane scrollPane = new JScrollPane(desc);
+			scrollPane.setPreferredSize(new Dimension(300,300));
+			panel.add(scrollPane,c);
+			panel.setBorder(BorderFactory.createEmptyBorder(0, 5, 10, 5));
+			panel.setBorder(BorderFactory.createEtchedBorder());
+			panel.setBackground(user.getStyle().getBackground());
+			panel.setForeground(user.getStyle().getForeground());
+			
+			pFrame.add(panel);
+		}
+		
+		for(Event a: pevents){
 			JPanel panel = new JPanel();
 			panel.setLayout(new GridBagLayout());
 			
