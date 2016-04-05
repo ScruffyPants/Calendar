@@ -41,6 +41,7 @@ public class Body extends JFrame {
 	String d = null;
 	Time time;
 	User user;
+	int select = table.getSelectedRow();
 	
 	Body(Time t, User u){
 		time = t;
@@ -291,13 +292,13 @@ public class Body extends JFrame {
 				panel1.setLayout(new BoxLayout(panel1, BoxLayout.PAGE_AXIS));
 				JLabel fName1 = new JLabel("First Name:");
 				fName2 = new JTextField(user.getFname());
-				JButton editFName = new JButton("Edit");
+				JButton editFName = new JButton("Commit");
 				JLabel lName1 = new JLabel("Last Name:");
 				lName2 = new JTextField(user.getLname());
-				JButton editLName = new JButton("Edit");
+				JButton editLName = new JButton("Commit");
 				JLabel pass1 = new JLabel("Password:");
 				pass2 = new JPasswordField();
-				JButton changePass = new JButton("Edit");
+				JButton changePass = new JButton("Commit");
 				
 				panel1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 				fName1.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -527,7 +528,7 @@ public class Body extends JFrame {
 		pFrame.add(new JLabel("Description: "));
 		pFrame.add(scrollpane);
 		
-		if(user.getIsTeacher() || user.getIsAdmin()){
+		if((user.getIsTeacher() && user.getIsVerified()) || (user.getIsAdmin() && user.getIsVerified() )){
 			pEvent = new JCheckBox();
 			pFrame.add(new JLabel("Public Event: "));
 			pFrame.add(pEvent);
@@ -580,7 +581,7 @@ public class Body extends JFrame {
 		JMenuBar adminMenuBar = new JMenuBar();
 
 		JMenu Options, Window, ChangeRank, Edit;
-		JMenuItem Ban, Verify, Student, Teacher, Admin, Refresh, Account, Events;
+		JMenuItem Ban, Verify, Student, Teacher, Admin, Refresh, Account;
 		utable = new UserTable();
 		dtm = utable.createUserTable();
 		table = new JTable(dtm);
@@ -603,7 +604,6 @@ public class Body extends JFrame {
 		
 		Edit = new JMenu("Edit");
 		Account = new JMenuItem("Account");
-		Events = new JMenuItem("Events");
 		
 		ChangeRank.add(Student);
 		ChangeRank.add(Teacher);
@@ -613,7 +613,6 @@ public class Body extends JFrame {
 		Options.add(ChangeRank);
 		Window.add(Refresh);
 		Edit.add(Account);
-		Edit.add(Events);
 		adminMenuBar.add(Options);
 		adminMenuBar.add(Window);
 		adminMenuBar.add(Edit);
@@ -690,6 +689,8 @@ public class Body extends JFrame {
 		Account.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				//Edited duplicate of SettingsActionListener code
+				if( table.getSelectedRow() >= 0 ) {
+				select = table.getSelectedRow();
 				String userS = (String) table.getValueAt(table.getSelectedRow(), 0);
 				user2 = new User();
 				user2.loadUser(userS);
@@ -742,33 +743,43 @@ public class Body extends JFrame {
 				pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				pFrame.setSize(225, 300);
 				editFName.addActionListener(new ActionListener(){
+					
 					public void actionPerformed(ActionEvent e) {
 						user2.setFname(fName2.getText());
 						user2.saveUser();
+						if(user2.getFname() != null & user2.getLname() != null)
+							table.setValueAt(user2.getFname() + " " + user2.getLname(), select, 1);
+						else if(user2.getFname() != null)
+							table.setValueAt(user2.getFname() + "N/A", select, 1);
+						else if(user2.getLname() != null)
+							table.setValueAt("N/A" + user2.getLname(), select, 1);
+						else
+							table.setValueAt("N/A", select, 1);
 					}
 					});
 				editLName.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e) {
 						user2.setLname(lName2.getText());
 						user2.saveUser();
+						if(user2.getFname() != null & user2.getLname() != null)
+							table.setValueAt(user2.getFname() + " " + user2.getLname(), select, 1);
+						else if(user2.getFname() != null)
+							table.setValueAt(user2.getFname() + "N/A", select, 1);
+						else if(user2.getLname() != null)
+							table.setValueAt("N/A" + user2.getLname(), select, 1);
+						else
+							table.setValueAt("N/A", select, 1);
 					}
 					});
 				changePass.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e) {
-						user.setPW_Hash(user.hashPassword(pass2.getText()));
+						user2.setPW_Hash(user2.hashPassword(pass2.getText()));
 						user2.saveUser();
 					}
 					});
+				}
 			}
 		});
-		/*Events.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				String userS = (String) table.getValueAt(table.getSelectedRow(), 0);
-				User user2 = new User();
-				user2.loadUser(userS);
-				//Load event visualization/editing window of user2
-			}
-		});*/
 		
 		pane.setLayout(new BoxLayout(pane, BoxLayout.PAGE_AXIS));
 		adminMenuBar.setAlignmentX(Component.RIGHT_ALIGNMENT);

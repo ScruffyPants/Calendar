@@ -13,7 +13,7 @@ public class UserTable {
 	public DefaultTableModel createUserTable() {
 		
 		String[] columns = {"User", "Name", "Rank", "Verified", "Events"};		
-		File temp = new File(dir + "\\src\\Users");
+		File temp = new File(dir + "/src/Users");
 		String[] users = listFilesForFolder( temp ).replaceAll(".txt",  "").split(" ");
 		String[][] data = new String[users.length][columns.length];
 		

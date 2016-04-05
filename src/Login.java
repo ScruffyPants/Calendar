@@ -54,7 +54,7 @@ public class Login extends JFrame implements ActionListener{
 		if(e.getSource() == blogin) {
 			String puname = txuser.getText();
 			String ppaswd = pass.getText();
-			File temp = new File( dir + "\\src\\Users\\"+puname+".txt"); 
+			File temp = new File( dir + "/src/Users/"+puname+".txt"); 
 			if(temp.exists() && !temp.isDirectory()){
 				User user = new User(puname);
 				user.loadUser(puname);
