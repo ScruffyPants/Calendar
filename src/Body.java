@@ -405,7 +405,11 @@ public class Body extends JFrame {
 				}
 				else{
 					a = new JButton(Integer.toString(i));
-					a.setLayout(new GridLayout(0,2));
+					a.setLayout(new GridLayout(0,1));
+					JScrollPane spane = new JScrollPane(a,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+					spane.setBorder(BorderFactory.createEmptyBorder());
+					spane.getVerticalScrollBar().setPreferredSize(new Dimension(10,0));
+					
 					if(user.getEventsByDate(time.getYear(), time.getMonth(), i).size()>0){
 						a.setBackground(user.getStyle().getEventBackground());
 						for(Event e: user.getEventsByDate(time.getYear(), time.getMonth(), i)){
@@ -426,8 +430,9 @@ public class Body extends JFrame {
 					a.setHorizontalAlignment(SwingConstants.LEFT);
 					a.setVerticalAlignment(SwingConstants.TOP);
 					a.setBorder(null);
-					a.setPreferredSize(new Dimension(90,90));
-					main.add(a);
+					spane.setPreferredSize(new Dimension(90,90));
+					//a.setPreferredSize(new Dimension(90,90));
+					main.add(spane);
 					a.addActionListener(new ActionListener(){
 						public void actionPerformed(ActionEvent e) {
 							System.out.println("you pressed: "+e.getActionCommand());
