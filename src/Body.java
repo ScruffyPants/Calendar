@@ -711,7 +711,7 @@ public class Body extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				//Edited duplicate of SettingsActionListener code
 				if( table.getSelectedRow() >= 0 ) {
-				int select = table.getSelectedRow();
+				select = table.getSelectedRow();
 				String userS = (String) table.getValueAt(table.getSelectedRow(), 0);
 				user2 = new User();
 				user2.loadUser(userS);
