@@ -41,7 +41,7 @@ public class UserTable {
 			
 			data[i][3] = "" + utemp.getIsVerified();
 			
-			data[i][4] = utemp.printEvents() + utemp.printPEvents();
+			data[i][4] = utemp.printEvents() + "" + utemp.printPEvents();
 		}
 		
 		DefaultTableModel userTable = new DefaultTableModel(data, columns) {

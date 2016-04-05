@@ -573,7 +573,13 @@ public class Body extends JFrame {
 							ObjectInputStream inObject = new ObjectInputStream(fInTemp);
 							LinkedList<Event> pEvents = new LinkedList<Event>();
 							pEvents = (LinkedList<Event>) inObject.readObject();
+							System.out.println("pEvents List received from OBJIN");
 							inObject.close();
+							Event given = null;
+							for(int i = 0; i < pEvents.size(); i++) {
+								given = pEvents.get(i);
+								System.out.println("==== Event #" + i + ": "+ given.getYear() + "/" + given.getMonth() + "/" + given.getDay() + ", " + given.getName() + " (" + given.getDescription() + ")");
+							}
 							pEvents.add(event);
 							user.setPEvents(pEvents);
 							FileOutputStream fOutTemp = new FileOutputStream(dir + "\\src\\pEvents\\pEvents.txt");
