@@ -81,7 +81,8 @@ public class Body extends JFrame {
 				frame.remove(panel);
 				if(time.getMonth() == 0){
 					time.setMonth(11);
-					time.setYear(time.getYear()-1);
+					int temp = time.getYear();
+					time.setYear(temp-1);
 				}
 				else{
 					int temp = time.getMonth()-1;
@@ -103,7 +104,8 @@ public class Body extends JFrame {
 				frame.remove(panel);
 				if(time.getMonth() == 11){
 					time.setMonth(0);
-					time.setYear(time.getYear()+1);
+					int temp = time.getYear();
+					time.setYear(temp+1);
 				}
 				else{
 					int temp = time.getMonth()+1;
@@ -452,6 +454,14 @@ public class Body extends JFrame {
 							a.add(eventlabel);
 						}
 					}
+					if(user.getSchedulesByDate(time.getYear(), time.getMonth()+1, i).size()>0){
+						a.setBackground(user.getStyle().getEventBackground());
+						for(Schedule e: user.getSchedulesByDate(time.getYear(), time.getMonth()+1, i)){
+							JLabel eventlabel = new JLabel(e.getName());
+							eventlabel.setHorizontalAlignment(SwingConstants.CENTER);
+							a.add(eventlabel);
+						}
+					}
 					a.setHorizontalAlignment(SwingConstants.LEFT);
 					a.setVerticalAlignment(SwingConstants.TOP);
 					a.setBorder(null);
@@ -703,27 +713,27 @@ public class Body extends JFrame {
 		name.setHorizontalAlignment(SwingConstants.LEFT);
 		basicinfo.add(name);
 		
-		basicinfo.add(new JLabel("Year: "));
+		basicinfo.add(new JLabel("Start Year: "));
 		yStart.setHorizontalAlignment(SwingConstants.LEFT);
 		basicinfo.add(yStart);
 		
-		basicinfo.add(new JLabel("Month: "));
+		basicinfo.add(new JLabel("Start Month: "));
 		mStart.setHorizontalAlignment(SwingConstants.LEFT);
 		basicinfo.add(mStart);
 		
-		basicinfo.add(new JLabel("Day: "));
+		basicinfo.add(new JLabel("Start Day: "));
 		dStart.setHorizontalAlignment(SwingConstants.LEFT);
 		basicinfo.add(dStart);
 		
-		basicinfo.add(new JLabel("Year: "));
+		basicinfo.add(new JLabel("Start Year: "));
 		yEnd.setHorizontalAlignment(SwingConstants.LEFT);
 		basicinfo.add(yEnd);
 		
-		basicinfo.add(new JLabel("Month: "));
+		basicinfo.add(new JLabel("Start Month: "));
 		mEnd.setHorizontalAlignment(SwingConstants.LEFT);
 		basicinfo.add(mEnd);
 		
-		basicinfo.add(new JLabel("Day: "));
+		basicinfo.add(new JLabel("Start Day: "));
 		dEnd.setHorizontalAlignment(SwingConstants.LEFT);
 		basicinfo.add(dEnd);
 		
@@ -774,14 +784,16 @@ public class Body extends JFrame {
 		
 		submit.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				Schedule toAdd = new Schedule(name.getText(), description.getText(), Integer.parseInt(yStart.getText(),10), Integer.parseInt(mStart.getText(),10),  Integer.parseInt(dStart.getText(),10), Integer.parseInt(yEnd.getText(),10), Integer.parseInt(mEnd.getText(),10), Integer.parseInt(dEnd.getText(),10), Monday.isSelected(), Tuesday.isSelected(), Wednesday.isSelected(), Thursday.isSelected(), Friday.isSelected(), Saturday.isSelected(), Sunday.isSelected(), Integer.parseInt(delay.getText(),10) );                                              
+				int[] dates = {Integer.parseInt(yStart.getText(),10), Integer.parseInt(mStart.getText(),10),  Integer.parseInt(dStart.getText(),10), Integer.parseInt(yEnd.getText(),10), Integer.parseInt(mEnd.getText(),10), Integer.parseInt(dEnd.getText(),10)};
+				boolean[] days = {Monday.isSelected(), Tuesday.isSelected(), Wednesday.isSelected(), Thursday.isSelected(), Friday.isSelected(), Saturday.isSelected(), Sunday.isSelected()};
+				Schedule toAdd = new Schedule(name.getText(), description.getText(), dates, days, Integer.parseInt(delay.getText(),10) );                                              
 				user.addSchedule(toAdd);
+				user.printSchedules();
 				user.saveUser();
 				pFrame.setVisible(false);
 				pFrame.dispose();
 				frame.setVisible(false);
 				frame.dispose();
-				user.saveUser();
 				Body body = new Body(time, user);
 			}
 		});

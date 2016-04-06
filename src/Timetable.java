@@ -1,3 +1,4 @@
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.io.*;
 
@@ -52,8 +53,23 @@ public class Timetable {
 			//int daysinmonth = time.getDaysInMonth();
 			//System.out.println("Days in month = "+daysinmonth);
 			
-			Login login = new Login();
-		*/
+			Login login = new Login();*/
+			
+			User user = new User();
+			int[] stuff = {2014, 3, 14, 2016, 5, 15};
+			boolean[] stuff2 = {true, true, false, true, false, false, false};
+			Schedule s1 = new Schedule("test1", "desc", stuff, stuff2, 0 );
+			user.addSchedule(s1);
+			user.printSchedules();
+			LinkedList<Schedule> select = user.getSchedulesByDate(2016, 4, 6);
+			Time time = new Time();
+			System.out.println("" + time.getDayOfWeek(2016, 4, 6));
+			Schedule given = null;
+			for(int i = 0; i < select.size(); i++) {
+				given = select.get(i);
+				System.out.println((given.getYStart() + "/" + given.getMStart() + "/" + given.getDStart() + " --- " + given.getYEnd() + "/" + given.getMEnd() + "/" + given.getDEnd() + "  " + given.getName() + "(" + given.getDescription() + ")"));
+			}
+			
 			/*User user = new User();
 			Event e1 = new Event("test", 2014, 3, 14, "test");
 			Event e2 = new Event("test2", 2010, 2, 15, "test2");

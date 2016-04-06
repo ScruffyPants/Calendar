@@ -78,4 +78,29 @@ public class Time {
 		String[] monthNames = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};	
 		return monthNames[month];
 	}
+	
+	public int getDayOfWeek(int y, int m, int d) {
+		Calendar temp2 = Calendar.getInstance();
+		temp2.set(Calendar.YEAR, y);
+		temp2.set(Calendar.MONTH, m);
+		temp2.set(Calendar.DATE, d);
+		int ret = temp2.get(Calendar.DAY_OF_WEEK);
+		switch(ret) {
+		case 1: ret = 7;
+		break;
+		case 2: ret = 1;
+		break;
+		case 3: ret = 2;
+		break;
+		case 4: ret = 3;
+		break;
+		case 5: ret = 4;
+		break;
+		case 6: ret = 5;
+		break;
+		case 7: ret = 6;
+		break;
+		}
+		return ret;
+	}
 }

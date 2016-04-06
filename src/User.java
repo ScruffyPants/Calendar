@@ -3,6 +3,7 @@ import java.util.Objects;
 import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.io.Serializable;
 
 public class User implements Serializable{
 	private static final long serialVersionUID = 1504199602031999L;
@@ -302,6 +303,7 @@ public class User implements Serializable{
 			ObjectOutputStream outObject = new ObjectOutputStream(out);
 			User user = new User();
 			user.setEvents(this.getEvents());
+			user.setSchedules(this.getSchedules());
 			user.setNick(this.getNick());
 			user.setFname(this.getFname());
 			user.setLname(this.getLname());
@@ -335,6 +337,7 @@ public class User implements Serializable{
 			this.setLname(user.getLname());
 			this.setNick(user.getNick());
 			this.setEvents(user.getEvents());
+			this.setSchedules(user.getSchedules());
 			this.setPW_Hash(user.getPW_Hash());
 			this.setIsAdmin(user.getIsAdmin());
 			this.setIsTeacher(user.getIsTeacher());
@@ -371,6 +374,84 @@ public class User implements Serializable{
 		events = new LinkedList<Event>();
 	}
 	
+	public LinkedList<Schedule> getSchedulesByDate(int y, int m, int d) {
+		System.out.println("Checking for date " + y + "//" + m + "//" + d);
+		LinkedList<Schedule> ret = new LinkedList<Schedule>();
+		Schedule given = null;
+		Time time = new Time();
+		int dow = time.getDayOfWeek(y, m, d);
+		System.out.println("" + dow);
+		for( int i = 0; i < schedules.size(); i++ ) {
+			given = schedules.get(i);
+			if( checkInRange( y, m, d, given.getYStart(), given.getMStart(), given.getDStart(), given.getYEnd(), given.getMEnd(), given.getDEnd() ) ) {
+				System.out.println("" + given.getDays()[dow-1]);
+				if( given.getDays()[dow-1] ) {
+					ret.add(given);
+				}
+			}
+		}
+		return ret;
+	}
+	
+	private boolean checkInRange( int yC, int mC, int dC, int y1, int m1, int d1, int y2, int m2, int d2) {
+		if( yC >= y1 && yC <= y2 ) {
+			if( yC == y1 ) {
+				if( mC >= m1 ) {
+					if( mC == m1 ) {
+						if( dC >= d1 ) {
+							return true; // Date to check has equal year and month to beginning, but equal or later day
+						} else {
+							return false; // Date to check has equal year and month to beginning, but earlier day
+						}
+					} else {
+						return true; // Date to check has equal year to beginning and later month
+					}
+				} else {
+					return false; // Date to check has equal year to beginning, but earlier month
+				}
+			} else if( yC == y2 ) {
+				if( mC <= m2 ) {
+					if( mC == m2 ) {
+						if( dC <= d2 ) {
+							return true; // Date to check has equal year and month to end, but equal or earlier day
+						} else {
+							return false; // Date to check has equal year and month to end, but later day
+						}
+					} else {
+						return true; // Date to check has equal year to end and earlier month
+					}
+				} else {
+					return false; // Date to check has equal year to end, but later month
+				}
+			} else {
+				return true; //Date to check has later year than beginning and earlier year than end
+			}
+		} else {
+			return false; //Date to check has earlier year than beginning or later year than end
+		}
+	}
+
+	
+	public void printSchedules() {
+		Schedule given = null;
+		for(int i = 0; i < schedules.size(); i++) {
+			given = schedules.get(i);
+			System.out.println("=====" + given.getYStart() + "/" + given.getMStart() + "/" + given.getDStart() + " --- " + given.getYEnd() + "/" + given.getMEnd() + "/" + given.getDEnd() + "  " + given.getName() + "(" + given.getDescription() + ")");
+		}
+	}
+
+	public LinkedList<Group> getGroups() {
+		return groups;
+	}
+
+	public void setGroups(LinkedList<Group> groups) {
+		this.groups = groups;
+	}
+	
+	public void addGroup(Group group){
+		groups.add(group);
+	}
+	
 	//Deprecated
 	
 	public void verifyUser(User toVerify) {
@@ -385,15 +466,11 @@ public class User implements Serializable{
 		pEvents.add(e);
 	}
 
-	public LinkedList<Group> getGroups() {
-		return groups;
+	public LinkedList<Schedule> getSchedules() {
+		return schedules;
 	}
 
-	public void setGroups(LinkedList<Group> groups) {
-		this.groups = groups;
-	}
-	
-	public void addGroup(Group group){
-		groups.add(group);
+	public void setSchedules(LinkedList<Schedule> schedules) {
+		this.schedules = schedules;
 	}
 }
