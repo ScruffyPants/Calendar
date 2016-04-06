@@ -125,6 +125,7 @@ public class Body extends JFrame {
 		frame.add(panel);
 		frame.setMinimumSize(new Dimension(500,270));
 		frame.setSize(700, 500);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
 	public void DrawPanel(){
@@ -169,7 +170,7 @@ public class Body extends JFrame {
 	
 	public void DrawMenu(){
 		JMenu Calendar, Account, Info, Admin;
-		JMenuItem Exit, Logout, AddEvent, Reload, UserControl, Settings, About, GetToDate, Style;
+		JMenuItem Exit, Logout, AddEvent, Reload, UserControl, Settings, About, GetToDate, Style, Groups;
 		
 		Calendar = new JMenu("Calendar");
 		Account = new JMenu("Account");
@@ -199,6 +200,7 @@ public class Body extends JFrame {
 		Settings = new JMenuItem("Settings");
 		About = new JMenuItem("About");
 		GetToDate = new JMenuItem("Get To Date");
+		Groups = new JMenuItem("Groups");
 		
 		Info.add(About);
 		Calendar.add(Exit);
@@ -208,6 +210,15 @@ public class Body extends JFrame {
 		Account.add(Style);
 		Account.add(Settings);
 		Account.add(Logout);
+		Account.add(Groups);
+		
+		Groups.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				Group group = new Group();
+				Group group2 = group.createNewGroup(user);
+				if(!group2.getName().equals(null))user.addGroup(group2);
+			}
+		});
 		
 		Style.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
