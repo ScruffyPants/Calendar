@@ -1,7 +1,12 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.util.LinkedList;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 
 public class Login extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1504199602031999L;
@@ -50,6 +55,7 @@ public class Login extends JFrame implements ActionListener{
 		register.addActionListener(this);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == blogin) {
 			String puname = txuser.getText();
@@ -60,9 +66,24 @@ public class Login extends JFrame implements ActionListener{
 				user.loadUser(puname);
 				boolean login = user.checkPassword(ppaswd);
 				if(login){
+					try{
 					System.out.println("Logged in!");
 					System.out.println("name = " + user.getLname());
 					System.out.println("Login Month: "+time.getMonth());
+					FileInputStream ftemp = new FileInputStream(dir + "\\src\\pEvents\\pEvents.txt");
+					ObjectInputStream object = new ObjectInputStream(ftemp);
+					LinkedList<Event> pEvents = new LinkedList<Event>();
+					pEvents = (LinkedList<Event>) object.readObject();
+					object.close();
+					user.setPEvents(pEvents);
+					} catch(FileNotFoundException ee) {
+						
+					} catch(ClassNotFoundException a) {
+						
+					} catch(IOException oo) {
+						
+					}
+					
 					Body body = new Body(time, user);
 					JFrame w = (JFrame) SwingUtilities.getWindowAncestor(panel);
                     w.dispose();

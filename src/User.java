@@ -13,6 +13,7 @@ public class User implements Serializable{
 	private String pw_hash;
 	private LinkedList<Event> events = new LinkedList<Event>();//User will have a linked list with "events" that are later represented in Calendar
 	private LinkedList<Event> pEvents = new LinkedList<Event>();//Public event made by teacher and admin (needs to implemented in saveUser() and loadUser())
+	private LinkedList<Group> groups = new LinkedList<Group>();
 	private Style style = new Style();
 	private FileInputStream in = null;
 	private FileOutputStream out = null;
@@ -69,10 +70,6 @@ public class User implements Serializable{
 	
 	public void setNick(String a) {
 		nick = a;
-	}
-	
-	public void addPEvent(Event e){
-		pEvents.add(e);
 	}
 	
 	public LinkedList<Event> sortEvent(LinkedList<Event> event){
@@ -132,6 +129,14 @@ public class User implements Serializable{
 		pw_hash = pw_hash_new;
 	}
 	
+	public void setPEvents(LinkedList<Event> e) {
+		pEvents = e;
+	}
+	
+	public LinkedList<Event> getPEvents() {
+		return pEvents;
+	}
+	
 	public void setEvents(LinkedList<Event> e) {
 		events = e;
 	}
@@ -148,6 +153,21 @@ public class User implements Serializable{
 			Event given = null;
 			for(int i = 0; i < events.size(); i++) {
 				given = events.get(i);
+				sb.append("==== Event #" + i + ": "+ given.getYear() + "/" + given.getMonth() + "/" + given.getDay() + ", " + given.getName() + " (" + given.getDescription() + ")");
+			}
+			return sb.toString();
+		}
+		return "No events.";
+	}
+	
+	public String printPEvents() {
+		LinkedList<Event> pEvents = getPEvents();
+		StringBuilder sb = new StringBuilder();
+		if( pEvents != null )
+		{
+			Event given = null;
+			for(int i = 0; i < pEvents.size(); i++) {
+				given = pEvents.get(i);
 				sb.append("==== Event #" + i + ": "+ given.getYear() + "/" + given.getMonth() + "/" + given.getDay() + ", " + given.getName() + " (" + given.getDescription() + ")");
 			}
 			return sb.toString();
@@ -185,6 +205,21 @@ public class User implements Serializable{
 			Event given = events.getFirst();
 			for( int i = 0; i < events.size(); i++) {
 				given = events.get(i);
+				if( given.getYear() == y & given.getMonth() == m & given.getDay() == d )
+					ret.add(given);
+			}
+			return ret; }
+		else{
+			return events;
+		}
+	}
+	
+	public LinkedList<Event> getPEventsByDate(int y, int m, int d) {
+		LinkedList<Event> ret = new LinkedList<Event>();
+		if( pEvents.size() > 0 ) {
+			Event given = pEvents.getFirst();
+			for( int i = 0; i < pEvents.size(); i++) {
+				given = pEvents.get(i);
 				if( given.getYear() == y & given.getMonth() == m & given.getDay() == d )
 					ret.add(given);
 			}
@@ -337,6 +372,14 @@ public class User implements Serializable{
 		this.style = style;
 	}
 	
+	public void clearPEvents(){
+		pEvents = new LinkedList<Event>();
+	}
+	
+	public void clearEvents(){
+		events = new LinkedList<Event>();
+	}
+	
 	//Deprecated
 	
 	public void verifyUser(User toVerify) {
@@ -345,5 +388,9 @@ public class User implements Serializable{
 		} else {
 			System.out.println("You are not authorized to perform this operation.");
 		}
+	}
+	
+	public void addPEvent(Event e){
+		pEvents.add(e);
 	}
 }

@@ -1,10 +1,12 @@
 import java.util.LinkedList;
+import java.io.*;
 
 public class Timetable {
 	private static int year;
 	private static int month;
 	private static int day;
 	private static Time time = new Time();
+	private static final String dir = System.getProperty("user.dir");
 	
 	public static void main(String[] args){
 		//===================PVZ kaip veikia time klase===============
@@ -30,6 +32,19 @@ public class Timetable {
 			Login login = new Login();
 			*/
 			Login login = new Login();
+			/*
+			try {
+			LinkedList<Event> pEventsTest = new LinkedList<Event>();
+			FileOutputStream fOutTemp = new FileOutputStream(dir + "\\src\\pEvents\\pEvents.txt");
+			ObjectOutputStream outObject = new ObjectOutputStream(fOutTemp);
+			outObject.writeObject(pEventsTest);
+			outObject.close();
+			} catch(FileNotFoundException ee) {
+				System.out.println("404 ERROR: pEvents.txt not found");
+			} catch(IOException oo) {
+				System.out.println("IOException");
+			}
+			*/
 			/*User Admin = new User("admin", "admin");
 			Admin.setIsAdmin(true);
 			Admin.setIsVerified(true);

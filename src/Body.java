@@ -406,9 +406,21 @@ public class Body extends JFrame {
 				else{
 					a = new JButton(Integer.toString(i));
 					a.setLayout(new GridLayout(0,1));
+					JScrollPane spane = new JScrollPane(a,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+					spane.setBorder(BorderFactory.createEmptyBorder());
+					spane.getVerticalScrollBar().setPreferredSize(new Dimension(10,0));
+					
 					if(user.getEventsByDate(time.getYear(), time.getMonth(), i).size()>0){
 						a.setBackground(user.getStyle().getEventBackground());
 						for(Event e: user.getEventsByDate(time.getYear(), time.getMonth(), i)){
+							JLabel eventlabel = new JLabel(e.getName());
+							eventlabel.setHorizontalAlignment(SwingConstants.CENTER);
+							a.add(eventlabel);
+						}
+					}
+					if(user.getPEventsByDate(time.getYear(), time.getMonth(), i).size()>0){
+						a.setBackground(user.getStyle().getEventBackground());
+						for(Event e: user.getPEventsByDate(time.getYear(), time.getMonth(), i)){
 							JLabel eventlabel = new JLabel(e.getName());
 							eventlabel.setHorizontalAlignment(SwingConstants.CENTER);
 							a.add(eventlabel);
@@ -418,13 +430,14 @@ public class Body extends JFrame {
 					a.setHorizontalAlignment(SwingConstants.LEFT);
 					a.setVerticalAlignment(SwingConstants.TOP);
 					a.setBorder(null);
-					a.setPreferredSize(new Dimension(90,90));
-					main.add(a);
+					spane.setPreferredSize(new Dimension(90,90));
+					//a.setPreferredSize(new Dimension(90,90));
+					main.add(spane);
 					a.addActionListener(new ActionListener(){
 						public void actionPerformed(ActionEvent e) {
 							System.out.println("you pressed: "+e.getActionCommand());
-							LinkedList<Event> events = user.getEventsByDate(time.getYear(), time.getMonth(), Integer.parseInt(e.getActionCommand()));
-							PopoutEventShow(events, e.getActionCommand());
+							//LinkedList<Event> events = user.getEventsByDate(time.getYear(), time.getMonth(), Integer.parseInt(e.getActionCommand()));
+							PopoutEventShow(Integer.parseInt(e.getActionCommand()));
 						}
 					});
 					if(i==dim && i%7==0){
@@ -448,11 +461,48 @@ public class Body extends JFrame {
 		calendar.setBackground(user.getStyle().getBackground());
 	}
 	
-	public void PopoutEventShow(LinkedList<Event> events, String d){
+	public void PopoutEventShow(int d){
 		pFrame = new JFrame();
 		JButton create = new JButton("Create event");
 		
+		LinkedList<Event> events = user.getEventsByDate(time.getYear(), time.getMonth(), d);
+		LinkedList<Event> pevents = user.getPEventsByDate(time.getYear(), time.getMonth(), d);
+		
 		for(Event a: events){
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridBagLayout());
+			
+			JLabel info = new JLabel(a.getName()+" ("+Integer.toString(a.getYear())+" "+Integer.toString(a.getMonth())+" "+Integer.toString(a.getDay())+")");
+			JLabel desc = new JLabel("Description: \n"+a.getDescription());
+			
+			info.setSize(100000, 50);
+			info.setHorizontalAlignment(SwingConstants.LEFT);
+			info.setVerticalAlignment(SwingConstants.BOTTOM);
+			desc.setHorizontalAlignment(SwingConstants.LEFT);
+			desc.setVerticalAlignment(SwingConstants.TOP);
+			
+			c = new GridBagConstraints();
+			c.anchor = GridBagConstraints.FIRST_LINE_START;
+			c.gridx = 0;
+			c.gridy = 0;
+			panel.add(info,c);
+			
+			c = new GridBagConstraints();
+			c.anchor = GridBagConstraints.LINE_START;
+			c.gridx = 0;
+			c.gridy = 1;
+			JScrollPane scrollPane = new JScrollPane(desc);
+			scrollPane.setPreferredSize(new Dimension(300,300));
+			panel.add(scrollPane,c);
+			panel.setBorder(BorderFactory.createEmptyBorder(0, 5, 10, 5));
+			panel.setBorder(BorderFactory.createEtchedBorder());
+			panel.setBackground(user.getStyle().getBackground());
+			panel.setForeground(user.getStyle().getForeground());
+			
+			pFrame.add(panel);
+		}
+		
+		for(Event a: pevents){
 			JPanel panel = new JPanel();
 			panel.setLayout(new GridBagLayout());
 			
@@ -538,11 +588,12 @@ public class Body extends JFrame {
 		pFrame.setLocationRelativeTo(null);
 		pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		pFrame.setMinimumSize(new Dimension(150,150));
-		pFrame.setSize(700,400);
+		pFrame.setSize(750,400);
 		pFrame.setVisible(true);
 		pFrame.setResizable(false);
 		
 		submit.addActionListener(new ActionListener(){
+			@SuppressWarnings("unchecked")
 			public void actionPerformed(ActionEvent e) {
 				List<String> MonthsUC = Arrays.asList("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
 				List<String> monthsLC = Arrays.asList("january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december");
@@ -558,7 +609,27 @@ public class Body extends JFrame {
 						event = new Event(name.getText(), Integer.parseInt(year.getText()), Integer.parseInt(month.getText())-1, Integer.parseInt(day.getText()), description.getText());
 					}
 					if(!pEvent.isSelected())user.addEvent(event);
-					else user.addPEvent(event);
+					else {
+						try {
+							FileInputStream fInTemp = new FileInputStream(dir + "\\src\\pEvents\\pEvents.txt");
+							ObjectInputStream inObject = new ObjectInputStream(fInTemp);
+							LinkedList<Event> pEvents = new LinkedList<Event>();
+							pEvents = (LinkedList<Event>) inObject.readObject();
+							inObject.close();
+							pEvents.add(event);
+							user.setPEvents(pEvents);
+							FileOutputStream fOutTemp = new FileOutputStream(dir + "\\src\\pEvents\\pEvents.txt");
+							ObjectOutputStream outObject = new ObjectOutputStream(fOutTemp);
+							outObject.writeObject(pEvents);
+							outObject.close();
+						} catch(FileNotFoundException ee) {
+							System.out.println("404 ERROR: pEvents.txt or target directory not found");
+						} catch(ClassNotFoundException a) {
+							System.out.println("Corrupted pEvents.txt");
+						} catch(IOException oo) {
+							System.out.println("IOException");
+						}
+					}
 					user.saveUser();
 					pFrame.setVisible(false);
 					pFrame.dispose();
@@ -689,6 +760,7 @@ public class Body extends JFrame {
 		Account.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				//Edited duplicate of SettingsActionListener code
+				if( table.getSelectedRow() >= 0 ) {
 				select = table.getSelectedRow();
 				String userS = (String) table.getValueAt(table.getSelectedRow(), 0);
 				user2 = new User();
@@ -772,10 +844,11 @@ public class Body extends JFrame {
 					});
 				changePass.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e) {
-						user.setPW_Hash(user.hashPassword(pass2.getText()));
+						user2.setPW_Hash(user2.hashPassword(pass2.getText()));
 						user2.saveUser();
 					}
 					});
+				}
 			}
 		});
 		
