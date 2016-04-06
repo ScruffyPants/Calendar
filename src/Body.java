@@ -405,11 +405,12 @@ public class Body extends JFrame {
 				}
 				else{
 					a = new JButton(Integer.toString(i));
-					a.setLayout(new GridLayout(0,1));
 					JScrollPane spane = new JScrollPane(a,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+					a.setLayout(new GridLayout(0,1));
 					spane.setBorder(BorderFactory.createEmptyBorder());
 					spane.getVerticalScrollBar().setPreferredSize(new Dimension(10,0));
-					
+
+					a.setBackground(user.getStyle().getDayBackground());
 					if(user.getEventsByDate(time.getYear(), time.getMonth(), i).size()>0){
 						a.setBackground(user.getStyle().getEventBackground());
 						for(Event e: user.getEventsByDate(time.getYear(), time.getMonth(), i)){
@@ -430,7 +431,6 @@ public class Body extends JFrame {
 							a.add(eventlabel);
 						}
 					}
-					else a.setBackground(user.getStyle().getDayBackground());
 					a.setHorizontalAlignment(SwingConstants.LEFT);
 					a.setVerticalAlignment(SwingConstants.TOP);
 					a.setBorder(null);

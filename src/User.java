@@ -208,7 +208,8 @@ public class User implements Serializable{
 				if( given.getYear() == y & given.getMonth() == m & given.getDay() == d )
 					ret.add(given);
 			}
-			return ret; }
+			return ret; 
+		}
 		else{
 			return pEvents;
 		}

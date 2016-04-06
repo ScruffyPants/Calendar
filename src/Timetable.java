@@ -32,7 +32,8 @@ public class Timetable {
 			Login login = new Login();
 			*/
 			Login login = new Login();
-			/*try {
+			/*
+			try {
 			LinkedList<Event> pEventsTest = new LinkedList<Event>();
 			FileOutputStream fOutTemp = new FileOutputStream(dir + "\\src\\pEvents\\pEvents.txt");
 			ObjectOutputStream outObject = new ObjectOutputStream(fOutTemp);
