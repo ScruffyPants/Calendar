@@ -28,6 +28,20 @@ public class Body extends JFrame {
 	JTextField enteredMonth = new JTextField();
 	JTextField fName2 = new JTextField();
 	JTextField lName2 = new JTextField();
+	JTextField yStart = new JTextField();
+	JTextField mStart = new JTextField();
+	JTextField dStart = new JTextField();
+	JTextField yEnd = new JTextField();
+	JTextField mEnd = new JTextField();
+	JTextField dEnd = new JTextField();
+	JTextField delay = new JTextField();
+	JCheckBox Monday = new JCheckBox();
+	JCheckBox Tuesday = new JCheckBox();
+	JCheckBox Wednesday = new JCheckBox();
+	JCheckBox Thursday = new JCheckBox();
+	JCheckBox Friday = new JCheckBox();
+	JCheckBox Saturday = new JCheckBox();
+	JCheckBox Sunday = new JCheckBox();
 	JTextPane description = new JTextPane();
 	JPasswordField pass2 = new JPasswordField();
 	JButton forwards = new JButton(">");
@@ -171,13 +185,14 @@ public class Body extends JFrame {
 	}
 	
 	public void DrawMenu(){
-		JMenu Calendar, Account, Add, Info, Admin;
-		JMenuItem Exit, Logout, AddEvent, AddSchedule, Reload, UserControl, Settings, About, GetToDate, Style, Groups;
+		JMenu Calendar, Account, Add, Info, Admin, GroupsMenu;
+		JMenuItem Exit, Logout, AddEvent, AddSchedule, Reload, UserControl, Settings, About, GetToDate, Style, GroupsAdd, GroupsManage;
 		
 		Calendar = new JMenu("Calendar");
 		Account = new JMenu("Account");
 		Add = new JMenu("Add");
 		Info = new JMenu("Info");
+		GroupsMenu = new JMenu("Groups");
 		
 		if(user.getIsAdmin() && user.getIsVerified()) {
 			Admin = new JMenu("Admin");
@@ -204,7 +219,8 @@ public class Body extends JFrame {
 		Settings = new JMenuItem("Settings");
 		About = new JMenuItem("About");
 		GetToDate = new JMenuItem("Get To Date");
-		Groups = new JMenuItem("Groups");
+		GroupsAdd = new JMenuItem("Make Group");
+		GroupsManage = new JMenuItem("Manage Groups");
 		
 		Info.add(About);
 		Calendar.add(Exit);
@@ -212,17 +228,25 @@ public class Body extends JFrame {
 		Calendar.add(GetToDate);
 		Add.add(AddEvent);
 		Add.add(AddSchedule);
+		GroupsMenu.add(GroupsAdd);
+		GroupsMenu.add(GroupsManage);
 		Account.add(Add);
 		Account.add(Style);
 		Account.add(Settings);
 		Account.add(Logout);
-		Account.add(Groups);
+		Account.add(GroupsMenu);
 		
-		Groups.addActionListener(new ActionListener(){
+		GroupsAdd.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				Group group = new Group();
-				Group group2 = group.createNewGroup(user);
-				if(!group2.getName().equals(null))user.addGroup(group2);
+				group = group.createNewGroup(user);
+			}
+		});
+		
+		GroupsManage.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				Group group = new Group();
+				group.showGroupManage(user);
 			}
 		});
 		
@@ -701,13 +725,13 @@ public class Body extends JFrame {
 		JPanel basicinfo = new JPanel(new GridLayout(0,1));
 		
 		name = new JTextField(20);
-		JTextField yStart = new JTextField(20);
-		JTextField mStart = new JTextField(20);
-		JTextField dStart = new JTextField(20);
-		JTextField yEnd = new JTextField(20);
-		JTextField mEnd = new JTextField(20);
-		JTextField dEnd = new JTextField(20);
-		JTextField delay = new JTextField(2);
+		yStart = new JTextField(20);
+		mStart = new JTextField(20);
+		dStart = new JTextField(20);
+		yEnd = new JTextField(20);
+		mEnd = new JTextField(20);
+		dEnd = new JTextField(20);
+		delay = new JTextField(2);
 		
 		basicinfo.add(new JLabel("Name: "));
 		name.setHorizontalAlignment(SwingConstants.LEFT);
@@ -751,13 +775,13 @@ public class Body extends JFrame {
 		pFrame.add(new JLabel("Description: "));
 		pFrame.add(scrollpane);
 		
-		JCheckBox Monday = new JCheckBox();
-		JCheckBox Tuesday = new JCheckBox();
-		JCheckBox Wednesday = new JCheckBox();
-		JCheckBox Thursday = new JCheckBox();
-		JCheckBox Friday = new JCheckBox();
-		JCheckBox Saturday = new JCheckBox();
-		JCheckBox Sunday = new JCheckBox();
+		Monday = new JCheckBox();
+		Tuesday = new JCheckBox();
+		Wednesday = new JCheckBox();
+		Thursday = new JCheckBox();
+		Friday = new JCheckBox();
+		Saturday = new JCheckBox();
+		Sunday = new JCheckBox();
 			
 		pFrame.add(new JLabel("Monday: "));
 		pFrame.add(Monday);
