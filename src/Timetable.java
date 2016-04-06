@@ -55,7 +55,7 @@ public class Timetable {
 			
 			Login login = new Login();*/
 			
-			User user = new User();
+			/*User user = new User();
 			int[] stuff = {2014, 3, 14, 2016, 5, 15};
 			boolean[] stuff2 = {true, true, false, true, false, false, false};
 			Schedule s1 = new Schedule("test1", "desc", stuff, stuff2, 0 );

@@ -125,7 +125,7 @@ public class User implements Serializable{
 	}
 	
 	public void addEvent(Event event) {
-		System.out.println("Event to add: " + event.getYear() + "/" + event.getMonth() + "/" + event.getDay());
+		//System.out.println("Event to add: " + event.getYear() + "/" + event.getMonth() + "/" + event.getDay());
 		events.add(event);
 	}
 	
@@ -302,9 +302,9 @@ public class User implements Serializable{
 	
 	public void saveUser(){
 		try{
-			System.out.println("Saving User");
+			//System.out.println("Saving User");
 			String temp = dir + "/src/Users/"+this.getNick()+".txt";
-			System.out.println("File location = "+temp);
+			//System.out.println("File location = "+temp);
 			out = new FileOutputStream(temp);
 			ObjectOutputStream outObject = new ObjectOutputStream(out);
 			User user = new User();
@@ -334,7 +334,7 @@ public class User implements Serializable{
 	
 	public void loadUser(String Nick){
 		try{
-			System.out.println("Loading User");
+			//System.out.println("Loading User");
 			String temp = dir + "/src/Users/" + Nick + ".txt";
 			in = new FileInputStream(temp);
 			ObjectInputStream inObject = new ObjectInputStream(in);
@@ -383,16 +383,16 @@ public class User implements Serializable{
 	}
 	
 	public LinkedList<Schedule> getSchedulesByDate(int y, int m, int d) {
-		System.out.println("Checking for date " + y + "//" + m + "//" + d);
+		//System.out.println("Checking for date " + y + "//" + m + "//" + d);
 		LinkedList<Schedule> ret = new LinkedList<Schedule>();
 		Schedule given = null;
 		Time time = new Time();
 		int dow = time.getDayOfWeek(y, m, d);
-		System.out.println("" + dow);
+		//System.out.println("" + dow);
 		for( int i = 0; i < schedules.size(); i++ ) {
 			given = schedules.get(i);
 			if( checkInRange( y, m, d, given.getYStart(), given.getMStart(), given.getDStart(), given.getYEnd(), given.getMEnd(), given.getDEnd() ) ) {
-				System.out.println("" + given.getDays()[dow-1]);
+				//System.out.println("" + given.getDays()[dow-1]);
 				if( given.getDays()[dow-1] ) {
 					ret.add(given);
 				}

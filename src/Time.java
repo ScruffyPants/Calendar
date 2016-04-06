@@ -68,9 +68,9 @@ public class Time {
 	
 	public int getFirstDayOfMonth(Time time){
 		Calendar cal = time.temp;
-		System.out.println("Month in getFirstDayOfMonth: "+time.getMonth());
+		//System.out.println("Month in getFirstDayOfMonth: "+time.getMonth());
 		cal.set(Calendar.DAY_OF_MONTH, cal.getActualMinimum(Calendar.MONTH)+1);
-		System.out.println("Month in getFirstDayOfMonth: "+time.getMonth());
+		//System.out.println("Month in getFirstDayOfMonth: "+time.getMonth());
 		SimpleDateFormat sdf = new SimpleDateFormat("u");
 		return Integer.parseInt(sdf.format(cal.getTime()));
 	}
