@@ -13,6 +13,7 @@ public class User implements Serializable{
 	private String pw_hash;
 	private LinkedList<Event> events = new LinkedList<Event>();//User will have a linked list with "events" that are later represented in Calendar
 	private LinkedList<Event> pEvents = new LinkedList<Event>();//Public event made by teacher or admin
+	private LinkedList<Schedule> schedules = new LinkedList<Schedule>();
 	private LinkedList<Group> groups = new LinkedList<Group>();
 	private Style style = new Style();
 	private FileInputStream in = null;
@@ -119,6 +120,10 @@ public class User implements Serializable{
 	public void addEvent(Event event) {
 		System.out.println("Event to add: " + event.getYear() + "/" + event.getMonth() + "/" + event.getDay());
 		events.add(event);
+	}
+	
+	public void addSchedule(Schedule schedule) {
+		schedules.add(schedule);
 	}
 	
 	public String getPW_Hash() {

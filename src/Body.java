@@ -168,11 +168,12 @@ public class Body extends JFrame {
 	}
 	
 	public void DrawMenu(){
-		JMenu Calendar, Account, Info, Admin;
-		JMenuItem Exit, Logout, AddEvent, Reload, UserControl, Settings, About, GetToDate, Style;
+		JMenu Calendar, Account, Add, Info, Admin;
+		JMenuItem Exit, Logout, AddEvent, AddSchedule, Reload, UserControl, Settings, About, GetToDate, Style;
 		
 		Calendar = new JMenu("Calendar");
 		Account = new JMenu("Account");
+		Add = new JMenu("Add");
 		Info = new JMenu("Info");
 		
 		if(user.getIsAdmin() && user.getIsVerified()) {
@@ -194,7 +195,8 @@ public class Body extends JFrame {
 		Style = new JMenuItem("Style");
 		Exit = new JMenuItem("Exit");
 		Logout = new JMenuItem("Logout");
-		AddEvent = new JMenuItem("Add Event");
+		AddEvent = new JMenuItem("Event");
+		AddSchedule = new JMenuItem("Schedule");
 		Reload = new JMenuItem("Reload");
 		Settings = new JMenuItem("Settings");
 		About = new JMenuItem("About");
@@ -204,7 +206,9 @@ public class Body extends JFrame {
 		Calendar.add(Exit);
 		Calendar.add(Reload);
 		Calendar.add(GetToDate);
-		Account.add(AddEvent);
+		Add.add(AddEvent);
+		Add.add(AddSchedule);
+		Account.add(Add);
 		Account.add(Style);
 		Account.add(Settings);
 		Account.add(Logout);
@@ -234,6 +238,12 @@ public class Body extends JFrame {
 		AddEvent.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				PopoutEventAdd();
+			}
+		});
+		
+		AddSchedule.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				PopoutScheduleAdd();
 			}
 		});
 		
@@ -663,6 +673,109 @@ public class Body extends JFrame {
 			}
 		});
 	}
+	
+	public void PopoutScheduleAdd(){
+		JButton submit = new JButton("Submit");
+		pFrame = new JFrame();
+		JPanel basicinfo = new JPanel(new GridLayout(0,1));
+		
+		name = new JTextField(20);
+		JTextField yStart = new JTextField(20);
+		JTextField mStart = new JTextField(20);
+		JTextField dStart = new JTextField(20);
+		JTextField yEnd = new JTextField(20);
+		JTextField mEnd = new JTextField(20);
+		JTextField dEnd = new JTextField(20);
+		JTextField delay = new JTextField(2);
+		
+		basicinfo.add(new JLabel("Name: "));
+		name.setHorizontalAlignment(SwingConstants.LEFT);
+		basicinfo.add(name);
+		
+		basicinfo.add(new JLabel("Year: "));
+		yStart.setHorizontalAlignment(SwingConstants.LEFT);
+		basicinfo.add(yStart);
+		
+		basicinfo.add(new JLabel("Month: "));
+		mStart.setHorizontalAlignment(SwingConstants.LEFT);
+		basicinfo.add(mStart);
+		
+		basicinfo.add(new JLabel("Day: "));
+		dStart.setHorizontalAlignment(SwingConstants.LEFT);
+		basicinfo.add(dStart);
+		
+		basicinfo.add(new JLabel("Year: "));
+		yEnd.setHorizontalAlignment(SwingConstants.LEFT);
+		basicinfo.add(yEnd);
+		
+		basicinfo.add(new JLabel("Month: "));
+		mEnd.setHorizontalAlignment(SwingConstants.LEFT);
+		basicinfo.add(mEnd);
+		
+		basicinfo.add(new JLabel("Day: "));
+		dEnd.setHorizontalAlignment(SwingConstants.LEFT);
+		basicinfo.add(dEnd);
+		
+		basicinfo.add(new JLabel("Delay between weeks of occurance (in weeks):"));
+		dEnd.setHorizontalAlignment(SwingConstants.LEFT);
+		basicinfo.add(delay);
+		
+		description = new JTextPane();
+		JScrollPane scrollpane = new JScrollPane(description,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollpane.setPreferredSize(new Dimension(300,300));
+		scrollpane.setMinimumSize(new Dimension(20,20));
+		
+		pFrame.setLayout(new FlowLayout());
+		pFrame.add(basicinfo);
+		pFrame.add(new JLabel("Description: "));
+		pFrame.add(scrollpane);
+		
+		JCheckBox Monday = new JCheckBox();
+		JCheckBox Tuesday = new JCheckBox();
+		JCheckBox Wednesday = new JCheckBox();
+		JCheckBox Thursday = new JCheckBox();
+		JCheckBox Friday = new JCheckBox();
+		JCheckBox Saturday = new JCheckBox();
+		JCheckBox Sunday = new JCheckBox();
+			
+		pFrame.add(new JLabel("Monday: "));
+		pFrame.add(Monday);
+		pFrame.add(new JLabel("Tuesday: "));
+		pFrame.add(Tuesday);
+		pFrame.add(new JLabel("Wednesday: "));
+		pFrame.add(Wednesday);
+		pFrame.add(new JLabel("Thursday: "));
+		pFrame.add(Thursday);
+		pFrame.add(new JLabel("Friday: "));
+		pFrame.add(Friday);
+		pFrame.add(new JLabel("Saturday: "));
+		pFrame.add(Saturday);
+		pFrame.add(new JLabel("Sunday: "));
+		pFrame.add(Sunday);
+		
+		pFrame.add(submit);
+		pFrame.setLocationRelativeTo(null);
+		pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		pFrame.setMinimumSize(new Dimension(150,150));
+		pFrame.setSize(700,400);
+		pFrame.setVisible(true);
+		pFrame.setResizable(false);
+		
+		submit.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				Schedule toAdd = new Schedule(name.getText(), description.getText(), Integer.parseInt(yStart.getText(),10), Integer.parseInt(mStart.getText(),10),  Integer.parseInt(dStart.getText(),10), Integer.parseInt(yEnd.getText(),10), Integer.parseInt(mEnd.getText(),10), Integer.parseInt(dEnd.getText(),10), Monday.isSelected(), Tuesday.isSelected(), Wednesday.isSelected(), Thursday.isSelected(), Friday.isSelected(), Saturday.isSelected(), Sunday.isSelected(), Integer.parseInt(delay.getText(),10) );                                              
+				user.addSchedule(toAdd);
+				user.saveUser();
+				pFrame.setVisible(false);
+				pFrame.dispose();
+				frame.setVisible(false);
+				frame.dispose();
+				user.saveUser();
+				Body body = new Body(time, user);
+			}
+		});
+	}
+	
 	public void PopoutUserControlDialog() {
 		pFrame = new JFrame();
 		JMenuBar adminMenuBar = new JMenuBar();
