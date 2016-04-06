@@ -32,7 +32,8 @@ public class Timetable {
 			Login login = new Login();
 			*/
 			Login login = new Login();
-			/*try {
+			/*
+			try {
 			LinkedList<Event> pEventsTest = new LinkedList<Event>();
 			FileOutputStream fOutTemp = new FileOutputStream(dir + "\\src\\pEvents\\pEvents.txt");
 			ObjectOutputStream outObject = new ObjectOutputStream(fOutTemp);
@@ -42,7 +43,7 @@ public class Timetable {
 				System.out.println("404 ERROR: pEvents.txt not found");
 			} catch(IOException oo) {
 				System.out.println("IOException");
-			}*/
+			}
 			/*User Admin = new User("admin", "admin");
 			Admin.setIsAdmin(true);
 			Admin.setIsVerified(true);
