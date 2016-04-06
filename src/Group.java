@@ -2,6 +2,7 @@ import java.io.Serializable;
 import java.util.LinkedList;
 
 public class Group implements Serializable{
+	private static final long serialVersionUID = 1504199602031999L;
 	private String name;
 	private LinkedList<User> users = new LinkedList<User>();
 	private LinkedList<Event> events = new LinkedList<Event>();

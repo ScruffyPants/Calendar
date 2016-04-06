@@ -75,13 +75,14 @@ public class Login extends JFrame implements ActionListener{
 					LinkedList<Event> pEvents = new LinkedList<Event>();
 					pEvents = (LinkedList<Event>) object.readObject();
 					object.close();
+					ftemp.close();
 					user.setPEvents(pEvents);
 					} catch(FileNotFoundException ee) {
-						
+						System.out.println("404 ERROR: pEvents.txt or target directory not found");
 					} catch(ClassNotFoundException a) {
-						
+						System.out.println("Corrupted pEvents.txt");
 					} catch(IOException oo) {
-						
+						System.out.println("IOException");
 					}
 					
 					Body body = new Body(time, user);

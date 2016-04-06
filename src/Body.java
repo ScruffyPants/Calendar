@@ -418,6 +418,10 @@ public class Body extends JFrame {
 							a.add(eventlabel);
 						}
 					}
+					else a.setBackground(user.getStyle().getDayBackground());
+					a.setHorizontalAlignment(SwingConstants.LEFT);
+					a.setVerticalAlignment(SwingConstants.TOP);
+					a.setBorder(null);
 					if(user.getPEventsByDate(time.getYear(), time.getMonth(), i).size()>0){
 						a.setBackground(user.getStyle().getEventBackground());
 						for(Event e: user.getPEventsByDate(time.getYear(), time.getMonth(), i)){
@@ -617,6 +621,7 @@ public class Body extends JFrame {
 							pEvents = (LinkedList<Event>) inObject.readObject();
 							System.out.println("pEvents List received from OBJIN");
 							inObject.close();
+							fInTemp.close();
 							Event given = null;
 							for(int i = 0; i < pEvents.size(); i++) {
 								given = pEvents.get(i);
@@ -628,6 +633,7 @@ public class Body extends JFrame {
 							ObjectOutputStream outObject = new ObjectOutputStream(fOutTemp);
 							outObject.writeObject(pEvents);
 							outObject.close();
+							fOutTemp.close();
 						} catch(FileNotFoundException ee) {
 							System.out.println("404 ERROR: pEvents.txt or target directory not found");
 						} catch(ClassNotFoundException a) {
@@ -639,6 +645,10 @@ public class Body extends JFrame {
 					user.saveUser();
 					pFrame.setVisible(false);
 					pFrame.dispose();
+					frame.setVisible(false);
+					frame.dispose();
+					user.saveUser();
+					Body body = new Body(time, user);
 					//Body body = new Body(time, user);
 				}
 				else{

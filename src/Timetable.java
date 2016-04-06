@@ -42,7 +42,7 @@ public class Timetable {
 				System.out.println("404 ERROR: pEvents.txt not found");
 			} catch(IOException oo) {
 				System.out.println("IOException");
-			}*/
+			}
 			/*User Admin = new User("admin", "admin");
 			Admin.setIsAdmin(true);
 			Admin.setIsVerified(true);

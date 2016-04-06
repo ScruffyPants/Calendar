@@ -12,7 +12,7 @@ public class User implements Serializable{
 	private String nick;
 	private String pw_hash;
 	private LinkedList<Event> events = new LinkedList<Event>();//User will have a linked list with "events" that are later represented in Calendar
-	private LinkedList<Event> pEvents = new LinkedList<Event>();//Public event made by teacher and admin (needs to implemented in saveUser() and loadUser())
+	private LinkedList<Event> pEvents = new LinkedList<Event>();//Public event made by teacher or admin
 	private LinkedList<Group> groups = new LinkedList<Group>();
 	private Style style = new Style();
 	private FileInputStream in = null;
@@ -160,20 +160,6 @@ public class User implements Serializable{
 		return "No events.";
 	}
 	
-	public String printPEvents() {
-		StringBuilder sb = new StringBuilder();
-		if( pEvents != null )
-		{
-			Event given = null;
-			for(int i = 0; i < pEvents.size(); i++) {
-				given = pEvents.get(i);
-				sb.append("==== Event #" + i + ": "+ given.getYear() + "/" + given.getMonth() + "/" + given.getDay() + ", " + given.getName() + " (" + given.getDescription() + ")");
-			}
-			return sb.toString();
-		}
-		return "No events.";
-	}
-	
 	public boolean getIsTeacher() {
 		return isTeacher;
 	}
@@ -194,7 +180,7 @@ public class User implements Serializable{
 		return isVerified;
 	}
 	
-	public void setIsVerified( boolean s) {
+	public void setIsVerified(boolean s) {
 		isVerified = s;
 	}
 	
@@ -224,7 +210,7 @@ public class User implements Serializable{
 			}
 			return ret; }
 		else{
-			return events;
+			return pEvents;
 		}
 	}
 	
@@ -279,7 +265,7 @@ public class User implements Serializable{
 			StringBuilder builder = new StringBuilder();
 			for( byte a : pw_hash_bytes )
 			{
-				builder.append(String.format("%02X ", a ));
+				builder.append(String.format("%02X", a ));
 			}         
 			String ret = builder.toString();
 			return ret;
