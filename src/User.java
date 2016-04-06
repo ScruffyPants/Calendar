@@ -384,4 +384,16 @@ public class User implements Serializable{
 	public void addPEvent(Event e){
 		pEvents.add(e);
 	}
+
+	public LinkedList<Group> getGroups() {
+		return groups;
+	}
+
+	public void setGroups(LinkedList<Group> groups) {
+		this.groups = groups;
+	}
+	
+	public void addGroup(Group group){
+		groups.add(group);
+	}
 }
