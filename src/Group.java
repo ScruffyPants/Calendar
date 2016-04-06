@@ -1,3 +1,4 @@
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +12,7 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import javax.swing.*;
 
-public class Group implements Serializable{
+public class Group implements Serializable, ActionListener{
 	private static final long serialVersionUID = 1504199602031999L;
 	private final String dir = System.getProperty("user.dir");
 	private String name;
@@ -21,10 +22,9 @@ public class Group implements Serializable{
 	private FileInputStream in = null;
 	private FileOutputStream out = null;
 	
-	JTextPane namepane = new JTextPane();
-	JFrame frame = new JFrame();
-	User tempuser = new User();
-	Group temp = new Group();
+	private transient JTextPane namepane = new JTextPane();
+	private transient JFrame frame = new JFrame();
+	private transient User tempuser = new User();
 	
 	public Group(){
 		name = null;
@@ -57,6 +57,12 @@ public class Group implements Serializable{
 	public void addAdmin(User user){
 		admins.add(user);
 	}
+	public LinkedList<User> getAdmins() {
+		return admins;
+	}
+	public void setAdmins(LinkedList<User> admins) {
+		this.admins = admins;
+	}
 	public void removeUser(String user){
 		for(int i=0;i<users.size();i++)
 			if(users.get(i).getNick().equals(user)){
@@ -78,7 +84,6 @@ public class Group implements Serializable{
 			return events;
 		}
 	}
-	
 	public void saveGroup(){
 		try{
 			System.out.println("Saving Group");
@@ -130,7 +135,6 @@ public class Group implements Serializable{
 	}
 	public Group createNewGroup(User user){
 		tempuser = user;
-		temp = new Group();
 		frame = new JFrame();
 		JPanel panel = new JPanel();
 		namepane = new JTextPane();
@@ -140,33 +144,64 @@ public class Group implements Serializable{
 		panel.add(new JLabel("Name: "));
 		panel.add(namepane);
 		panel.add(confirm);
+
 		
-		confirm.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				if(!namepane.getText().isEmpty()){
-					temp.setName(namepane.getText());
-					temp.addAdmin(tempuser);
-					temp.addUser(tempuser);
-					frame.setVisible(false);
-					frame.dispose();
-				}
-			}
-		});
+		frame.setLocationRelativeTo(null);
+		frame.pack();
 		frame.add(panel);
+		frame.setMinimumSize(new Dimension(400,200));
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setVisible(true);
 		
-		this.setEvents(temp.getEvents());
-		this.setName(temp.getName());
-		this.setUsers(temp.getUsers());
-		this.setAdmins(temp.getAdmins());
-		
+		confirm.addActionListener(this);
+
 		return this;
 	}
-	public LinkedList<User> getAdmins() {
-		return admins;
+	public void showGroupManage(User user){
+		JPanel panel = new JPanel();
+		JLabel a = new JLabel();
+		JButton edit = new JButton("Edit");
+		frame = new JFrame();
+		namepane = new JTextPane();
+		
+		frame.setLayout(new GridLayout(0,4));
+		panel.setLayout(new GridLayout(0,1));
+		
+		for(Group g: user.getGroups()){
+			a.setText(g.getName());
+			panel.add(a);
+			panel.add(new JLabel("Events:"));
+			JScrollPane scrollpane = new JScrollPane();
+			JPanel eventpanel = new JPanel();
+			eventpanel.setLayout(new GridLayout(0,2));
+			for(Event e: g.getEvents()){
+				eventpanel.add(new JLabel(e.getYear()+" "+e.getMonth()+" "+e.getDay()));
+				eventpanel.add(new JLabel(e.getName()));
+				scrollpane.add(eventpanel);
+			}
+			panel.add(scrollpane);
+			panel.add(edit);
+		}
+		panel.setBorder(BorderFactory.createEtchedBorder());
+		frame.add(panel);
+		frame.setVisible(true);
+		frame.setMinimumSize(new Dimension(400,200));
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
-	public void setAdmins(LinkedList<User> admins) {
-		this.admins = admins;
-	}
+	
+    public void actionPerformed(ActionEvent e) {
+    	if(e.getActionCommand() == "Confirm"){
+    		if(!namepane.getText().isEmpty()){
+    			this.setName(namepane.getText());
+    			this.addUser(tempuser);
+    			this.addAdmin(tempuser);
+    			frame.setVisible(false);
+    			frame.dispose();
+    		}
+    	}
+    	else if(e.getActionCommand() == "Edit"){
+    		JFrame pFrame = new JFrame();
+    		JPanel panel = new JPanel();
+    	}
+    }
 }

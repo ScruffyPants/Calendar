@@ -3,6 +3,13 @@ import java.util.Objects;
 import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 public class User implements Serializable{
 	private static final long serialVersionUID = 1504199602031999L;
@@ -310,6 +317,7 @@ public class User implements Serializable{
 			user.setIsTeacher(this.getIsTeacher());
 			user.setIsVerified(this.getIsVerified());
 			user.setStyle(this.getStyle());
+			user.setGroups(this.getGroups());
 			outObject.writeObject(user);
 			outObject.close();
 			out.close();
@@ -340,6 +348,7 @@ public class User implements Serializable{
 			this.setIsTeacher(user.getIsTeacher());
 			this.setIsVerified(user.getIsVerified());
 			this.setStyle(user.getStyle());
+			this.setGroups(user.getGroups());
 			inObject.close();
 			in.close();
 		}
@@ -389,11 +398,12 @@ public class User implements Serializable{
 		return groups;
 	}
 
-	public void setGroups(LinkedList<Group> groups) {
-		this.groups = groups;
+	public void setGroups(LinkedList<Group> g) {
+		groups = g;
 	}
 	
 	public void addGroup(Group group){
 		groups.add(group);
+		//this.saveUser();
 	}
 }

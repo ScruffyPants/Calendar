@@ -78,4 +78,7 @@ public class Time {
 		String[] monthNames = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};	
 		return monthNames[month];
 	}
+	public int getDayOfTheWeek(){
+		return temp.get(Calendar.DAY_OF_WEEK);
+	}
 }
