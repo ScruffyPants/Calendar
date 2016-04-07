@@ -21,7 +21,7 @@ public class User implements Serializable{
 	private LinkedList<Event> events = new LinkedList<Event>();//User will have a linked list with "events" that are later represented in Calendar
 	private LinkedList<Event> pEvents = new LinkedList<Event>();//Public event made by teacher or admin
 	private LinkedList<Schedule> schedules = new LinkedList<Schedule>();
-	private LinkedList<Group> groups = new LinkedList<Group>();
+	private LinkedList<String> groups = new LinkedList<String>();
 	private Style style = new Style();
 	private FileInputStream in = null;
 	private FileOutputStream out = null;
@@ -448,18 +448,7 @@ public class User implements Serializable{
 		}
 	}
 
-	public LinkedList<Group> getGroups() {
-		return groups;
-	}
-
-	public void setGroups(LinkedList<Group> g) {
-		groups = g;
-	}
 	
-	public void addGroup(Group group){
-		groups.add(group);
-		//this.saveUser();
-	}
 	
 	//Deprecated
 	
@@ -481,5 +470,17 @@ public class User implements Serializable{
 
 	public void setSchedules(LinkedList<Schedule> schedules) {
 		this.schedules = schedules;
+	}
+
+	public LinkedList<String> getGroups() {
+		return groups;
+	}
+
+	public void setGroups(LinkedList<String> groups) {
+		this.groups = groups;
+	}
+	
+	public void addGroup(String g){
+		groups.add(g);
 	}
 }

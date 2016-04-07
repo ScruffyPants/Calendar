@@ -240,7 +240,7 @@ public class Body extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Group group = new Group();
 				group = group.createNewGroup(user);
-				user.addGroup(group);
+				user.addGroup(group.getName());
 			}
 		});
 		

@@ -27,7 +27,7 @@ public class Group implements Serializable, ActionListener{
 	private transient User tempuser = new User();
 	
 	public Group(){
-		name = null;
+		name = "";
 	}
 	public Group(String n, User user){
 		name = n;
@@ -167,30 +167,13 @@ public class Group implements Serializable, ActionListener{
 		frame.setLayout(new GridLayout(0,4));
 		panel.setLayout(new GridLayout(0,1));
 		System.out.println("Checking for groups:"+user.getGroups().size());
-		for(Group g: user.getGroups()){
-			System.out.println("Found a group");
-			a.setText(g.getName());
-			panel.add(a);
-			panel.add(new JLabel("Events:"));
+		for(String s: user.getGroups()){
+			Group group = new Group();
+			group.loadGroup(s);
 			JScrollPane scrollpane = new JScrollPane();
-			JPanel eventpanel = new JPanel();
-			eventpanel.setLayout(new GridLayout(0,2));
-			for(Event e: g.getEvents()){
-				eventpanel.add(new JLabel(e.getYear()+" "+e.getMonth()+" "+e.getDay()));
-				eventpanel.add(new JLabel(e.getName()));
-				scrollpane.add(eventpanel);
+			for(Event e: group.getEvents()){
+				a.setText(getName());
 			}
-			panel.add(scrollpane);
-			scrollpane = new JScrollPane();
-			JPanel userpanel = new JPanel();
-			panel.add(new JLabel("Users:"));
-			for(User u: g.getUsers()){
-				System.out.println("Found a user");
-				userpanel.add(new JLabel(u.getNick()));
-				scrollpane.add(userpanel);
-			}
-			panel.add(scrollpane);
-			panel.add(edit);
 		}
 		panel.setBorder(BorderFactory.createEtchedBorder());
 		frame.add(panel);
@@ -205,6 +188,7 @@ public class Group implements Serializable, ActionListener{
     			this.setName(namepane.getText());
     			this.addUser(tempuser);
     			this.addAdmin(tempuser);
+    			this.saveGroup();
     			frame.setVisible(false);
     			frame.dispose();
     		}
