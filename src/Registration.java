@@ -92,7 +92,7 @@ public class Registration extends JFrame implements ActionListener{
                		dispose();
                		Timetable.main(null);
         		}
-        		else JOptionPane.showMessageDialog(null , "User already exists or password repeated incorrectly.");
+        		else JOptionPane.showMessageDialog(null,"User already exists or password repeated incorrectly.");
     		}
     	}
     	else if (e.getSource() == goback){

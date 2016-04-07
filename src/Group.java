@@ -11,6 +11,11 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.LinkedList;
 import javax.swing.*;
+import java.util.Objects;
+import java.io.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.io.Serializable;
 
 public class Group implements Serializable, ActionListener{
 	private static final long serialVersionUID = 1504199602031999L;
@@ -135,6 +140,7 @@ public class Group implements Serializable, ActionListener{
 	}
 	public Group createNewGroup(User user){
 		tempuser = user;
+		addUser(tempuser);
 		frame = new JFrame();
 		JPanel panel = new JPanel();
 		namepane = new JTextPane();
