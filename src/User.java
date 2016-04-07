@@ -448,19 +448,6 @@ public class User implements Serializable{
 		}
 	}
 
-	public LinkedList<String> getGroups() {
-		return groups;
-	}
-
-	public void setGroups(LinkedList<String> g) {
-		groups = g;
-	}
-	
-	public void addGroup(String group){
-		groups.add(group);
-		//this.saveUser();
-	}
-	
 	//Deprecated
 	
 	public void verifyUser(User toVerify) {
@@ -481,5 +468,17 @@ public class User implements Serializable{
 
 	public void setSchedules(LinkedList<Schedule> schedules) {
 		this.schedules = schedules;
+	}
+
+	public LinkedList<String> getGroups() {
+		return groups;
+	}
+
+	public void setGroups(LinkedList<String> groups) {
+		this.groups = groups;
+	}
+	
+	public void addGroup(String g){
+		groups.add(g);
 	}
 }
