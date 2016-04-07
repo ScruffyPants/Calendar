@@ -16,8 +16,8 @@ public class Group implements Serializable, ActionListener{
 	private static final long serialVersionUID = 1504199602031999L;
 	private final String dir = System.getProperty("user.dir");
 	private String name;
-	private transient LinkedList<User> users = new LinkedList<User>();
-	private transient LinkedList<User> admins = new LinkedList<User>();
+	private LinkedList<User> users = new LinkedList<User>();
+	private LinkedList<User> admins = new LinkedList<User>();
 	private LinkedList<Event> events = new LinkedList<Event>();
 	private FileInputStream in = null;
 	private FileOutputStream out = null;
@@ -117,8 +117,8 @@ public class Group implements Serializable, ActionListener{
 			Group group = new Group();
 			group = (Group) inObject.readObject();
 			this.setName(group.getName());
-			this.setEvents(group.getEvents());
 			this.setUsers(group.getUsers());
+			this.setEvents(group.getEvents());
 			inObject.close();
 			in.close();
 		}
