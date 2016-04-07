@@ -60,7 +60,7 @@ public class Body extends JFrame {
 	Body(Time t, User u){
 		time = t;
 		user = u;
-		System.out.println("Constructor month: "+time.getMonth());
+		//System.out.println("Constructor month: "+time.getMonth());
 		int preferredWidth = 30;
 		Dimension dimension = new Dimension(preferredWidth, 0);
 		
@@ -231,15 +231,16 @@ public class Body extends JFrame {
 		GroupsMenu.add(GroupsAdd);
 		GroupsMenu.add(GroupsManage);
 		Account.add(Add);
+		Account.add(GroupsMenu);
 		Account.add(Style);
 		Account.add(Settings);
 		Account.add(Logout);
-		Account.add(GroupsMenu);
 		
 		GroupsAdd.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				Group group = new Group();
 				group = group.createNewGroup(user);
+				user.addGroup(group);
 			}
 		});
 		
@@ -407,7 +408,7 @@ public class Body extends JFrame {
 	}
 	
 	public void DrawCalendar(){
-		System.out.println("Draw calendar month: "+time.getMonth());
+		//System.out.println("Draw calendar month: "+time.getMonth());
 		JPanel main = new JPanel(new GridLayout());
 		JPanel weekpanel = new JPanel(new GridLayout());
 		JLabel label = new JLabel(time.getYear()+" "+time.getMonthName(time.getMonth()));
@@ -494,7 +495,7 @@ public class Body extends JFrame {
 					main.add(spane);
 					a.addActionListener(new ActionListener(){
 						public void actionPerformed(ActionEvent e) {
-							System.out.println("you pressed: "+e.getActionCommand());
+							//System.out.println("you pressed: "+e.getActionCommand());
 							//LinkedList<Event> events = user.getEventsByDate(time.getYear(), time.getMonth(), Integer.parseInt(e.getActionCommand()));
 							PopoutEventShow(Integer.parseInt(e.getActionCommand()));
 						}
@@ -670,21 +671,21 @@ public class Body extends JFrame {
 					if(!pEvent.isSelected())user.addEvent(event);
 					else {
 						try {
-							FileInputStream fInTemp = new FileInputStream(dir + "\\src\\pEvents\\pEvents.txt");
+							FileInputStream fInTemp = new FileInputStream(dir + "/src/pEvents/pEvents.txt");
 							ObjectInputStream inObject = new ObjectInputStream(fInTemp);
 							LinkedList<Event> pEvents = new LinkedList<Event>();
 							pEvents = (LinkedList<Event>) inObject.readObject();
-							System.out.println("pEvents List received from OBJIN");
+							//System.out.println("pEvents List received from OBJIN");
 							inObject.close();
 							fInTemp.close();
 							Event given = null;
 							for(int i = 0; i < pEvents.size(); i++) {
 								given = pEvents.get(i);
-								System.out.println("==== Event #" + i + ": "+ given.getYear() + "/" + given.getMonth() + "/" + given.getDay() + ", " + given.getName() + " (" + given.getDescription() + ")");
+								//System.out.println("==== Event #" + i + ": "+ given.getYear() + "/" + given.getMonth() + "/" + given.getDay() + ", " + given.getName() + " (" + given.getDescription() + ")");
 							}
 							pEvents.add(event);
 							user.setPEvents(pEvents);
-							FileOutputStream fOutTemp = new FileOutputStream(dir + "\\src\\pEvents\\pEvents.txt");
+							FileOutputStream fOutTemp = new FileOutputStream(dir + "/src/pEvents/pEvents.txt");
 							ObjectOutputStream outObject = new ObjectOutputStream(fOutTemp);
 							outObject.writeObject(pEvents);
 							outObject.close();
@@ -867,7 +868,7 @@ public class Body extends JFrame {
 		Ban.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {	
 				if( table.getSelectedRow() >= 0 & !Objects.equals(dtm.getValueAt(table.getSelectedRow(), 0), user.getNick())) {
-					File toDelete = new File(dir + "\\src\\Users\\" + dtm.getValueAt(table.getSelectedRow(), 0) + ".txt"); 
+					File toDelete = new File(dir + "/src/Users/" + dtm.getValueAt(table.getSelectedRow(), 0) + ".txt"); 
 					if(!toDelete.isDirectory()) {
 						toDelete.delete();
 						dtm.removeRow(table.getSelectedRow());

@@ -166,8 +166,9 @@ public class Group implements Serializable, ActionListener{
 		
 		frame.setLayout(new GridLayout(0,4));
 		panel.setLayout(new GridLayout(0,1));
-		
+		System.out.println("Checking for groups:"+user.getGroups().size());
 		for(Group g: user.getGroups()){
+			System.out.println("Found a group");
 			a.setText(g.getName());
 			panel.add(a);
 			panel.add(new JLabel("Events:"));
@@ -178,6 +179,13 @@ public class Group implements Serializable, ActionListener{
 				eventpanel.add(new JLabel(e.getYear()+" "+e.getMonth()+" "+e.getDay()));
 				eventpanel.add(new JLabel(e.getName()));
 				scrollpane.add(eventpanel);
+			}
+			panel.add(scrollpane);
+			scrollpane = new JScrollPane();
+			JPanel userpanel = new JPanel();
+			for(User u: g.getUsers()){
+				userpanel.add(new JLabel(u.getNick()));
+				scrollpane.add(userpanel);
 			}
 			panel.add(scrollpane);
 			panel.add(edit);

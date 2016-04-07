@@ -67,10 +67,10 @@ public class Login extends JFrame implements ActionListener{
 				boolean login = user.checkPassword(ppaswd);
 				if(login){
 					try{
-					System.out.println("Logged in!");
-					System.out.println("name = " + user.getLname());
-					System.out.println("Login Month: "+time.getMonth());
-					FileInputStream ftemp = new FileInputStream(dir + "\\src\\pEvents\\pEvents.txt");
+					//System.out.println("Logged in!");
+					//System.out.println("name = " + user.getLname());
+					//System.out.println("Login Month: "+time.getMonth());
+					FileInputStream ftemp = new FileInputStream(dir + "/src/pEvents/pEvents.txt");
 					ObjectInputStream object = new ObjectInputStream(ftemp);
 					LinkedList<Event> pEvents = new LinkedList<Event>();
 					pEvents = (LinkedList<Event>) object.readObject();

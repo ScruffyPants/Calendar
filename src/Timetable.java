@@ -33,10 +33,12 @@ public class Timetable {
 			Login login = new Login();
 			*/
 			Login login = new Login();
+			//System.out.println(Time.getDayOfWeek(2016,4,7));
+			//System.out.println(Time.getDayOfWeek(2016,4,8));
 			/*
 			try {
 			LinkedList<Event> pEventsTest = new LinkedList<Event>();
-			FileOutputStream fOutTemp = new FileOutputStream(dir + "\\src\\pEvents\\pEvents.txt");
+			FileOutputStream fOutTemp = new FileOutputStream(dir + "/src/pEvents/pEvents.txt");
 			ObjectOutputStream outObject = new ObjectOutputStream(fOutTemp);
 			outObject.writeObject(pEventsTest);
 			outObject.close();
@@ -55,7 +57,7 @@ public class Timetable {
 			
 			Login login = new Login();*/
 			
-			User user = new User();
+			/*User user = new User();
 			int[] stuff = {2014, 3, 14, 2016, 5, 15};
 			boolean[] stuff2 = {true, true, false, true, false, false, false};
 			Schedule s1 = new Schedule("test1", "desc", stuff, stuff2, 0 );
