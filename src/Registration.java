@@ -7,6 +7,7 @@ public class Registration extends JFrame implements ActionListener{
     private final String dir = System.getProperty("user.dir");
  
     JButton register = new JButton("Register");
+    JButton goback = new JButton("Return");
     JPanel panel = new JPanel();
     JTextField txuser = new JTextField(15);
     JPasswordField pass = new JPasswordField(15);
@@ -24,13 +25,15 @@ public class Registration extends JFrame implements ActionListener{
    
         txuser.setBounds(90,30,150,20);
         pass.setBounds(90,65,150,20);
-        register.setBounds(115,125,100,20);
+        register.setBounds(145,125,100,20);
+        goback.setBounds(35,125,100,20);
         rank.setBounds(115,95,100,20);
    
         panel.add(txuser);
         panel.add(pass);
         panel.add(register);
         panel.add(rank);
+        panel.add(goback);
        
         JLabel usr = new JLabel("Username:");
         JLabel pw = new JLabel("Password:");
@@ -45,6 +48,7 @@ public class Registration extends JFrame implements ActionListener{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
         register.addActionListener(this);
+        goback.addActionListener(this);
     }
  
     public void actionPerformed(ActionEvent e) {
@@ -57,7 +61,7 @@ public class Registration extends JFrame implements ActionListener{
                	else if( rank.getSelectedIndex() == 2 )created.setIsAdmin(true);
                
                	System.out.println("Nickname: " + created.getNick() + ", hashed password: " + created.getPW_Hash());
-               	created.setIsVerified(true); //█████████████████████████████ NEEDS TO BE DELETED BEFORE FINAL COMPILE  ███████████████████████████████████████
+               	created.setIsVerified(true); //ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–� NEEDS TO BE DELETED BEFORE FINAL COMPILE  ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�ā–�
                	created.saveUser();
                	
                	setVisible(false);
@@ -66,5 +70,9 @@ public class Registration extends JFrame implements ActionListener{
         	}
         	else System.out.println("User already exists");
         }
+    	else if (e.getSource() == goback){
+    		Login loginFace = new Login();
+			dispose();
+    	}
     }
 }
