@@ -241,6 +241,7 @@ public class Body extends JFrame {
 				Group group = new Group();
 				group = group.createNewGroup(user);
 				user.addGroup(group.getName());
+				group.saveGroup();
 			}
 		});
 		
