@@ -135,6 +135,7 @@ public class Group implements Serializable, ActionListener{
 	}
 	public Group createNewGroup(User user){
 		tempuser = user;
+		addUser(tempuser);
 		frame = new JFrame();
 		JPanel panel = new JPanel();
 		namepane = new JTextPane();
@@ -167,36 +168,51 @@ public class Group implements Serializable, ActionListener{
 		frame.setLayout(new GridLayout(0,4));
 		panel.setLayout(new GridLayout(0,1));
 		System.out.println("Checking for groups:"+user.getGroups().size());
-		for(Group g: user.getGroups()){
+		if( user.getGroups().size() > 0 ) {
+		for(String s : user.getGroups()){
 			System.out.println("Found a group");
-			a.setText(g.getName());
+			a.setText(s);
 			panel.add(a);
 			panel.add(new JLabel("Events:"));
 			JScrollPane scrollpane = new JScrollPane();
 			JPanel eventpanel = new JPanel();
 			eventpanel.setLayout(new GridLayout(0,2));
+			Group g = new Group();
+			g.loadGroup(s);
+			if( g.getEvents().size() > 0 ) {
 			for(Event e: g.getEvents()){
 				eventpanel.add(new JLabel(e.getYear()+" "+e.getMonth()+" "+e.getDay()));
 				eventpanel.add(new JLabel(e.getName()));
+				scrollpane.add(eventpanel);
+			}
+			} else {
+				eventpanel.add(new JLabel("No events."));
 				scrollpane.add(eventpanel);
 			}
 			panel.add(scrollpane);
 			scrollpane = new JScrollPane();
 			JPanel userpanel = new JPanel();
 			panel.add(new JLabel("Users:"));
-			for(User u: g.getUsers()){
+			if( g.getUsers().size() > 0) {
+			for(User u: g.getUsers()) {
 				System.out.println("Found a user");
 				userpanel.add(new JLabel(u.getNick()));
 				scrollpane.add(userpanel);
 			}
 			panel.add(scrollpane);
 			panel.add(edit);
+			} else {
+				panel.add(edit);
+			}
 		}
 		panel.setBorder(BorderFactory.createEtchedBorder());
 		frame.add(panel);
 		frame.setVisible(true);
 		frame.setMinimumSize(new Dimension(400,200));
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		} else {
+			System.out.println("No groups");
+		}
 	}
 	
     public void actionPerformed(ActionEvent e) {
