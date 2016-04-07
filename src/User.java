@@ -3,6 +3,13 @@ import java.util.Objects;
 import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 public class User implements Serializable{
 	private static final long serialVersionUID = 1504199602031999L;
@@ -12,7 +19,8 @@ public class User implements Serializable{
 	private String nick;
 	private String pw_hash;
 	private LinkedList<Event> events = new LinkedList<Event>();//User will have a linked list with "events" that are later represented in Calendar
-	private LinkedList<Event> pEvents = new LinkedList<Event>();//Public event made by teacher and admin (needs to implemented in saveUser() and loadUser())
+	private LinkedList<Event> pEvents = new LinkedList<Event>();//Public event made by teacher or admin
+	private LinkedList<Schedule> schedules = new LinkedList<Schedule>();
 	private LinkedList<Group> groups = new LinkedList<Group>();
 	private Style style = new Style();
 	private FileInputStream in = null;
@@ -117,8 +125,12 @@ public class User implements Serializable{
 	}
 	
 	public void addEvent(Event event) {
-		System.out.println("Event to add: " + event.getYear() + "/" + event.getMonth() + "/" + event.getDay());
+		//System.out.println("Event to add: " + event.getYear() + "/" + event.getMonth() + "/" + event.getDay());
 		events.add(event);
+	}
+	
+	public void addSchedule(Schedule schedule) {
+		schedules.add(schedule);
 	}
 	
 	public String getPW_Hash() {
@@ -160,21 +172,6 @@ public class User implements Serializable{
 		return "No events.";
 	}
 	
-	public String printPEvents() {
-		LinkedList<Event> pEvents = getPEvents();
-		StringBuilder sb = new StringBuilder();
-		if( pEvents != null )
-		{
-			Event given = null;
-			for(int i = 0; i < pEvents.size(); i++) {
-				given = pEvents.get(i);
-				sb.append("==== Event #" + i + ": "+ given.getYear() + "/" + given.getMonth() + "/" + given.getDay() + ", " + given.getName() + " (" + given.getDescription() + ")");
-			}
-			return sb.toString();
-		}
-		return "No events.";
-	}
-	
 	public boolean getIsTeacher() {
 		return isTeacher;
 	}
@@ -195,7 +192,7 @@ public class User implements Serializable{
 		return isVerified;
 	}
 	
-	public void setIsVerified( boolean s) {
+	public void setIsVerified(boolean s) {
 		isVerified = s;
 	}
 	
@@ -223,9 +220,10 @@ public class User implements Serializable{
 				if( given.getYear() == y & given.getMonth() == m & given.getDay() == d )
 					ret.add(given);
 			}
-			return ret; }
+			return ret; 
+		}
 		else{
-			return events;
+			return pEvents;
 		}
 	}
 	
@@ -280,7 +278,7 @@ public class User implements Serializable{
 			StringBuilder builder = new StringBuilder();
 			for( byte a : pw_hash_bytes )
 			{
-				builder.append(String.format("%02X ", a ));
+				builder.append(String.format("%02X", a ));
 			}         
 			String ret = builder.toString();
 			return ret;
@@ -304,13 +302,14 @@ public class User implements Serializable{
 	
 	public void saveUser(){
 		try{
-			System.out.println("Saving User");
+			//System.out.println("Saving User");
 			String temp = dir + "/src/Users/"+this.getNick()+".txt";
-			System.out.println("File location = "+temp);
+			//System.out.println("File location = "+temp);
 			out = new FileOutputStream(temp);
 			ObjectOutputStream outObject = new ObjectOutputStream(out);
 			User user = new User();
 			user.setEvents(this.getEvents());
+			user.setSchedules(this.getSchedules());
 			user.setNick(this.getNick());
 			user.setFname(this.getFname());
 			user.setLname(this.getLname());
@@ -319,6 +318,7 @@ public class User implements Serializable{
 			user.setIsTeacher(this.getIsTeacher());
 			user.setIsVerified(this.getIsVerified());
 			user.setStyle(this.getStyle());
+			user.setGroups(this.getGroups());
 			outObject.writeObject(user);
 			outObject.close();
 			out.close();
@@ -334,7 +334,7 @@ public class User implements Serializable{
 	
 	public void loadUser(String Nick){
 		try{
-			System.out.println("Loading User");
+			//System.out.println("Loading User");
 			String temp = dir + "/src/Users/" + Nick + ".txt";
 			in = new FileInputStream(temp);
 			ObjectInputStream inObject = new ObjectInputStream(in);
@@ -344,11 +344,13 @@ public class User implements Serializable{
 			this.setLname(user.getLname());
 			this.setNick(user.getNick());
 			this.setEvents(user.getEvents());
+			this.setSchedules(user.getSchedules());
 			this.setPW_Hash(user.getPW_Hash());
 			this.setIsAdmin(user.getIsAdmin());
 			this.setIsTeacher(user.getIsTeacher());
 			this.setIsVerified(user.getIsVerified());
 			this.setStyle(user.getStyle());
+			this.setGroups(user.getGroups());
 			inObject.close();
 			in.close();
 		}
@@ -380,6 +382,85 @@ public class User implements Serializable{
 		events = new LinkedList<Event>();
 	}
 	
+	public LinkedList<Schedule> getSchedulesByDate(int y, int m, int d) {
+		//System.out.println("Checking for date " + y + "//" + m + "//" + d);
+		LinkedList<Schedule> ret = new LinkedList<Schedule>();
+		Schedule given = null;
+		Time time = new Time();
+		int dow = time.getDayOfWeek(y, m, d);
+		//System.out.println("" + dow);
+		for( int i = 0; i < schedules.size(); i++ ) {
+			given = schedules.get(i);
+			if( checkInRange( y, m, d, given.getYStart(), given.getMStart(), given.getDStart(), given.getYEnd(), given.getMEnd(), given.getDEnd() ) ) {
+				//System.out.println("" + given.getDays()[dow-1]);
+				if( given.getDays()[dow-1] ) {
+					ret.add(given);
+				}
+			}
+		}
+		return ret;
+	}
+	
+	private boolean checkInRange( int yC, int mC, int dC, int y1, int m1, int d1, int y2, int m2, int d2) {
+		if( yC >= y1 && yC <= y2 ) {
+			if( yC == y1 ) {
+				if( mC >= m1 ) {
+					if( mC == m1 ) {
+						if( dC >= d1 ) {
+							return true; // Date to check has equal year and month to beginning, but equal or later day
+						} else {
+							return false; // Date to check has equal year and month to beginning, but earlier day
+						}
+					} else {
+						return true; // Date to check has equal year to beginning and later month
+					}
+				} else {
+					return false; // Date to check has equal year to beginning, but earlier month
+				}
+			} else if( yC == y2 ) {
+				if( mC <= m2 ) {
+					if( mC == m2 ) {
+						if( dC <= d2 ) {
+							return true; // Date to check has equal year and month to end, but equal or earlier day
+						} else {
+							return false; // Date to check has equal year and month to end, but later day
+						}
+					} else {
+						return true; // Date to check has equal year to end and earlier month
+					}
+				} else {
+					return false; // Date to check has equal year to end, but later month
+				}
+			} else {
+				return true; //Date to check has later year than beginning and earlier year than end
+			}
+		} else {
+			return false; //Date to check has earlier year than beginning or later year than end
+		}
+	}
+
+	
+	public void printSchedules() {
+		Schedule given = null;
+		for(int i = 0; i < schedules.size(); i++) {
+			given = schedules.get(i);
+			System.out.println("=====" + given.getYStart() + "/" + given.getMStart() + "/" + given.getDStart() + " --- " + given.getYEnd() + "/" + given.getMEnd() + "/" + given.getDEnd() + "  " + given.getName() + "(" + given.getDescription() + ")");
+		}
+	}
+
+	public LinkedList<Group> getGroups() {
+		return groups;
+	}
+
+	public void setGroups(LinkedList<Group> g) {
+		groups = g;
+	}
+	
+	public void addGroup(Group group){
+		groups.add(group);
+		//this.saveUser();
+	}
+	
 	//Deprecated
 	
 	public void verifyUser(User toVerify) {
@@ -392,5 +473,13 @@ public class User implements Serializable{
 	
 	public void addPEvent(Event e){
 		pEvents.add(e);
+	}
+
+	public LinkedList<Schedule> getSchedules() {
+		return schedules;
+	}
+
+	public void setSchedules(LinkedList<Schedule> schedules) {
+		this.schedules = schedules;
 	}
 }

@@ -68,14 +68,24 @@ public class Time {
 	
 	public int getFirstDayOfMonth(Time time){
 		Calendar cal = time.temp;
-		System.out.println("Month in getFirstDayOfMonth: "+time.getMonth());
+		//System.out.println("Month in getFirstDayOfMonth: "+time.getMonth());
 		cal.set(Calendar.DAY_OF_MONTH, cal.getActualMinimum(Calendar.MONTH)+1);
-		System.out.println("Month in getFirstDayOfMonth: "+time.getMonth());
+		//System.out.println("Month in getFirstDayOfMonth: "+time.getMonth());
 		SimpleDateFormat sdf = new SimpleDateFormat("u");
 		return Integer.parseInt(sdf.format(cal.getTime()));
 	}
 	public String getMonthName(int month){
 		String[] monthNames = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};	
 		return monthNames[month];
+	}
+	
+	public int getDayOfWeek(int y, int m, int d) {
+		int Y = y;
+		m = (m - 2) % 12;
+		int w = (d + ((int)(2.6*m - 0.2) - ((int)(2.6*m - 0.2)%1)) + 5 * (Y % 4) + 4 * (Y % 100) + 6 * (Y % 400)) % 7;
+		switch(w) {
+		case 0: w = 7;
+		}
+		return w;
 	}
 }

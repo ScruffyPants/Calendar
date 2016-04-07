@@ -57,7 +57,7 @@ public class Registration extends JFrame implements ActionListener{
                	else if( rank.getSelectedIndex() == 2 )created.setIsAdmin(true);
                
                	System.out.println("Nickname: " + created.getNick() + ", hashed password: " + created.getPW_Hash());
-               	created.setIsVerified(true); //█████████████████████████████ NEEDS TO BE DELETED BEFORE FINAL COMPILE  ███████████████████████████████████████
+               	//created.setIsVerified(true); //█████████████████████████████ NEEDS TO BE DELETED BEFORE FINAL COMPILE  ███████████████████████████████████████
                	created.saveUser();
                	
                	setVisible(false);

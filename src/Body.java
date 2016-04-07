@@ -28,6 +28,20 @@ public class Body extends JFrame {
 	JTextField enteredMonth = new JTextField();
 	JTextField fName2 = new JTextField();
 	JTextField lName2 = new JTextField();
+	JTextField yStart = new JTextField();
+	JTextField mStart = new JTextField();
+	JTextField dStart = new JTextField();
+	JTextField yEnd = new JTextField();
+	JTextField mEnd = new JTextField();
+	JTextField dEnd = new JTextField();
+	JTextField delay = new JTextField();
+	JCheckBox Monday = new JCheckBox();
+	JCheckBox Tuesday = new JCheckBox();
+	JCheckBox Wednesday = new JCheckBox();
+	JCheckBox Thursday = new JCheckBox();
+	JCheckBox Friday = new JCheckBox();
+	JCheckBox Saturday = new JCheckBox();
+	JCheckBox Sunday = new JCheckBox();
 	JTextPane description = new JTextPane();
 	JPasswordField pass2 = new JPasswordField();
 	JButton forwards = new JButton(">");
@@ -46,7 +60,7 @@ public class Body extends JFrame {
 	Body(Time t, User u){
 		time = t;
 		user = u;
-		System.out.println("Constructor month: "+time.getMonth());
+		//System.out.println("Constructor month: "+time.getMonth());
 		int preferredWidth = 30;
 		Dimension dimension = new Dimension(preferredWidth, 0);
 		
@@ -81,7 +95,8 @@ public class Body extends JFrame {
 				frame.remove(panel);
 				if(time.getMonth() == 0){
 					time.setMonth(11);
-					time.setYear(time.getYear()-1);
+					int temp = time.getYear();
+					time.setYear(temp-1);
 				}
 				else{
 					int temp = time.getMonth()-1;
@@ -103,7 +118,8 @@ public class Body extends JFrame {
 				frame.remove(panel);
 				if(time.getMonth() == 11){
 					time.setMonth(0);
-					time.setYear(time.getYear()+1);
+					int temp = time.getYear();
+					time.setYear(temp+1);
 				}
 				else{
 					int temp = time.getMonth()+1;
@@ -125,6 +141,7 @@ public class Body extends JFrame {
 		frame.add(panel);
 		frame.setMinimumSize(new Dimension(500,270));
 		frame.setSize(700, 500);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
 	public void DrawPanel(){
@@ -168,12 +185,14 @@ public class Body extends JFrame {
 	}
 	
 	public void DrawMenu(){
-		JMenu Calendar, Account, Info, Admin;
-		JMenuItem Exit, Logout, AddEvent, Reload, UserControl, Settings, About, GetToDate, Style;
+		JMenu Calendar, Account, Add, Info, Admin, GroupsMenu;
+		JMenuItem Exit, Logout, AddEvent, AddSchedule, Reload, UserControl, Settings, About, GetToDate, Style, GroupsAdd, GroupsManage;
 		
 		Calendar = new JMenu("Calendar");
 		Account = new JMenu("Account");
+		Add = new JMenu("Add");
 		Info = new JMenu("Info");
+		GroupsMenu = new JMenu("Groups");
 		
 		if(user.getIsAdmin() && user.getIsVerified()) {
 			Admin = new JMenu("Admin");
@@ -194,20 +213,43 @@ public class Body extends JFrame {
 		Style = new JMenuItem("Style");
 		Exit = new JMenuItem("Exit");
 		Logout = new JMenuItem("Logout");
-		AddEvent = new JMenuItem("Add Event");
+		AddEvent = new JMenuItem("Event");
+		AddSchedule = new JMenuItem("Schedule");
 		Reload = new JMenuItem("Reload");
 		Settings = new JMenuItem("Settings");
 		About = new JMenuItem("About");
 		GetToDate = new JMenuItem("Get To Date");
+		GroupsAdd = new JMenuItem("Make Group");
+		GroupsManage = new JMenuItem("Manage Groups");
 		
 		Info.add(About);
 		Calendar.add(Exit);
 		Calendar.add(Reload);
 		Calendar.add(GetToDate);
-		Account.add(AddEvent);
+		Add.add(AddEvent);
+		Add.add(AddSchedule);
+		GroupsMenu.add(GroupsAdd);
+		GroupsMenu.add(GroupsManage);
+		Account.add(Add);
+		Account.add(GroupsMenu);
 		Account.add(Style);
 		Account.add(Settings);
 		Account.add(Logout);
+		
+		GroupsAdd.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				Group group = new Group();
+				group = group.createNewGroup(user);
+				user.addGroup(group);
+			}
+		});
+		
+		GroupsManage.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				Group group = new Group();
+				group.showGroupManage(user);
+			}
+		});
 		
 		Style.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
@@ -234,6 +276,12 @@ public class Body extends JFrame {
 		AddEvent.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				PopoutEventAdd();
+			}
+		});
+		
+		AddSchedule.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				PopoutScheduleAdd();
 			}
 		});
 		
@@ -360,7 +408,7 @@ public class Body extends JFrame {
 	}
 	
 	public void DrawCalendar(){
-		System.out.println("Draw calendar month: "+time.getMonth());
+		//System.out.println("Draw calendar month: "+time.getMonth());
 		JPanel main = new JPanel(new GridLayout());
 		JPanel weekpanel = new JPanel(new GridLayout());
 		JLabel label = new JLabel(time.getYear()+" "+time.getMonthName(time.getMonth()));
@@ -405,22 +453,15 @@ public class Body extends JFrame {
 				}
 				else{
 					a = new JButton(Integer.toString(i));
-					a.setLayout(new GridLayout(0,1));
 					JScrollPane spane = new JScrollPane(a,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+					a.setLayout(new GridLayout(0,1));
 					spane.setBorder(BorderFactory.createEmptyBorder());
 					spane.getVerticalScrollBar().setPreferredSize(new Dimension(10,0));
-					
+
+					a.setBackground(user.getStyle().getDayBackground());
 					if(user.getEventsByDate(time.getYear(), time.getMonth(), i).size()>0){
 						a.setBackground(user.getStyle().getEventBackground());
 						for(Event e: user.getEventsByDate(time.getYear(), time.getMonth(), i)){
-							JLabel eventlabel = new JLabel(e.getName());
-							eventlabel.setHorizontalAlignment(SwingConstants.CENTER);
-							a.add(eventlabel);
-						}
-					}
-					if(user.getPEventsByDate(time.getYear(), time.getMonth(), i).size()>0){
-						a.setBackground(user.getStyle().getEventBackground());
-						for(Event e: user.getPEventsByDate(time.getYear(), time.getMonth(), i)){
 							JLabel eventlabel = new JLabel(e.getName());
 							eventlabel.setHorizontalAlignment(SwingConstants.CENTER);
 							a.add(eventlabel);
@@ -430,12 +471,31 @@ public class Body extends JFrame {
 					a.setHorizontalAlignment(SwingConstants.LEFT);
 					a.setVerticalAlignment(SwingConstants.TOP);
 					a.setBorder(null);
+					if(user.getPEventsByDate(time.getYear(), time.getMonth(), i).size()>0){
+						a.setBackground(user.getStyle().getEventBackground());
+						for(Event e: user.getPEventsByDate(time.getYear(), time.getMonth(), i)){
+							JLabel eventlabel = new JLabel(e.getName());
+							eventlabel.setHorizontalAlignment(SwingConstants.CENTER);
+							a.add(eventlabel);
+						}
+					}
+					if(user.getSchedulesByDate(time.getYear(), time.getMonth()+1, i).size()>0){
+						a.setBackground(user.getStyle().getEventBackground());
+						for(Schedule e: user.getSchedulesByDate(time.getYear(), time.getMonth()+1, i)){
+							JLabel eventlabel = new JLabel(e.getName());
+							eventlabel.setHorizontalAlignment(SwingConstants.CENTER);
+							a.add(eventlabel);
+						}
+					}
+					a.setHorizontalAlignment(SwingConstants.LEFT);
+					a.setVerticalAlignment(SwingConstants.TOP);
+					a.setBorder(null);
 					spane.setPreferredSize(new Dimension(90,90));
 					//a.setPreferredSize(new Dimension(90,90));
 					main.add(spane);
 					a.addActionListener(new ActionListener(){
 						public void actionPerformed(ActionEvent e) {
-							System.out.println("you pressed: "+e.getActionCommand());
+							//System.out.println("you pressed: "+e.getActionCommand());
 							//LinkedList<Event> events = user.getEventsByDate(time.getYear(), time.getMonth(), Integer.parseInt(e.getActionCommand()));
 							PopoutEventShow(Integer.parseInt(e.getActionCommand()));
 						}
@@ -611,17 +671,25 @@ public class Body extends JFrame {
 					if(!pEvent.isSelected())user.addEvent(event);
 					else {
 						try {
-							FileInputStream fInTemp = new FileInputStream(dir + "\\src\\pEvents\\pEvents.txt");
+							FileInputStream fInTemp = new FileInputStream(dir + "/src/pEvents/pEvents.txt");
 							ObjectInputStream inObject = new ObjectInputStream(fInTemp);
 							LinkedList<Event> pEvents = new LinkedList<Event>();
 							pEvents = (LinkedList<Event>) inObject.readObject();
+							//System.out.println("pEvents List received from OBJIN");
 							inObject.close();
+							fInTemp.close();
+							Event given = null;
+							for(int i = 0; i < pEvents.size(); i++) {
+								given = pEvents.get(i);
+								//System.out.println("==== Event #" + i + ": "+ given.getYear() + "/" + given.getMonth() + "/" + given.getDay() + ", " + given.getName() + " (" + given.getDescription() + ")");
+							}
 							pEvents.add(event);
 							user.setPEvents(pEvents);
-							FileOutputStream fOutTemp = new FileOutputStream(dir + "\\src\\pEvents\\pEvents.txt");
+							FileOutputStream fOutTemp = new FileOutputStream(dir + "/src/pEvents/pEvents.txt");
 							ObjectOutputStream outObject = new ObjectOutputStream(fOutTemp);
 							outObject.writeObject(pEvents);
 							outObject.close();
+							fOutTemp.close();
 						} catch(FileNotFoundException ee) {
 							System.out.println("404 ERROR: pEvents.txt or target directory not found");
 						} catch(ClassNotFoundException a) {
@@ -633,6 +701,10 @@ public class Body extends JFrame {
 					user.saveUser();
 					pFrame.setVisible(false);
 					pFrame.dispose();
+					frame.setVisible(false);
+					frame.dispose();
+					user.saveUser();
+					Body body = new Body(time, user);
 					//Body body = new Body(time, user);
 				}
 				else{
@@ -647,6 +719,111 @@ public class Body extends JFrame {
 			}
 		});
 	}
+	
+	public void PopoutScheduleAdd(){
+		JButton submit = new JButton("Submit");
+		pFrame = new JFrame();
+		JPanel basicinfo = new JPanel(new GridLayout(0,1));
+		
+		name = new JTextField(20);
+		yStart = new JTextField(20);
+		mStart = new JTextField(20);
+		dStart = new JTextField(20);
+		yEnd = new JTextField(20);
+		mEnd = new JTextField(20);
+		dEnd = new JTextField(20);
+		delay = new JTextField(2);
+		
+		basicinfo.add(new JLabel("Name: "));
+		name.setHorizontalAlignment(SwingConstants.LEFT);
+		basicinfo.add(name);
+		
+		basicinfo.add(new JLabel("Start Year: "));
+		yStart.setHorizontalAlignment(SwingConstants.LEFT);
+		basicinfo.add(yStart);
+		
+		basicinfo.add(new JLabel("Start Month: "));
+		mStart.setHorizontalAlignment(SwingConstants.LEFT);
+		basicinfo.add(mStart);
+		
+		basicinfo.add(new JLabel("Start Day: "));
+		dStart.setHorizontalAlignment(SwingConstants.LEFT);
+		basicinfo.add(dStart);
+		
+		basicinfo.add(new JLabel("Start Year: "));
+		yEnd.setHorizontalAlignment(SwingConstants.LEFT);
+		basicinfo.add(yEnd);
+		
+		basicinfo.add(new JLabel("Start Month: "));
+		mEnd.setHorizontalAlignment(SwingConstants.LEFT);
+		basicinfo.add(mEnd);
+		
+		basicinfo.add(new JLabel("Start Day: "));
+		dEnd.setHorizontalAlignment(SwingConstants.LEFT);
+		basicinfo.add(dEnd);
+		
+		basicinfo.add(new JLabel("Delay between weeks of occurance (in weeks):"));
+		dEnd.setHorizontalAlignment(SwingConstants.LEFT);
+		basicinfo.add(delay);
+		
+		description = new JTextPane();
+		JScrollPane scrollpane = new JScrollPane(description,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollpane.setPreferredSize(new Dimension(300,300));
+		scrollpane.setMinimumSize(new Dimension(20,20));
+		
+		pFrame.setLayout(new FlowLayout());
+		pFrame.add(basicinfo);
+		pFrame.add(new JLabel("Description: "));
+		pFrame.add(scrollpane);
+		
+		Monday = new JCheckBox();
+		Tuesday = new JCheckBox();
+		Wednesday = new JCheckBox();
+		Thursday = new JCheckBox();
+		Friday = new JCheckBox();
+		Saturday = new JCheckBox();
+		Sunday = new JCheckBox();
+			
+		pFrame.add(new JLabel("Monday: "));
+		pFrame.add(Monday);
+		pFrame.add(new JLabel("Tuesday: "));
+		pFrame.add(Tuesday);
+		pFrame.add(new JLabel("Wednesday: "));
+		pFrame.add(Wednesday);
+		pFrame.add(new JLabel("Thursday: "));
+		pFrame.add(Thursday);
+		pFrame.add(new JLabel("Friday: "));
+		pFrame.add(Friday);
+		pFrame.add(new JLabel("Saturday: "));
+		pFrame.add(Saturday);
+		pFrame.add(new JLabel("Sunday: "));
+		pFrame.add(Sunday);
+		
+		pFrame.add(submit);
+		pFrame.setLocationRelativeTo(null);
+		pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		pFrame.setMinimumSize(new Dimension(150,150));
+		pFrame.setSize(700,400);
+		pFrame.setVisible(true);
+		pFrame.setResizable(false);
+		
+		submit.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				int[] dates = {Integer.parseInt(yStart.getText(),10), Integer.parseInt(mStart.getText(),10),  Integer.parseInt(dStart.getText(),10), Integer.parseInt(yEnd.getText(),10), Integer.parseInt(mEnd.getText(),10), Integer.parseInt(dEnd.getText(),10)};
+				boolean[] days = {Monday.isSelected(), Tuesday.isSelected(), Wednesday.isSelected(), Thursday.isSelected(), Friday.isSelected(), Saturday.isSelected(), Sunday.isSelected()};
+				Schedule toAdd = new Schedule(name.getText(), description.getText(), dates, days, Integer.parseInt(delay.getText(),10) );                                              
+				user.addSchedule(toAdd);
+				user.printSchedules();
+				user.saveUser();
+				pFrame.setVisible(false);
+				pFrame.dispose();
+				frame.setVisible(false);
+				frame.dispose();
+				Body body = new Body(time, user);
+			}
+		});
+	}
+	
 	public void PopoutUserControlDialog() {
 		pFrame = new JFrame();
 		JMenuBar adminMenuBar = new JMenuBar();
@@ -691,7 +868,7 @@ public class Body extends JFrame {
 		Ban.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {	
 				if( table.getSelectedRow() >= 0 & !Objects.equals(dtm.getValueAt(table.getSelectedRow(), 0), user.getNick())) {
-					File toDelete = new File(dir + "\\src\\Users\\" + dtm.getValueAt(table.getSelectedRow(), 0) + ".txt"); 
+					File toDelete = new File(dir + "/src/Users/" + dtm.getValueAt(table.getSelectedRow(), 0) + ".txt"); 
 					if(!toDelete.isDirectory()) {
 						toDelete.delete();
 						dtm.removeRow(table.getSelectedRow());

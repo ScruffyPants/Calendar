@@ -67,21 +67,22 @@ public class Login extends JFrame implements ActionListener{
 				boolean login = user.checkPassword(ppaswd);
 				if(login){
 					try{
-					System.out.println("Logged in!");
-					System.out.println("name = " + user.getLname());
-					System.out.println("Login Month: "+time.getMonth());
-					FileInputStream ftemp = new FileInputStream(dir + "\\src\\pEvents\\pEvents.txt");
+					//System.out.println("Logged in!");
+					//System.out.println("name = " + user.getLname());
+					//System.out.println("Login Month: "+time.getMonth());
+					FileInputStream ftemp = new FileInputStream(dir + "/src/pEvents/pEvents.txt");
 					ObjectInputStream object = new ObjectInputStream(ftemp);
 					LinkedList<Event> pEvents = new LinkedList<Event>();
 					pEvents = (LinkedList<Event>) object.readObject();
 					object.close();
+					ftemp.close();
 					user.setPEvents(pEvents);
 					} catch(FileNotFoundException ee) {
-						
+						System.out.println("404 ERROR: pEvents.txt or target directory not found");
 					} catch(ClassNotFoundException a) {
-						
+						System.out.println("Corrupted pEvents.txt");
 					} catch(IOException oo) {
-						
+						System.out.println("IOException");
 					}
 					
 					Body body = new Body(time, user);

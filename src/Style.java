@@ -1,12 +1,8 @@
 import javax.swing.*;
 import java.io.*;
-import java.nio.file.Files;
 import javax.swing.JFrame;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.LinkedList;
-import java.util.Objects;
 
 public class Style implements Serializable{
 	private static final long serialVersionUID = 1504199602031999L;
