@@ -51,6 +51,7 @@ public class Login extends JFrame implements ActionListener{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 		setResizable(false);
+		panel.getRootPane().setDefaultButton(blogin);
 		blogin.addActionListener(this);
 		register.addActionListener(this);
 	}
