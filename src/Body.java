@@ -253,7 +253,7 @@ public class Body extends JFrame {
 		
 		Style.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				user.getStyle().setStyle();
+				user.getStyle().setStyle(user);
 				user.saveUser();
 			}
 		});
