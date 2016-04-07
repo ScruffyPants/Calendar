@@ -10,40 +10,8 @@ public class Schedule implements Serializable {
 	private String name;
 	private String description;
 	private int[] dates = new int[6];
-	/*private int yStart;
-	private int mStart;
-	private int dStart;
-	private int yEnd;
-	private int mEnd;
-	private int dEnd;*/
 	private boolean[] days = new boolean[7];
-	/*private boolean onMonday;
-	private boolean onTuesday;
-	private boolean onWednesday;
-	private boolean onThursday;
-	private boolean onFriday;
-	private boolean onSaturday;
-	private boolean onSunday;*/
 	private int delay;
-	
-	/*public Schedule(String n, String dsc, int yS, int mS, int dS, int yE, int mE, int dE, boolean onMo, boolean onTu, boolean onWe, boolean onTh, boolean onFr, boolean onSa, boolean onSu, int del) {
-		name = n;
-		description = dsc;
-		yStart = yS;
-		mStart = mS;
-		dStart = dS;
-		yEnd = yE;
-		mEnd = mE;
-		dEnd = dE;
-		onMonday = onMo;
-		onTuesday = onTu;
-		onWednesday = onWe;
-		onThursday = onTh;
-		onFriday = onFr;
-		onSaturday = onSa;
-		onSunday = onSu;
-		delay = del;
-	}*/
 	
 	public Schedule(String n, String dsc, int[] dts, boolean[] days2, int del) {
 		name = n;

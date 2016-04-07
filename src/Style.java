@@ -11,27 +11,39 @@ public class Style implements Serializable{
 	private Color dayBackground = Color.white;
 	private Color eventBackground = Color.green;
 	
-	private JFrame frame = new JFrame();
-	private JPanel panel = new JPanel();
+	private transient JFrame frame = new JFrame();
+	private transient JPanel panel = new JPanel();
 	
-	public void setStyle(){
+	public void setStyle(User user){
 		frame = new JFrame();
 		panel = new JPanel(new GridLayout());
 		panel.setLayout(new GridLayout(0,1));
 		JButton setBackground = new JButton("Set Color of Background");
+		setBackground.setBackground(user.getStyle().getBackground());
 		JButton setForeground = new JButton("Set Color of Foreground");
+		setForeground.setBackground(user.getStyle().getForeground());
 		JButton setDayBackground = new JButton("Set Color of Day's Background");
+		setDayBackground.setBackground(user.getStyle().getDayBackground());
 		JButton setEventBackground = new JButton("Set Color of Event's Background");
+		setEventBackground.setBackground(user.getStyle().getEventBackground());
 		
 		panel.add(setBackground);
 		panel.add(setForeground);
 		panel.add(setDayBackground);
 		panel.add(setEventBackground);
 		
+		
+		
 		setBackground.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				Color color = makeColor();
 				setBackground(color);
+				setBackground.setBackground(color);
+				if( color.getBlue() < 80 && color.getRed() < 80 && color.getGreen() < 80 ) {
+					setBackground.setForeground(Color.WHITE);
+				} else {
+					setBackground.setForeground(Color.DARK_GRAY);
+				}
 			}
 		});
 		
@@ -39,6 +51,12 @@ public class Style implements Serializable{
 			public void actionPerformed(ActionEvent e) {
 				Color color = makeColor();
 				setForeground(color);
+				setForeground.setBackground(color);
+				if( color.getBlue() < 80 && color.getRed() < 80 && color.getGreen() < 80 ) {
+					setForeground.setForeground(Color.WHITE);
+				} else {
+					setForeground.setForeground(Color.DARK_GRAY);
+				}
 			}
 		});
 		
@@ -46,6 +64,12 @@ public class Style implements Serializable{
 			public void actionPerformed(ActionEvent e) {
 				Color color = makeColor();
 				setDayBackground(color);
+				setDayBackground.setBackground(color);
+				if( color.getBlue() < 80 && color.getRed() < 80 && color.getGreen() < 80 ) {
+					setDayBackground.setForeground(Color.WHITE);
+				} else {
+					setDayBackground.setForeground(Color.DARK_GRAY);
+				}
 			}
 		});
 		
@@ -53,6 +77,12 @@ public class Style implements Serializable{
 			public void actionPerformed(ActionEvent e) {
 				Color color = makeColor();
 				setEventBackground(color);
+				setEventBackground.setBackground(color);
+				if( color.getBlue() < 80 && color.getRed() < 80 && color.getGreen() < 80 ) {
+					setEventBackground.setForeground(Color.WHITE);
+				} else {
+					setEventBackground.setForeground(Color.DARK_GRAY);
+				}
 			}
 		});
 		
