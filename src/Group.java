@@ -16,8 +16,8 @@ public class Group implements Serializable, ActionListener{
 	private static final long serialVersionUID = 1504199602031999L;
 	private final String dir = System.getProperty("user.dir");
 	private String name;
-	private LinkedList<User> users = new LinkedList<User>();
-	private LinkedList<User> admins = new LinkedList<User>();
+	private transient LinkedList<User> users = new LinkedList<User>();
+	private transient LinkedList<User> admins = new LinkedList<User>();
 	private LinkedList<Event> events = new LinkedList<Event>();
 	private FileInputStream in = null;
 	private FileOutputStream out = null;
@@ -183,7 +183,9 @@ public class Group implements Serializable, ActionListener{
 			panel.add(scrollpane);
 			scrollpane = new JScrollPane();
 			JPanel userpanel = new JPanel();
+			panel.add(new JLabel("Users:"));
 			for(User u: g.getUsers()){
+				System.out.println("Found a user");
 				userpanel.add(new JLabel(u.getNick()));
 				scrollpane.add(userpanel);
 			}

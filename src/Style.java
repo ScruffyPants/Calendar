@@ -11,8 +11,8 @@ public class Style implements Serializable{
 	private Color dayBackground = Color.white;
 	private Color eventBackground = Color.green;
 	
-	private JFrame frame = new JFrame();
-	private JPanel panel = new JPanel();
+	private transient JFrame frame = new JFrame();
+	private transient JPanel panel = new JPanel();
 	
 	public void setStyle(){
 		frame = new JFrame();
