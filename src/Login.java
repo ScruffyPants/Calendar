@@ -70,7 +70,7 @@ public class Login extends JFrame implements ActionListener{
 					//System.out.println("Logged in!");
 					//System.out.println("name = " + user.getLname());
 					//System.out.println("Login Month: "+time.getMonth());
-					FileInputStream ftemp = new FileInputStream(dir + "\\src\\pEvents\\pEvents.txt");
+					FileInputStream ftemp = new FileInputStream(dir + "/src/pEvents/pEvents.txt");
 					ObjectInputStream object = new ObjectInputStream(ftemp);
 					LinkedList<Event> pEvents = new LinkedList<Event>();
 					pEvents = (LinkedList<Event>) object.readObject();

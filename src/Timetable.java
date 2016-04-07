@@ -38,7 +38,7 @@ public class Timetable {
 			/*
 			try {
 			LinkedList<Event> pEventsTest = new LinkedList<Event>();
-			FileOutputStream fOutTemp = new FileOutputStream(dir + "\\src\\pEvents\\pEvents.txt");
+			FileOutputStream fOutTemp = new FileOutputStream(dir + "/src/pEvents/pEvents.txt");
 			ObjectOutputStream outObject = new ObjectOutputStream(fOutTemp);
 			outObject.writeObject(pEventsTest);
 			outObject.close();

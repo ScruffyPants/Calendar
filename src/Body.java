@@ -240,6 +240,7 @@ public class Body extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Group group = new Group();
 				group = group.createNewGroup(user);
+				user.addGroup(group);
 			}
 		});
 		
@@ -670,7 +671,7 @@ public class Body extends JFrame {
 					if(!pEvent.isSelected())user.addEvent(event);
 					else {
 						try {
-							FileInputStream fInTemp = new FileInputStream(dir + "\\src\\pEvents\\pEvents.txt");
+							FileInputStream fInTemp = new FileInputStream(dir + "/src/pEvents/pEvents.txt");
 							ObjectInputStream inObject = new ObjectInputStream(fInTemp);
 							LinkedList<Event> pEvents = new LinkedList<Event>();
 							pEvents = (LinkedList<Event>) inObject.readObject();
@@ -684,7 +685,7 @@ public class Body extends JFrame {
 							}
 							pEvents.add(event);
 							user.setPEvents(pEvents);
-							FileOutputStream fOutTemp = new FileOutputStream(dir + "\\src\\pEvents\\pEvents.txt");
+							FileOutputStream fOutTemp = new FileOutputStream(dir + "/src/pEvents/pEvents.txt");
 							ObjectOutputStream outObject = new ObjectOutputStream(fOutTemp);
 							outObject.writeObject(pEvents);
 							outObject.close();
@@ -867,7 +868,7 @@ public class Body extends JFrame {
 		Ban.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {	
 				if( table.getSelectedRow() >= 0 & !Objects.equals(dtm.getValueAt(table.getSelectedRow(), 0), user.getNick())) {
-					File toDelete = new File(dir + "\\src\\Users\\" + dtm.getValueAt(table.getSelectedRow(), 0) + ".txt"); 
+					File toDelete = new File(dir + "/src/Users/" + dtm.getValueAt(table.getSelectedRow(), 0) + ".txt"); 
 					if(!toDelete.isDirectory()) {
 						toDelete.delete();
 						dtm.removeRow(table.getSelectedRow());
