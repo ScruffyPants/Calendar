@@ -33,6 +33,8 @@ public class Timetable {
 			Login login = new Login();
 			*/
 			Login login = new Login();
+			//System.out.println(Time.getDayOfWeek(2016,4,7));
+			//System.out.println(Time.getDayOfWeek(2016,4,8));
 			/*
 			try {
 			LinkedList<Event> pEventsTest = new LinkedList<Event>();
