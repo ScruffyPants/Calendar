@@ -16,6 +16,7 @@ public class Body extends JFrame {
 	
 	JFrame frame = new JFrame("Calendar");
 	JFrame pFrame = new JFrame();
+	JFrame gFrame = new JFrame();
 	JPanel panel = new JPanel(new GridBagLayout());
 	JPanel calendar = new JPanel();
 	User user2 = new User();
@@ -35,6 +36,7 @@ public class Body extends JFrame {
 	JTextField mEnd = new JTextField();
 	JTextField dEnd = new JTextField();
 	JTextField delay = new JTextField();
+	JTextPane namepane = new JTextPane();
 	JCheckBox Monday = new JCheckBox();
 	JCheckBox Tuesday = new JCheckBox();
 	JCheckBox Wednesday = new JCheckBox();
@@ -55,6 +57,7 @@ public class Body extends JFrame {
 	String d = null;
 	Time time;
 	User user;
+	Group group = new Group();
 	int select = table.getSelectedRow();
 	
 	Body(Time t, User u){
@@ -238,9 +241,40 @@ public class Body extends JFrame {
 		
 		GroupsAdd.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				Group group = new Group();
-				group = group.createNewGroup(user);
-				user.addGroup(group.getName());
+				group = new Group();
+				gFrame = new JFrame();
+				JPanel gPanel = new JPanel();
+				namepane = new JTextPane();
+				JButton confirm = new JButton("Confirm");
+				
+				gPanel.setLayout(new GridLayout(0,1));
+				gPanel.add(new JLabel("Name: "));
+				gPanel.add(namepane);
+				gPanel.add(confirm);
+
+				
+				gFrame.setLocationRelativeTo(null);
+				gFrame.pack();
+				gFrame.add(gPanel);
+				gFrame.setMinimumSize(new Dimension(400,200));
+				gFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				gFrame.setVisible(true);
+				
+				confirm.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e) {
+						if(!namepane.getText().isEmpty()){
+							group.setName(namepane.getText());
+							group.addUser(user);
+							group.addAdmin(user);
+							group.saveGroup();
+							user.addGroup(group.getName());
+							user.saveUser();
+							gFrame.setVisible(false);
+							gFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+						}
+						else JOptionPane.showMessageDialog(null,"All fields must be filled");
+					}
+				});
 			}
 		});
 		
@@ -249,7 +283,6 @@ public class Body extends JFrame {
 				for(String s: user.getGroups()){
 					Group group = new Group();
 					group.loadGroup(s);
-					group.showGroupManage(user, group);
 				}
 			}
 		});

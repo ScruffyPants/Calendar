@@ -17,7 +17,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.io.Serializable;
 
-public class Group implements Serializable, ActionListener{
+public class Group implements Serializable{
 	private static final long serialVersionUID = 1504199602031999L;
 	private final String dir = System.getProperty("user.dir");
 	private String name;
@@ -26,10 +26,6 @@ public class Group implements Serializable, ActionListener{
 	private LinkedList<Event> events = new LinkedList<Event>();
 	private FileInputStream in = null;
 	private FileOutputStream out = null;
-	
-	private transient JTextPane namepane = new JTextPane();
-	private transient JFrame frame = new JFrame();
-	private transient User tempuser = new User();
 	
 	public Group(){
 		name = "";
@@ -138,67 +134,4 @@ public class Group implements Serializable, ActionListener{
 			System.err.println("User class not found in group load");
 		}
 	}
-	public Group createNewGroup(User user){
-		tempuser = user;
-		addUser(tempuser);
-		frame = new JFrame();
-		JPanel panel = new JPanel();
-		namepane = new JTextPane();
-		JButton confirm = new JButton("Confirm");
-		
-		panel.setLayout(new GridLayout(0,1));
-		panel.add(new JLabel("Name: "));
-		panel.add(namepane);
-		panel.add(confirm);
-
-		
-		frame.setLocationRelativeTo(null);
-		frame.pack();
-		frame.add(panel);
-		frame.setMinimumSize(new Dimension(400,200));
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setVisible(true);
-		
-		confirm.addActionListener(this);
-
-		return this;
-	}
-	public void showGroupManage(User user, Group group){
-		JPanel panel = new JPanel();
-		JLabel a = new JLabel();
-		JButton edit = new JButton("Edit");
-		frame = new JFrame();
-		namepane = new JTextPane();
-		
-		frame.setLayout(new GridLayout(0,4));
-		panel.setLayout(new GridLayout(0,1));
-		System.out.println("Checking for groups:"+user.getGroups().size());
-		for(String s: user.getGroups()){
-			JScrollPane scrollpane = new JScrollPane();
-			for(Event e: group.getEvents()){
-				a.setText(getName());
-			}
-		}
-		panel.setBorder(BorderFactory.createEtchedBorder());
-		frame.add(panel);
-		frame.setVisible(true);
-		frame.setMinimumSize(new Dimension(400,200));
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-	}
-	
-    public void actionPerformed(ActionEvent e) {
-    	if(e.getActionCommand() == "Confirm"){
-    		if(!namepane.getText().isEmpty()){
-    			this.setName(namepane.getText());
-    			this.addUser(tempuser);
-    			this.addAdmin(tempuser);
-    			frame.setVisible(false);
-    			frame.dispose();
-    		}
-    	}
-    	else if(e.getActionCommand() == "Edit"){
-    		JFrame pFrame = new JFrame();
-    		JPanel panel = new JPanel();
-    	}
-    }
 }
