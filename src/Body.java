@@ -60,6 +60,11 @@ public class Body extends JFrame {
 	Group group = new Group();
 	int select = table.getSelectedRow();
 	
+	//For the lecturer: The reason we globally define so many variables in Body.java is that they are also defined and used within action listeners, which are an enclosing scope.
+	//Our JVMs reacted differently towards this, with Vilius' machine spewing out errors, while a friend of his got it working
+	//without a problem and without the need to globally define whatever we use within action listeners, even on the same IDE.
+	//We didn't know how to handle this, so please do tell us.
+	
 	Body(Time t, User u){
 		time = t;
 		user = u;
@@ -440,6 +445,12 @@ public class Body extends JFrame {
 			}
 		});
 		
+		Info.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null,"You are using Calendar V0.8.");
+			}
+		});
+		
 		menuBar.setPreferredSize(new Dimension(300,500));
 	}
 	
@@ -786,15 +797,15 @@ public class Body extends JFrame {
 		dStart.setHorizontalAlignment(SwingConstants.LEFT);
 		basicinfo.add(dStart);
 		
-		basicinfo.add(new JLabel("Start Year: "));
+		basicinfo.add(new JLabel("End Year: "));
 		yEnd.setHorizontalAlignment(SwingConstants.LEFT);
 		basicinfo.add(yEnd);
 		
-		basicinfo.add(new JLabel("Start Month: "));
+		basicinfo.add(new JLabel("End Month: "));
 		mEnd.setHorizontalAlignment(SwingConstants.LEFT);
 		basicinfo.add(mEnd);
 		
-		basicinfo.add(new JLabel("Start Day: "));
+		basicinfo.add(new JLabel("End Day: "));
 		dEnd.setHorizontalAlignment(SwingConstants.LEFT);
 		basicinfo.add(dEnd);
 		
@@ -983,13 +994,13 @@ public class Body extends JFrame {
 				panel1.setLayout(new BoxLayout(panel1, BoxLayout.PAGE_AXIS));
 				JLabel fName1 = new JLabel("First Name:");
 				fName2 = new JTextField(user2.getFname());
-				JButton editFName = new JButton("Edit");
+				JButton editFName = new JButton("Commit");
 				JLabel lName1 = new JLabel("Last Name:");
 				lName2 = new JTextField(user2.getLname());
-				JButton editLName = new JButton("Edit");
+				JButton editLName = new JButton("Commit");
 				JLabel pass1 = new JLabel("Password:");
 				pass2 = new JPasswordField();
-				JButton changePass = new JButton("Edit");
+				JButton changePass = new JButton("Commit");
 				
 				panel1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 				fName1.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -1039,6 +1050,7 @@ public class Body extends JFrame {
 							table.setValueAt("N/A" + user2.getLname(), select, 1);
 						else
 							table.setValueAt("N/A", select, 1);
+						user2.saveUser();
 					}
 					});
 				editLName.addActionListener(new ActionListener(){
@@ -1053,6 +1065,7 @@ public class Body extends JFrame {
 							table.setValueAt("N/A" + user2.getLname(), select, 1);
 						else
 							table.setValueAt("N/A", select, 1);
+						user2.saveUser();
 					}
 					});
 				changePass.addActionListener(new ActionListener(){

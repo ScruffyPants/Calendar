@@ -143,7 +143,7 @@ public class Time {
 	
 	public boolean legitimateWeek(int yS, int mS, int dS, int y, int m, int d, int del) {
 		int dow = getDayOfWeek(yS, mS, dS);
-		dS -= dow ; // Moving forward to nearest Sunday
+		dS -= dow ; // Moving backward to nearest Sunday
 		if( dS > getDaysInMonth2(y,m) ) {
 			dS = dS % getDaysInMonth2(y,m);
 			if( mS == 12 ) {
