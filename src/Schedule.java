@@ -154,7 +154,7 @@ public class Schedule implements Serializable {
 		this.delay = delay;
 	}
 	
-	
+	//The week the starting day of a schedule is in counts as the first week in which the schedule occurs. Thus, if set on a sunday, the first week is essentially skipped except for the sunday, while the delay also automatically skips the next week if set. For optimal performance, make sure the starting day is a monday.
 	
 	
 }

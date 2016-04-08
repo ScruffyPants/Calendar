@@ -76,11 +76,18 @@ public class Registration extends JFrame implements ActionListener{
  
     public void actionPerformed(ActionEvent e) {
     	if(e.getSource() == register){
-    		if (!txuser.getText().isEmpty() && pass.getText().equals(pass2.getText())) {
+    		File d = new File(dir + "/src/Users");
+    		if( !d.exists() || !d.isDirectory() ) {
+    			System.out.println("Users directory not found, creating..");
+    			d.mkdir();
+    		}
+    		if(!txuser.getText().isEmpty() && !pass.getText().isEmpty() && pass.getText().equals(pass2.getText())) {
     			String temp = dir + "/src/Users/" + txuser.getText() + ".txt";
     			File f = new File(temp);
         		if(!f.exists()){
         			User created = new User(txuser.getText(), pass.getText());
+        			created.setFname(name.getText());
+        			created.setLname(lastname.getText());
                		if( rank.getSelectedIndex() == 1 )created.setIsTeacher(true);
                		else if( rank.getSelectedIndex() == 2 )created.setIsAdmin(true);
                
