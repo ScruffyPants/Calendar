@@ -388,18 +388,20 @@ public class User implements Serializable{
 	}
 	
 	public LinkedList<Schedule> getSchedulesByDate(int y, int m, int d) {
-		//System.out.println("Checking for date " + y + "//" + m + "//" + d);
+		System.out.println("Checking for date " + y + "//" + m + "//" + d);
 		LinkedList<Schedule> ret = new LinkedList<Schedule>();
 		Schedule given = null;
 		Time time = new Time();
 		int dow = time.getDayOfWeek(y, m, d);
-		//System.out.println("" + dow);
+		System.out.println("" + dow);
 		for( int i = 0; i < schedules.size(); i++ ) {
 			given = schedules.get(i);
 			if( checkInRange( y, m, d, given.getYStart(), given.getMStart(), given.getDStart(), given.getYEnd(), given.getMEnd(), given.getDEnd() ) ) {
-				//System.out.println("" + given.getDays()[dow-1]);
+				System.out.println("" + given.getDays()[dow-1]);
 				if( given.getDays()[dow-1] ) {
-					ret.add(given);
+					if( time.legitimateWeek( given.getYStart(), given.getMStart(), given.getDStart(), y, m, d, given.getDelay()) ) {
+						ret.add(given);
+					}
 				}
 			}
 		}
