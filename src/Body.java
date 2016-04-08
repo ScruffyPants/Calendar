@@ -246,8 +246,11 @@ public class Body extends JFrame {
 		
 		GroupsManage.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				Group group = new Group();
-				group.showGroupManage(user);
+				for(String s: user.getGroups()){
+					Group group = new Group();
+					group.loadGroup(s);
+					group.showGroupManage(user, group);
+				}
 			}
 		});
 		

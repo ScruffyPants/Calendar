@@ -163,7 +163,7 @@ public class Group implements Serializable, ActionListener{
 
 		return this;
 	}
-	public void showGroupManage(User user){
+	public void showGroupManage(User user, Group group){
 		JPanel panel = new JPanel();
 		JLabel a = new JLabel();
 		JButton edit = new JButton("Edit");
@@ -174,8 +174,6 @@ public class Group implements Serializable, ActionListener{
 		panel.setLayout(new GridLayout(0,1));
 		System.out.println("Checking for groups:"+user.getGroups().size());
 		for(String s: user.getGroups()){
-			Group group = new Group();
-			group.loadGroup(s);
 			JScrollPane scrollpane = new JScrollPane();
 			for(Event e: group.getEvents()){
 				a.setText(getName());
@@ -194,7 +192,6 @@ public class Group implements Serializable, ActionListener{
     			this.setName(namepane.getText());
     			this.addUser(tempuser);
     			this.addAdmin(tempuser);
-    			this.saveGroup();
     			frame.setVisible(false);
     			frame.dispose();
     		}
