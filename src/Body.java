@@ -265,6 +265,11 @@ public class Body extends JFrame {
 				gFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				gFrame.setVisible(true);
 				
+				gPanel.setLayout(new GridLayout(0,1));
+				gPanel.add(new JLabel("Name: "));
+				gPanel.add(namepane);
+				gPanel.add(confirm);
+				
 				confirm.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e) {
 						if(!namepane.getText().isEmpty()){
@@ -288,6 +293,45 @@ public class Body extends JFrame {
 				for(String s: user.getGroups()){
 					Group group = new Group();
 					group.loadGroup(s);
+					System.out.println("Name: "+group.getName()+" Users: "+group.getUsers().size());
+					
+					group = new Group();
+					gFrame = new JFrame();
+					JPanel gPanel = new JPanel();
+					JPanel mainPanel = new JPanel();
+					JScrollPane scrollpane = new JScrollPane();
+					namepane = new JTextPane();
+					JButton edit = new JButton("Edit");
+					mainPanel.setLayout(new GridLayout(0,1));
+				
+					gPanel.setLayout(new GridLayout(0,1));
+					mainPanel.add(new JLabel("Users: "));
+					
+					for(User u: group.getUsers()){
+						System.out.println(group.getUsers().size()+"Users found");
+						gPanel.add(new JLabel(u.getNick()));
+					}
+					
+					scrollpane.add(gPanel);
+					mainPanel.add(scrollpane);
+					scrollpane.setPreferredSize(new Dimension(200,200));
+					
+					scrollpane = new JScrollPane();
+					gPanel = new JPanel();
+					gPanel.setLayout(new GridLayout(0,1));
+					mainPanel.add(new JLabel("Events: "));
+					
+					for(Event event: group.getEvents()){
+						gPanel.add(new JLabel(event.getName()));
+					}
+					
+					scrollpane.setPreferredSize(new Dimension(200,200));
+					scrollpane.add(gPanel);
+					mainPanel.add(scrollpane);
+					mainPanel.add(edit);
+					gFrame.add(mainPanel);
+					gFrame.setVisible(true);
+					gFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	
 				}
 			}
 		});
