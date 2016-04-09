@@ -295,7 +295,6 @@ public class Body extends JFrame {
 					group.loadGroup(s);
 					System.out.println("Name: "+group.getName()+" Users: "+group.getUsers().size());
 					
-					group = new Group();
 					gFrame = new JFrame();
 					JPanel gPanel = new JPanel();
 					JPanel mainPanel = new JPanel();
