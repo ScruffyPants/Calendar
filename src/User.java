@@ -28,8 +28,8 @@ public class User implements Serializable{
 	private LinkedList<Schedule> schedules = new LinkedList<Schedule>();
 	private LinkedList<String> groups = new LinkedList<String>();
 	private Style style = new Style();
-	private FileInputStream in = null;
-	private FileOutputStream out = null;
+	private transient FileInputStream in = null;
+	private transient FileOutputStream out = null;
 	private boolean isTeacher = false;
 	private boolean isAdmin = false;
 	private boolean isVerified = false;
