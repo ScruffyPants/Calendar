@@ -290,7 +290,7 @@ public class Body extends JFrame {
 				gFrame = new JFrame();
 				gFrame.setLayout(new GridLayout(1,0));
 				for(String s: user.getGroups()){
-					Group group = new Group();
+					group = new Group();
 					group.loadGroup(s);
 					System.out.println(group.printEvents());
 					System.out.println("Name: "+group.getName()+" Users: "+group.getUsers().size());
@@ -302,7 +302,7 @@ public class Body extends JFrame {
 					edit.addActionListener(new ActionListener(){
 						public void actionPerformed(ActionEvent e){
 							JButton submit = new JButton("Submit");
-							JFrame pFrame = new JFrame();
+							pFrame = new JFrame();
 							JPanel basicinfo = new JPanel(new GridLayout(0,1));
 							
 							name = new JTextField(20);
@@ -380,6 +380,7 @@ public class Body extends JFrame {
 							});
 						}
 					});
+					
 					mainPanel.setLayout(new GridLayout(0,1));
 				
 					groupName.setHorizontalAlignment(SwingConstants.CENTER);
@@ -412,8 +413,10 @@ public class Body extends JFrame {
 					events.setVerticalAlignment(SwingConstants.BOTTOM);
 					events.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
 					mainPanel.add(events);
+					scrollpane = new JScrollPane(gPanel,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 					
 					for(Event event: group.getEvents()){
+						System.out.println(group.getEvents().size()+" Events found: "+event.getName());
 						gPanel.add(new JLabel(event.getName()));
 					}
 					
