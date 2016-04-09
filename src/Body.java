@@ -290,28 +290,34 @@ public class Body extends JFrame {
 		
 		GroupsManage.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
+				gFrame = new JFrame();
+				gFrame.setLayout(new GridLayout(1,0));
 				for(String s: user.getGroups()){
 					Group group = new Group();
 					group.loadGroup(s);
 					System.out.println("Name: "+group.getName()+" Users: "+group.getUsers().size());
-					
-					gFrame = new JFrame();
+					JLabel groupName = new JLabel(group.getName());
 					JPanel gPanel = new JPanel();
 					JPanel mainPanel = new JPanel();
-					JScrollPane scrollpane = new JScrollPane();
-					namepane = new JTextPane();
+					JScrollPane scrollpane = new JScrollPane(gPanel,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 					JButton edit = new JButton("Edit");
 					mainPanel.setLayout(new GridLayout(0,1));
 				
+					groupName.setHorizontalAlignment(SwingConstants.CENTER);
+					groupName.setBorder(BorderFactory.createRaisedSoftBevelBorder());
+					mainPanel.setBorder(BorderFactory.createEtchedBorder());
+					mainPanel.add(groupName);
 					gPanel.setLayout(new GridLayout(0,1));
 					mainPanel.add(new JLabel("Users: "));
 					
 					for(User u: group.getUsers()){
-						System.out.println(group.getUsers().size()+"Users found");
-						gPanel.add(new JLabel(u.getNick()));
+						System.out.println(group.getUsers().size()+" Users found : "+u.getNick());
+						JLabel nickName = new JLabel(u.getNick());
+						nickName.setHorizontalAlignment(SwingConstants.LEFT);
+						nickName.setVerticalAlignment(SwingConstants.TOP);
+						gPanel.add(nickName);
 					}
 					
-					scrollpane.add(gPanel);
 					mainPanel.add(scrollpane);
 					scrollpane.setPreferredSize(new Dimension(200,200));
 					
@@ -325,13 +331,13 @@ public class Body extends JFrame {
 					}
 					
 					scrollpane.setPreferredSize(new Dimension(200,200));
-					scrollpane.add(gPanel);
 					mainPanel.add(scrollpane);
 					mainPanel.add(edit);
 					gFrame.add(mainPanel);
-					gFrame.setVisible(true);
-					gFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	
 				}
+				gFrame.setMinimumSize(new Dimension(300,300));
+				gFrame.setVisible(true);
+				gFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	
 			}
 		});
 		
