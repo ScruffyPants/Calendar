@@ -85,6 +85,26 @@ public class Group implements Serializable{
 			return events;
 		}
 	}
+	
+	public void addEvent(Event a){
+		events.add(a);
+	}
+	
+	public String printEvents() {
+		LinkedList<Event> events = getEvents();
+		StringBuilder sb = new StringBuilder();
+		if( events != null )
+		{
+			Event given = null;
+			for(int i = 0; i < events.size(); i++) {
+				given = events.get(i);
+				sb.append("==== Event #" + i + ": "+ given.getYear() + "/" + given.getMonth() + "/" + given.getDay() + ", " + given.getName() + " (" + given.getDescription() + ")");
+			}
+			return sb.toString();
+		}
+		return "No events.";
+	}
+	
 	public void saveGroup(){
 		try{
 			System.out.println("Saving Group");
