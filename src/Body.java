@@ -292,13 +292,94 @@ public class Body extends JFrame {
 				for(String s: user.getGroups()){
 					Group group = new Group();
 					group.loadGroup(s);
+					System.out.println(group.printEvents());
 					System.out.println("Name: "+group.getName()+" Users: "+group.getUsers().size());
-					
 					JLabel groupName = new JLabel(group.getName());
 					JPanel gPanel = new JPanel();
 					JPanel mainPanel = new JPanel();
 					JScrollPane scrollpane = new JScrollPane(gPanel,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 					JButton edit = new JButton("Edit");
+					edit.addActionListener(new ActionListener(){
+						public void actionPerformed(ActionEvent e){
+							JButton submit = new JButton("Submit");
+							JFrame pFrame = new JFrame();
+							JPanel basicinfo = new JPanel(new GridLayout(0,1));
+							
+							name = new JTextField(20);
+							year = new JTextField(20);
+							month = new JTextField(20);
+							day = new JTextField(20);
+							
+							basicinfo.add(new JLabel("Name: "));
+							name.setHorizontalAlignment(SwingConstants.LEFT);
+							basicinfo.add(name);
+							
+							basicinfo.add(new JLabel("Year: "));
+							name.setHorizontalAlignment(SwingConstants.LEFT);
+							basicinfo.add(year);
+							
+							basicinfo.add(new JLabel("Month: "));
+							name.setHorizontalAlignment(SwingConstants.LEFT);
+							basicinfo.add(month);
+							
+							basicinfo.add(new JLabel("Day: "));
+							name.setHorizontalAlignment(SwingConstants.LEFT);
+							basicinfo.add(day);
+							
+							description = new JTextPane();
+							JScrollPane scrollpane = new JScrollPane(description,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+							scrollpane.setPreferredSize(new Dimension(300,300));
+							scrollpane.setMinimumSize(new Dimension(20,20));
+							
+							pFrame.setLayout(new FlowLayout());
+							pFrame.add(basicinfo);
+							pFrame.add(new JLabel("Description: "));
+							pFrame.add(scrollpane);
+							
+							pFrame.add(submit);
+							pFrame.setLocationRelativeTo(null);
+							pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+							pFrame.setMinimumSize(new Dimension(150,150));
+							pFrame.setSize(750,400);
+							pFrame.setVisible(true);
+							pFrame.setResizable(false);
+							
+							submit.addActionListener(new ActionListener(){
+								public void actionPerformed(ActionEvent e) {
+									List<String> MonthsUC = Arrays.asList("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+									List<String> monthsLC = Arrays.asList("january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december");
+									if(!name.getText().isEmpty() && !year.getText().isEmpty() && !month.getText().isEmpty() && !day.getText().isEmpty()){
+										Event event;
+										if( MonthsUC.contains(month.getText()) ) {
+											event = new Event(name.getText(), Integer.parseInt(year.getText()), MonthsUC.indexOf(month.getText()), Integer.parseInt(day.getText()), description.getText());
+										}
+										else if( monthsLC.contains(month.getText()) ) {
+											event = new Event(name.getText(), Integer.parseInt(year.getText()), monthsLC.indexOf(month.getText()), Integer.parseInt(day.getText()), description.getText());
+										}
+										else {
+											event = new Event(name.getText(), Integer.parseInt(year.getText()), Integer.parseInt(month.getText())-1, Integer.parseInt(day.getText()), description.getText());
+										}
+										
+										group.addEvent(event);
+										group.printEvents();
+										
+										group.saveGroup();
+										pFrame.setVisible(false);
+										pFrame.dispose();
+									}
+									else{
+										JFrame bFrame = new JFrame();
+										bFrame.add(new JLabel("All fields must be filled!"));
+										bFrame.setVisible(true);
+										bFrame.setSize(200, 200);
+										bFrame.setLocationRelativeTo(null);
+										bFrame.setResizable(false);
+										bFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+									}
+								}
+							});
+						}
+					});
 					mainPanel.setLayout(new GridLayout(0,1));
 				
 					groupName.setHorizontalAlignment(SwingConstants.CENTER);
@@ -780,11 +861,6 @@ public class Body extends JFrame {
 							//System.out.println("pEvents List received from OBJIN");
 							inObject.close();
 							fInTemp.close();
-							Event given = null;
-							for(int i = 0; i < pEvents.size(); i++) {
-								given = pEvents.get(i);
-								//System.out.println("==== Event #" + i + ": "+ given.getYear() + "/" + given.getMonth() + "/" + given.getDay() + ", " + given.getName() + " (" + given.getDescription() + ")");
-							}
 							pEvents.add(event);
 							user.setPEvents(pEvents);
 							FileOutputStream fOutTemp = new FileOutputStream(dir + "/src/pEvents/pEvents.txt");
