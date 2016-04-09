@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
+
 import java.io.*;
 //import java.nio.file.Files;
 
@@ -265,11 +267,6 @@ public class Body extends JFrame {
 				gFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				gFrame.setVisible(true);
 				
-				gPanel.setLayout(new GridLayout(0,1));
-				gPanel.add(new JLabel("Name: "));
-				gPanel.add(namepane);
-				gPanel.add(confirm);
-				
 				confirm.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e) {
 						if(!namepane.getText().isEmpty()){
@@ -306,10 +303,15 @@ public class Body extends JFrame {
 				
 					groupName.setHorizontalAlignment(SwingConstants.CENTER);
 					groupName.setBorder(BorderFactory.createRaisedSoftBevelBorder());
-					mainPanel.setBorder(BorderFactory.createEtchedBorder());
+					mainPanel.setBorder(new CompoundBorder(
+							BorderFactory.createEmptyBorder(5, 5, 5, 5),
+							BorderFactory.createEtchedBorder()));
 					mainPanel.add(groupName);
 					gPanel.setLayout(new GridLayout(0,1));
-					mainPanel.add(new JLabel("Users: "));
+					JLabel users = new JLabel("Users: ");
+					users.setVerticalAlignment(SwingConstants.BOTTOM);
+					users.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
+					mainPanel.add(users);
 					
 					for(User u: group.getUsers()){
 						System.out.println(group.getUsers().size()+" Users found : "+u.getNick());
@@ -325,7 +327,10 @@ public class Body extends JFrame {
 					scrollpane = new JScrollPane();
 					gPanel = new JPanel();
 					gPanel.setLayout(new GridLayout(0,1));
-					mainPanel.add(new JLabel("Events: "));
+					JLabel events = new JLabel("Events: ");
+					events.setVerticalAlignment(SwingConstants.BOTTOM);
+					events.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
+					mainPanel.add(events);
 					
 					for(Event event: group.getEvents()){
 						gPanel.add(new JLabel(event.getName()));
