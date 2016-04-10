@@ -46,9 +46,9 @@ public class Registration extends JFrame implements ActionListener{
        
         JLabel usr = new JLabel("Username:");
         JLabel pw = new JLabel("Password:");
-        JLabel pw2 = new JLabel("Password #2:");
-        JLabel fname = new JLabel("Name:");
-        JLabel lname = new JLabel("Last name:");
+        JLabel pw2 = new JLabel("Repeat:");
+        JLabel fname = new JLabel("First Name:");
+        JLabel lname = new JLabel("Last Name:");
         usr.setLocation(15,30);
         pw.setLocation(15,65);
         pw2.setLocation(15, 100);

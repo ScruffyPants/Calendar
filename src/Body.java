@@ -417,7 +417,7 @@ public class Body extends JFrame {
 					
 					for(Event event: group.getEvents()){
 						System.out.println(group.getEvents().size()+" Events found: "+event.getName());
-						gPanel.add(new JLabel(event.getName()));
+						gPanel.add(new JLabel("==== Event" + event.getYear() + "/" + event.getMonth() + "/" + event.getDay() + ", " + event.getName() + " (" + event.getDescription() + ")"));
 					}
 					
 					scrollpane.setPreferredSize(new Dimension(200,200));
