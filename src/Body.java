@@ -584,7 +584,7 @@ public class Body extends JFrame {
 			}
 		});
 		
-		Info.addActionListener(new ActionListener(){
+		About.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null,"You are using Calendar V0.8.");
 			}
