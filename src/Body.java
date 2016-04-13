@@ -38,7 +38,6 @@ public class Body extends JFrame {
 	JTextField mEnd = new JTextField();
 	JTextField dEnd = new JTextField();
 	JTextField delay = new JTextField();
-	JTextField addNick = new JTextField();
 	JTextPane namepane = new JTextPane();
 	JCheckBox Monday = new JCheckBox();
 	JCheckBox Tuesday = new JCheckBox();
@@ -152,6 +151,7 @@ public class Body extends JFrame {
 		frame.add(panel);
 		frame.setMinimumSize(new Dimension(500,270));
 		frame.setSize(700, 500);
+		frame.setLocation(400,170);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
@@ -271,19 +271,14 @@ public class Body extends JFrame {
 				confirm.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e) {
 						if(!namepane.getText().isEmpty()){
-							File temp = new File( dir + "/src/Groups/"+namepane.getText()+".txt");
-							if(!temp.exists()){
-								group.setName(namepane.getText());
-								group.addUser(user);
-								group.addAdmin(user);
-								group.saveGroup();
-								user.addGroup(group.getName());
-								user.saveUser();
-								gFrame.setVisible(false);
-								gFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-								JOptionPane.showMessageDialog(null, "Created successfully");
-							}
-							else JOptionPane.showMessageDialog(null,"Group already exists");
+							group.setName(namepane.getText());
+							group.addUser(user);
+							group.addAdmin(user);
+							group.saveGroup();
+							user.addGroup(group.getName());
+							user.saveUser();
+							gFrame.setVisible(false);
+							gFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 						}
 						else JOptionPane.showMessageDialog(null,"All fields must be filled");
 					}
@@ -304,10 +299,8 @@ public class Body extends JFrame {
 					JPanel gPanel = new JPanel();
 					JPanel mainPanel = new JPanel();
 					JScrollPane scrollpane = new JScrollPane(gPanel,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-					JButton addEvent = new JButton("Add Event");
-					JButton manageUsers = new JButton("Manage Users");
-					
-					addEvent.addActionListener(new ActionListener(){
+					JButton edit = new JButton("Edit");
+					edit.addActionListener(new ActionListener(){
 						public void actionPerformed(ActionEvent e){
 							JButton submit = new JButton("Submit");
 							pFrame = new JFrame();
@@ -389,58 +382,6 @@ public class Body extends JFrame {
 						}
 					});
 					
-					manageUsers.addActionListener(new ActionListener(){
-						public void actionPerformed(ActionEvent e) {
-							pFrame = new JFrame();
-							JPanel nicklist = new JPanel(new GridLayout(0,2));
-							for(User u: group.getUsers()){
-								JLabel Nick = new JLabel(u.getNick());
-								nicklist.add(Nick);
-								JButton remove = new JButton("Remove");
-								remove.setActionCommand(u.getNick());
-								nicklist.add(remove);
-							}
-							addNick = new JTextField();
-							JButton addButton = new JButton("Add");
-							addNick.setPreferredSize(new Dimension(100,500));
-							nicklist.add(addNick);
-							nicklist.add(addButton);
-							pFrame.add(nicklist);
-							addButton.addActionListener(new ActionListener(){
-								public void actionPerformed(ActionEvent e) {
-									File temp = new File( dir + "/src/Users/"+addNick.getText()+".txt"); 
-									if(temp.exists()){
-										User tempUser = new User();
-										tempUser.loadUser(addNick.getText());
-										boolean canAdd = true;
-										for(User us: group.getUsers()){
-											System.out.println(us.getNick()+" , "+tempUser.getNick());
-											if(us.getNick().equals(tempUser.getNick())){
-												canAdd = false;
-												break;
-											}
-										}
-										if(canAdd){
-											group.addUser(tempUser);
-											JOptionPane.showMessageDialog(null, "Added successfully");
-											group.saveGroup();
-											tempUser.addGroup(group.getName());
-											tempUser.saveUser();
-										}
-										else{
-											JOptionPane.showMessageDialog(null,"User already added");
-										}
-									}
-									else{
-										JOptionPane.showMessageDialog(null,"User does not exist or the field is empty");
-									}
-								}
-							});
-							pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-							pFrame.setVisible(true);
-						}
-					});
-						
 					mainPanel.setLayout(new GridLayout(0,1));
 				
 					groupName.setHorizontalAlignment(SwingConstants.CENTER);
@@ -482,8 +423,7 @@ public class Body extends JFrame {
 					
 					scrollpane.setPreferredSize(new Dimension(200,200));
 					mainPanel.add(scrollpane);
-					mainPanel.add(manageUsers);
-					mainPanel.add(addEvent);
+					mainPanel.add(edit);
 					gFrame.add(mainPanel);
 				}
 				gFrame.setMinimumSize(new Dimension(300,300));
