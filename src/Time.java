@@ -144,13 +144,13 @@ public class Time {
 	public boolean legitimateWeek(int yS, int mS, int dS, int y, int m, int d, int del) {
 		int dow = getDayOfWeek(yS, mS, dS);
 		dS -= dow ; // Moving backward to nearest Sunday
-		if( dS > getDaysInMonth2(y,m) ) {
-			dS = dS % getDaysInMonth2(y,m);
-			if( mS == 12 ) {
-				mS = 1;
-				yS++;
+		if( dS < 0 ) {
+			dS = getDaysInMonth2(y,m) + dS;
+			if( mS == 1 ) {
+				mS = 12;
+				yS--;
 			} else {
-				mS++;
+				mS--;
 			}
 		}
 		System.out.println("" + getDaysBetweenDates(yS,mS,dS,y,m,d));

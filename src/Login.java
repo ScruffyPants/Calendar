@@ -90,8 +90,9 @@ public class Login extends JFrame implements ActionListener{
 					JFrame w = (JFrame) SwingUtilities.getWindowAncestor(panel);
                     w.dispose();
 				}
-				else System.out.println("Invalid login details.");
+				else JOptionPane.showMessageDialog(null,"User does not exist or invalid login details.");
 			}
+			else JOptionPane.showMessageDialog(null,"User does not exist or invalid login details.");
 		}
 		else if (e.getSource()==register){
 			Registration regFace = new Registration();
