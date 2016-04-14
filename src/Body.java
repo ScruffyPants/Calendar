@@ -151,6 +151,7 @@ public class Body extends JFrame {
 		frame.add(panel);
 		frame.setMinimumSize(new Dimension(500,270));
 		frame.setSize(700, 500);
+		frame.setLocation(400,170);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
