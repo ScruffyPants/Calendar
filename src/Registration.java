@@ -101,6 +101,8 @@ public class Registration extends JFrame implements ActionListener{
         		}
         		else JOptionPane.showMessageDialog(null,"User already exists or password repeated incorrectly.");
     		}
+    		else 	if(pass.getText().equals(pass2.getText()))JOptionPane.showMessageDialog(null,"Registration requires at least a username and password.");
+    		else	JOptionPane.showMessageDialog(null,"Passwords don't match.");
     	}
     	else if (e.getSource() == goback){
     		Login loginFace = new Login();
