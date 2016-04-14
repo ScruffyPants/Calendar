@@ -22,7 +22,7 @@ public class Registration extends JFrame implements ActionListener{
     Registration(){
         super("Account Registration");
         setSize(320,315);
-        setLocation(500,280);
+        setLocationRelativeTo(null);
         panel.setLayout (null);
    
    

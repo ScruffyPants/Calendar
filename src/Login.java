@@ -25,7 +25,7 @@ public class Login extends JFrame implements ActionListener{
 	Login(){
 		super("Login Authentification");
 		setSize(300,180);
-		setLocation(500,280);
+		setLocationRelativeTo(null);
 		panel.setLayout (null);
 	
 		txuser.setBounds(90,30,150,20);
