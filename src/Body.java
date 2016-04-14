@@ -54,7 +54,7 @@ public class Body extends JFrame {
 	JCheckBox pEvent = new JCheckBox();
 	JTable table = new JTable();
 	GridBagConstraints c = new GridBagConstraints();
-	UserTable utable = new UserTable();
+	Table utable = new Table();
 	DefaultTableModel dtm = utable.createUserTable();
 	String d = null;
 	Time time;
@@ -196,7 +196,7 @@ public class Body extends JFrame {
 	
 	public void DrawMenu(){
 		JMenu Calendar, Account, Add, Info, Admin, GroupsMenu;
-		JMenuItem Exit, Logout, AddEvent, AddSchedule, Reload, UserControl, Settings, About, GetToDate, Style, GroupsAdd, GroupsManage;
+		JMenuItem Exit, Logout, AddEvent, AddSchedule, Reload, UserControl, GroupControl, Settings, About, GetToDate, Style, GroupsAdd, GroupsManage;
 		
 		Calendar = new JMenu("Calendar");
 		Account = new JMenu("Account");
@@ -208,10 +208,17 @@ public class Body extends JFrame {
 			Admin = new JMenu("Admin");
 			menuBar.add(Admin);
 			UserControl = new JMenuItem("User Control Panel");
+			GroupControl = new JMenuItem("Group Control Panel");
 			Admin.add(UserControl);
+			Admin.add(GroupControl);
 			UserControl.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) {
 					PopoutUserControlDialog();
+				}
+			});
+			GroupControl.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e) {
+					PopoutGroupControlDialog();
 				}
 			});
 		}
@@ -1005,13 +1012,78 @@ public class Body extends JFrame {
 		});
 	}
 	
+	public void PopoutGroupControlDialog() {
+		pFrame = new JFrame();
+		JMenuBar adminMenuBar = new JMenuBar();
+
+		JMenu Options, Window, Edit;
+		JMenuItem Ban, Verify, Refresh, Account;
+		utable = new Table();
+		dtm = utable.createGroupTable();
+		table = new JTable(dtm);
+		
+		Container paneC = pFrame.getContentPane();
+		JScrollPane sp = new JScrollPane(table);
+		JPanel pane = new JPanel();
+		
+		Options = new JMenu("Options");
+		Ban = new JMenuItem("Ban");
+		
+		Window = new JMenu("Window");
+		Refresh = new JMenuItem("Refresh");
+		
+		Edit = new JMenu("Edit");
+		Account = new JMenuItem("Account");
+		
+		Options.add(Ban);
+		Window.add(Refresh);
+		Edit.add(Account);
+		adminMenuBar.add(Options);
+		adminMenuBar.add(Window);
+		adminMenuBar.add(Edit);
+		
+		Ban.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {	
+				if( table.getSelectedRow() >= 0 ) {
+					File toDelete = new File(dir + "/src/Groups/" + dtm.getValueAt(table.getSelectedRow(), 0) + ".txt"); 
+					if(!toDelete.isDirectory()) {
+						toDelete.delete();
+						dtm.removeRow(table.getSelectedRow());
+					}
+				}
+			}
+		});
+		Refresh.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				pFrame.setVisible(false);
+				pFrame.dispose();
+				PopoutGroupControlDialog();
+			}
+		});
+		
+		pane.setLayout(new BoxLayout(pane, BoxLayout.PAGE_AXIS));
+		adminMenuBar.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		adminMenuBar.setMaximumSize(new Dimension(1920,30));
+		sp.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		pane.add(adminMenuBar);
+		pane.add(sp);
+		pane.setMinimumSize(new Dimension(300,300));
+		paneC.add(pane);
+		paneC.setMinimumSize(new Dimension(300,300));
+		
+		pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		pFrame.setMinimumSize(new Dimension(300,300));
+		pFrame.pack();
+		pFrame.setVisible(true);
+	}
+	
 	public void PopoutUserControlDialog() {
 		pFrame = new JFrame();
 		JMenuBar adminMenuBar = new JMenuBar();
 
 		JMenu Options, Window, ChangeRank, Edit;
 		JMenuItem Ban, Verify, Student, Teacher, Admin, Refresh, Account;
-		utable = new UserTable();
+		utable = new Table();
 		dtm = utable.createUserTable();
 		table = new JTable(dtm);
 		
