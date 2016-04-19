@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.Objects;
 import java.util.List;
 import java.util.Arrays;
+import java.util.Calendar;
 
 public class Body extends JFrame {
 	private static final long serialVersionUID = 1504199602031999L;
@@ -58,6 +59,7 @@ public class Body extends JFrame {
 	DefaultTableModel dtm = utable.createUserTable();
 	String d = null;
 	Time time;
+	Calendar today = Calendar.getInstance();
 	User user;
 	Group group = new Group();
 	int select = table.getSelectedRow();
@@ -69,6 +71,7 @@ public class Body extends JFrame {
 	
 	Body(Time t, User u){
 		time = t;
+		today = Calendar.getInstance();
 		user = u;
 		//System.out.println("Constructor month: "+time.getMonth());
 		int preferredWidth = 30;
@@ -638,6 +641,8 @@ public class Body extends JFrame {
 		
 		double dim = (double)time.getDaysInMonth();
 		int fdom = time.getFirstDayOfMonth(time);
+		boolean now = (today.get(Calendar.YEAR) == time.getYear() && today.get(Calendar.MONTH) == time.getMonth());
+		System.out.println(now);
 		main.setLayout(new GridLayout(0,7,2,2));
 		while(!done){
 			if(j>=fdom){
@@ -651,6 +656,12 @@ public class Body extends JFrame {
 					a.setLayout(new GridLayout(0,1));
 					spane.setBorder(BorderFactory.createEmptyBorder());
 					spane.getVerticalScrollBar().setPreferredSize(new Dimension(10,0));
+					
+					if( now && i == Calendar.getInstance().get(Calendar.DAY_OF_MONTH) ) {
+						System.out.println("Checking successful");
+							JLabel today = new JLabel("Today");
+							a.add(today);
+					}
 
 					a.setBackground(user.getStyle().getDayBackground());
 					if(user.getEventsByDate(time.getYear(), time.getMonth(), i).size()>0){
@@ -862,6 +873,26 @@ public class Body extends JFrame {
 					else {
 						event = new Event(name.getText(), Integer.parseInt(year.getText()), Integer.parseInt(month.getText())-1, Integer.parseInt(day.getText()), description.getText());
 					}
+					boolean isLegit = false;
+					if( event.getYear() == today.get(Calendar.YEAR) ) {
+						if( event.getMonth() == today.get(Calendar.MONTH) ) {
+							if( event.getDay() >= today.get(Calendar.DATE) ) {
+								isLegit = true;
+							} else {
+								isLegit = false;
+							}
+						} else if( event.getMonth() > today.get(Calendar.MONTH) ) {
+							isLegit = true;
+						} else {
+							isLegit = false;
+						}
+					} else if( event.getYear() > today.get(Calendar.YEAR) ) {
+						isLegit = true;
+					} else {
+						isLegit = false;
+					}
+					
+					if( isLegit ) {
 					if(!pEvent.isSelected())user.addEvent(event);
 					else {
 						try {
@@ -895,6 +926,9 @@ public class Body extends JFrame {
 					user.saveUser();
 					Body body = new Body(time, user);
 					//Body body = new Body(time, user);
+				} else {
+					JOptionPane.showMessageDialog(null,"Event must be in the future");
+				}
 				}
 				else{
 					JFrame bFrame = new JFrame();
@@ -1018,7 +1052,7 @@ public class Body extends JFrame {
 		JMenuBar adminMenuBar = new JMenuBar();
 
 		JMenu Options, Window, Edit;
-		JMenuItem Ban, Verify, Refresh, Account;
+		JMenuItem Ban, Refresh, Group;
 		utable = new Table();
 		dtm = utable.createGroupTable();
 		table = new JTable(dtm);
@@ -1034,11 +1068,11 @@ public class Body extends JFrame {
 		Refresh = new JMenuItem("Refresh");
 		
 		Edit = new JMenu("Edit");
-		Account = new JMenuItem("Account");
+		Group = new JMenuItem("Group");
 		
 		Options.add(Ban);
 		Window.add(Refresh);
-		Edit.add(Account);
+		Edit.add(Group);
 		adminMenuBar.add(Options);
 		adminMenuBar.add(Window);
 		adminMenuBar.add(Edit);
@@ -1059,6 +1093,13 @@ public class Body extends JFrame {
 				pFrame.setVisible(false);
 				pFrame.dispose();
 				PopoutGroupControlDialog();
+			}
+		});
+		Group.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				if( table.getSelectedRow() >= 0 ) {
+					
+				}
 			}
 		});
 		
