@@ -38,6 +38,7 @@ public class Body extends JFrame {
 	JTextField mEnd = new JTextField();
 	JTextField dEnd = new JTextField();
 	JTextField delay = new JTextField();
+	JTextField usertoadd = new JTextField();
 	JTextPane namepane = new JTextPane();
 	JCheckBox Monday = new JCheckBox();
 	JCheckBox Tuesday = new JCheckBox();
@@ -155,6 +156,7 @@ public class Body extends JFrame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
+	
 	public void DrawPanel(){
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -299,8 +301,9 @@ public class Body extends JFrame {
 					JPanel gPanel = new JPanel();
 					JPanel mainPanel = new JPanel();
 					JScrollPane scrollpane = new JScrollPane(gPanel,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-					JButton edit = new JButton("Edit");
-					edit.addActionListener(new ActionListener(){
+					JButton addEvent = new JButton("Add Event");
+					JButton manageUsers = new JButton("Manage Users");
+					addEvent.addActionListener(new ActionListener(){
 						public void actionPerformed(ActionEvent e){
 							JButton submit = new JButton("Submit");
 							pFrame = new JFrame();
@@ -382,6 +385,65 @@ public class Body extends JFrame {
 						}
 					});
 					
+					manageUsers.addActionListener(new ActionListener(){
+						public void actionPerformed(ActionEvent e){
+							pFrame = new JFrame();
+							JPanel pPanel = new JPanel();
+							pPanel.setLayout(new GridLayout(0,3));
+							
+							for(User u: group.getUsers()){
+								JLabel nickname = new JLabel(u.getNick());
+								JButton remove = new JButton("remove");
+								JButton makeadmin = new JButton("make admin");
+								
+								remove.setActionCommand(u.getNick().toString());
+								makeadmin.setActionCommand(u.getNick().toString());
+								
+								pPanel.add(nickname);
+								pPanel.add(remove);
+								pPanel.add(makeadmin);
+								
+								remove.addActionListener(new ActionListener(){
+									public void actionPerformed(ActionEvent e){
+										User userremove = new User();
+										userremove.loadUser(e.getActionCommand().toString());
+										System.out.println("Removing "+userremove.getNick()+" From The "+group.getName());
+										userremove.removeGroup(group.getName());
+										group.removeUser(e.getActionCommand().toString());
+										userremove.saveUser();
+									}
+								});
+								
+								makeadmin.addActionListener(new ActionListener(){
+									public void actionPerformed(ActionEvent e){
+										User useradmin = new User();
+										useradmin.loadUser(e.getActionCommand().toString());
+										group.addAdmin(useradmin);
+										group.saveGroup();
+									}
+								});
+							}
+							
+							pPanel.add(new JLabel("Username:"));
+							usertoadd = new JTextField();
+							JButton addbutton = new JButton("add");
+							pPanel.add(usertoadd);
+							pPanel.add(addbutton);
+							
+							addbutton.addActionListener(new ActionListener(){
+								public void actionPerformed(ActionEvent e){
+									User adduser = new User();
+									adduser.loadUser(usertoadd.toString());
+									group.addUser(adduser);
+									group.saveGroup();
+								}
+							});
+							
+							pFrame.add(pPanel);
+							pFrame.setVisible(true);
+							pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+						}
+					});
 					mainPanel.setLayout(new GridLayout(0,1));
 				
 					groupName.setHorizontalAlignment(SwingConstants.CENTER);
@@ -423,7 +485,8 @@ public class Body extends JFrame {
 					
 					scrollpane.setPreferredSize(new Dimension(200,200));
 					mainPanel.add(scrollpane);
-					mainPanel.add(edit);
+					mainPanel.add(addEvent);
+					mainPanel.add(manageUsers);
 					gFrame.add(mainPanel);
 				}
 				gFrame.setMinimumSize(new Dimension(300,300));
@@ -475,7 +538,6 @@ public class Body extends JFrame {
 			}
 		});
 		
-
 		GetToDate.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				pFrame = new JFrame();
