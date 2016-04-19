@@ -446,6 +446,15 @@ public class User implements Serializable{
 		}
 	}
 
+	public void removeGroup(String group){
+		for(int i=0; i<groups.size(); i++){
+			System.out.println(group+" and "+groups.get(i));
+			if(groups.get(i).equals(group)){
+				groups.remove(i);
+				System.out.print("Removed from "+group);
+			}
+		}
+	}
 	
 	public void printSchedules() {
 		Schedule given = null;
