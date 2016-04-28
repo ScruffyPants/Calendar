@@ -730,12 +730,19 @@ public class Body extends JFrame {
 		calendar.add(label, calendar);
 		
 		JLabel monday = new JLabel("Monday");
+		monday.setForeground(user.getStyle().getForeground());
 		JLabel tuesday = new JLabel("Tuesday");
+		tuesday.setForeground(user.getStyle().getForeground());
 		JLabel wednesday = new JLabel("Wednesday");
+		wednesday.setForeground(user.getStyle().getForeground());
 		JLabel thursday = new JLabel("Thursday");
+		thursday.setForeground(user.getStyle().getForeground());
 		JLabel friday = new JLabel("Friday");
+		friday.setForeground(user.getStyle().getForeground());
 		JLabel saturday = new JLabel("Saturday");
+		saturday.setForeground(user.getStyle().getForeground());
 		JLabel sunday = new JLabel("Sunday");
+		sunday.setForeground(user.getStyle().getForeground());
 		
 		weekpanel.setLayout(new GridLayout(0,7,2,2));
 		weekpanel.setMaximumSize(new Dimension(9000,30));
@@ -746,6 +753,7 @@ public class Body extends JFrame {
 		weekpanel.add(friday);
 		weekpanel.add(saturday);
 		weekpanel.add(sunday);
+		weekpanel.setBackground(user.getStyle().getWeekpanelBackground());
 		calendar.add(weekpanel, calendar);
 		
 		double dim = (double)time.getDaysInMonth();
