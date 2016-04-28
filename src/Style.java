@@ -11,6 +11,7 @@ public class Style implements Serializable{
 	private Color dayBackground = Color.white;
 	private Color eventBackground = Color.green;
 	private Color todayBorder = Color.red;
+	private Color weekpanelBackground = Color.white;
 	
 	private transient JFrame frame = new JFrame();
 	private transient JPanel panel = new JPanel();
@@ -19,6 +20,7 @@ public class Style implements Serializable{
 	private transient JButton setDayBackground = new JButton();
 	private transient JButton setEventBackground = new JButton();
 	private transient JButton setTodayBorder = new JButton();
+	private transient JButton setWeekPanelBackground = new JButton();
 	
 	public void setStyle(User user){
 		frame = new JFrame();
@@ -34,12 +36,14 @@ public class Style implements Serializable{
 		setEventBackground.setBackground(user.getStyle().getEventBackground());
 		setTodayBorder = new JButton("Set Color of Today's Border");
 		setTodayBorder.setBackground(user.getStyle().getTodayBorder());
+		setWeekPanelBackground = new JButton("Set Color of Week Panel's Background");
 		
 		panel.add(setBackground);
 		panel.add(setForeground);
 		panel.add(setDayBackground);
 		panel.add(setEventBackground);
 		panel.add(setTodayBorder);
+		panel.add(setWeekPanelBackground);
 		
 		
 		
@@ -108,6 +112,19 @@ public class Style implements Serializable{
 			}
 		});
 		
+		setWeekPanelBackground.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				Color color = makeColor();
+				setWeekpanelBackground(color);
+				setWeekPanelBackground.setBackground(color);
+				if( color.getBlue() < 80 && color.getRed() < 80 && color.getGreen() < 80 ) {
+					setWeekPanelBackground.setForeground(Color.WHITE);
+				} else {
+					setWeekPanelBackground.setForeground(Color.DARK_GRAY);
+				}
+			}
+		});
+		
 		frame.add(panel);
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -148,6 +165,13 @@ public class Style implements Serializable{
 	public void setTodayBorder(Color todayBorder) {
 		this.todayBorder = todayBorder;
 	}
+	public Color getWeekpanelBackground() {
+		return weekpanelBackground;
+	}
+	public void setWeekpanelBackground(Color weekpanelBackground) {
+		this.weekpanelBackground = weekpanelBackground;
+	}
+
 	
 	
 }
