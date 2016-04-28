@@ -153,15 +153,20 @@ public class Time {
 				mS--;
 			}
 		}
-		System.out.println("" + getDaysBetweenDates(yS,mS,dS,y,m,d));
+		//System.out.println("Days between schedule start and current day:" + getDaysBetweenDates(yS,mS,dS,y,m,d));
 		int WeeksFromStart = ((getDaysBetweenDates(yS,mS,dS,y,m,d)-1) - ((getDaysBetweenDates(yS,mS,dS,y,m,d)-1) % 7)) / 7; // Calculating full weeks between adjusted starting date and date to check
+		//System.out.println("Weeks between schedule starting week and current day:" + WeeksFromStart);
 		if( WeeksFromStart == 0 ) {
+			//System.out.println("Starting week of schedule, returning true by default");
 			return true;
 		} else if( WeeksFromStart == 1 && del != 0) {
+			//System.out.println("First week after starting week with non-zero delay, returning false by default");
 			return false; 
 		} else if( del != 0 ) {
+			//System.out.println("Current week is " + WeeksFromStart + " weeks from the starting week, delay is " + del + " weeks, thus this week is " + ((WeeksFromStart) % (del + 1) == 0));
 			return (WeeksFromStart) % (del + 1) == 0; // WFS+1 equals the week the date to check is in (e.g. the second week). If the delay is 1 week, then the second week will pass, the fourth week will pass, and so on. If the delay is 2 weeks, then the third week will pass, the sixth week will pass, and so on. If the delay is 3 weeks, then the fourth week will pass, the eighth week will pass, and so on. Thus, for a delay of n weeks, every x(n+1), x in N, will pass
 		} else {
+			//System.out.println("Zero delay, returning true by default");
 			return true;
 		}
 	}

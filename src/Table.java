@@ -14,7 +14,7 @@ public class Table {
 		
 		String[] columns = {"User", "Name", "Rank", "Verified", "Events"};		
 		File temp = new File(dir + "/src/Users");
-		String[] users = listFilesForFolder( temp ).replaceAll(".txt",  "").split(" ");
+		String[] users = listFilesForFolder( temp ).replaceAll(".txt",  "").split("::::::::::");
 		String[][] data = new String[users.length][columns.length];
 		
 		for(int i = 0; i < users.length; i++) {
@@ -40,7 +40,7 @@ public class Table {
 				data[i][2] = "Student";
 			
 			data[i][3] = "" + utemp.getIsVerified();
-			data[i][4] = utemp.printEvents();
+			data[i][4] = utemp.printEvents() + " ---- " + utemp.printSchedules();
 		}
 		
 		DefaultTableModel userTable = new DefaultTableModel(data, columns) {
@@ -57,7 +57,10 @@ public class Table {
 	public DefaultTableModel createGroupTable() {
 		String[] columns = {"Name", "Users", "Admins", "Events"};
 		File temp = new File(dir + "/src/Groups");
-		String[] groups = listFilesForFolder( temp ).replaceAll(".txt",  "").split(" ");
+		String[] groups = listFilesForFolder( temp ).replaceAll(".txt",  "").split("::::::::::");
+		for( int i = 0; i < groups.length; i++ ) {
+			System.out.println(groups[i]);
+		}
 		String[][] data = new String[groups.length][columns.length];
 		
 		for( int i = 0; i < groups.length; i++ ) {
@@ -99,7 +102,7 @@ public class Table {
 	        //if (fileEntry.isDirectory()) {
 	        //    listFilesForFolder(fileEntry);
 	        //} else {
-	        sb.append(fileEntry.getName() + " ");
+	        sb.append(fileEntry.getName() + "::::::::::");
 	    	}
 	    return sb.toString();
 	}

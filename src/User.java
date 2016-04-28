@@ -388,18 +388,22 @@ public class User implements Serializable{
 	}
 	
 	public LinkedList<Schedule> getSchedulesByDate(int y, int m, int d) {
-		System.out.println("Checking for date " + y + "//" + m + "//" + d);
+		//System.out.println("Checking for date " + y + "//" + m + "//" + d);
 		LinkedList<Schedule> ret = new LinkedList<Schedule>();
 		Schedule given = null;
 		Time time = new Time();
 		int dow = time.getDayOfWeek(y, m, d);
-		System.out.println("" + dow);
+		//System.out.println("" + dow);
 		for( int i = 0; i < schedules.size(); i++ ) {
 			given = schedules.get(i);
 			if( checkInRange( y, m, d, given.getYStart(), given.getMStart(), given.getDStart(), given.getYEnd(), given.getMEnd(), given.getDEnd() ) ) {
-				System.out.println("" + given.getDays()[dow-1]);
+				//System.out.println("" + given.getDays()[dow-1]);
+				//System.out.println(y + "//" + m + "//" + d + " is in the range of " + given.getYStart() + "//" + given.getMStart() + "//" + given.getDStart() + " --- " + given.getYEnd() + "//" + given.getMEnd() + "//" + given.getDEnd());
+				//System.out.println("Current day is within schedule range");
 				if( given.getDays()[dow-1] ) {
+					//System.out.println("Current day is an active day in schedule");
 					if( time.legitimateWeek( given.getYStart(), given.getMStart(), given.getDStart(), y, m, d, given.getDelay()) ) {
+						//System.out.println("Current week is legitimate");
 						ret.add(given);
 					}
 				}
@@ -409,40 +413,96 @@ public class User implements Serializable{
 	}
 	
 	private boolean checkInRange( int yC, int mC, int dC, int y1, int m1, int d1, int y2, int m2, int d2) {
-		if( yC >= y1 && yC <= y2 ) {
-			if( yC == y1 ) {
-				if( mC >= m1 ) {
-					if( mC == m1 ) {
-						if( dC >= d1 ) {
-							return true; // Date to check has equal year and month to beginning, but equal or later day
+		if( y1 != y2 ) {
+			if( yC >= y1 && yC <= y2 ) {
+				if( yC == y1 ) {
+					if( mC >= m1 ) {
+						if( mC == m1 ) {
+							if( dC >= d1 ) {
+								//System.out.println("Date to check has equal year and month to beginning, but equal or later day");
+								return true;
+							} else {
+								//System.out.println("Date to check has equal year and month to beginning, but earlier day");
+								return false;
+							}
 						} else {
-							return false; // Date to check has equal year and month to beginning, but earlier day
+							//System.out.println("Date to check has equal year to beginning and later month");
+							return true;
 						}
 					} else {
-						return true; // Date to check has equal year to beginning and later month
+						//System.out.println("Date to check has equal year to beginning, but earlier month");
+						return false;
 					}
-				} else {
-					return false; // Date to check has equal year to beginning, but earlier month
-				}
-			} else if( yC == y2 ) {
-				if( mC <= m2 ) {
-					if( mC == m2 ) {
-						if( dC <= d2 ) {
-							return true; // Date to check has equal year and month to end, but equal or earlier day
+				} else if( yC == y2 ) {
+					if( mC <= m2 ) {
+						if( mC == m2 ) {
+							if( dC <= d2 ) {
+								//System.out.println("Date to check has equal year and month to end, but equal or earlier day");
+								return true; 
+							} else {
+								//System.out.println("Date to check has equal year and month to end, but later day");
+								return false;
+							}
 						} else {
-							return false; // Date to check has equal year and month to end, but later day
+							//System.out.println("Date to check has equal year to end and earlier month");
+							return true; 
 						}
 					} else {
-						return true; // Date to check has equal year to end and earlier month
+						//System.out.println("Date to check has equal year to end, but later month");
+						return false;
 					}
 				} else {
-					return false; // Date to check has equal year to end, but later month
+					//System.out.println("Date to check has later year than beginning and earlier year than end");
+					return true;
 				}
 			} else {
-				return true; //Date to check has later year than beginning and earlier year than end
+				//System.out.println("Date to check has earlier year than beginning or later year than end");
+				return false;
 			}
-		} else {
-			return false; //Date to check has earlier year than beginning or later year than end
+		} else { //Starting year is equal to ending year
+			if( yC == y1 ) { //Year to check is equal to both starting and ending year
+				if( m1 == m2 ) { //Starting month is equal to ending month
+					if( mC == m1 ) { //Month to check is equal to both starting and ending month
+						if( d1 == d2 ) { //Starting day is equal to ending day
+							if( dC == d1 ) {
+								return true; //Day to check is equal to both starting and ending day
+							} else {
+								return false; //Day to check is not equal to both starting and ending day
+							}
+						} else {
+							if( dC >= d1 && dC <= d2 ) {
+								return true; //Day to check is later than or equal to the starting day and the earlier than or equal to the ending day
+							} else {
+								return false; //Day to check is earlier than the starting day or later than the ending day
+							}
+						}
+					} else { 
+						return false; //
+					}
+				} else {
+					if( mC >= m1 && mC <= m2 ) {
+						if( mC == m1 ) {
+							if( dC >= d1 ) {
+								return true;
+							} else {
+								return false;
+							}
+						} else if( mC == m2 ) {
+							if( dC <= d2 ) {
+								return true;
+							} else {
+								return false;
+							}
+						} else {
+							return true;
+						}
+					} else {
+						return false;
+					}
+				}
+			} else {
+				return false;
+			}
 		}
 	}
 
@@ -456,12 +516,14 @@ public class User implements Serializable{
 		}
 	}
 	
-	public void printSchedules() {
+	public String printSchedules() {
 		Schedule given = null;
+		StringBuilder sb = new StringBuilder();
 		for(int i = 0; i < schedules.size(); i++) {
 			given = schedules.get(i);
-			System.out.println("=====" + given.getYStart() + "/" + given.getMStart() + "/" + given.getDStart() + " --- " + given.getYEnd() + "/" + given.getMEnd() + "/" + given.getDEnd() + "  " + given.getName() + "(" + given.getDescription() + ")");
+			sb.append("=====" + given.getYStart() + "/" + given.getMStart() + "/" + given.getDStart() + " --- " + given.getYEnd() + "/" + given.getMEnd() + "/" + given.getDEnd() + "  " + given.getName() + "(" + given.getDescription() + ")");
 		}
+		return sb.toString();
 	}
 
 	//Deprecated

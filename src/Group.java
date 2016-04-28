@@ -115,6 +115,7 @@ public class Group implements Serializable{
 			Group group = new Group();
 			group.setName(this.getName());
 			group.setUsers(this.getUsers());
+			group.setAdmins(this.getAdmins());
 			group.setEvents(this.getEvents());
 			outObject.writeObject(group);
 			outObject.close();
@@ -128,16 +129,29 @@ public class Group implements Serializable{
 			i.printStackTrace();
 		}
 	}
+	public boolean isAdmin(User user){
+		for(User a: admins){
+			if(a.getNick().equals(user.getNick()))return true;
+		}
+		return false;
+	}
+	
+	public void removeAdmin(User user){
+		for(int i=0; i<admins.size(); i++){
+			if(admins.get(i).getNick().equals(user.getNick()))admins.remove(i);
+		}
+	}
 	
 	public void loadGroup(String Name){
 		try{
-			System.out.println("Loading User");
+			System.out.println("Loading Group");
 			String temp = dir + "/src/Groups/" + Name + ".txt";
 			in = new FileInputStream(temp);
 			ObjectInputStream inObject = new ObjectInputStream(in);
 			Group group = new Group();
 			group = (Group) inObject.readObject();
 			this.setName(group.getName());
+			this.setAdmins(group.getAdmins());
 			this.setUsers(group.getUsers());
 			this.setEvents(group.getEvents());
 			inObject.close();

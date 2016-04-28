@@ -1,5 +1,5 @@
 import javax.swing.*;
-import javax.swing.border.CompoundBorder;
+import javax.swing.border.*;
 
 import java.io.*;
 //import java.nio.file.Files;
@@ -284,9 +284,10 @@ public class Body extends JFrame {
 					public void actionPerformed(ActionEvent e) {
 						if(!namepane.getText().isEmpty()){
 							group.setName(namepane.getText());
-							group.addUser(user);
 							group.addAdmin(user);
+							group.addUser(user);
 							group.saveGroup();
+							System.out.println("Group with "+group.getAdmins().size()+" has been saved");
 							user.addGroup(group.getName());
 							user.saveUser();
 							gFrame.setVisible(false);
@@ -297,7 +298,7 @@ public class Body extends JFrame {
 				});
 			}
 		});
-		
+
 		GroupsManage.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				gFrame = new JFrame();
@@ -313,6 +314,7 @@ public class Body extends JFrame {
 					JScrollPane scrollpane = new JScrollPane(gPanel,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 					JButton addEvent = new JButton("Add Event");
 					JButton manageUsers = new JButton("Manage Users");
+					
 					addEvent.addActionListener(new ActionListener(){
 						public void actionPerformed(ActionEvent e){
 							JButton submit = new JButton("Submit");
@@ -405,13 +407,16 @@ public class Body extends JFrame {
 								JLabel nickname = new JLabel(u.getNick());
 								JButton remove = new JButton("remove");
 								JButton makeadmin = new JButton("make admin");
+								JButton removeadmin = new JButton("remove admin");
 								
 								remove.setActionCommand(u.getNick().toString());
 								makeadmin.setActionCommand(u.getNick().toString());
+								removeadmin.setActionCommand(u.getNick().toString());
 								
 								pPanel.add(nickname);
 								pPanel.add(remove);
-								pPanel.add(makeadmin);
+								if(!group.isAdmin(u))pPanel.add(makeadmin);
+								else pPanel.add(removeadmin);
 								
 								remove.addActionListener(new ActionListener(){
 									public void actionPerformed(ActionEvent e){
@@ -429,6 +434,15 @@ public class Body extends JFrame {
 										User useradmin = new User();
 										useradmin.loadUser(e.getActionCommand().toString());
 										group.addAdmin(useradmin);
+										group.saveGroup();
+									}
+								});
+								
+								removeadmin.addActionListener(new ActionListener(){
+									public void actionPerformed(ActionEvent e){
+										User useradmin = new User();
+										useradmin.loadUser(e.getActionCommand().toString());
+										group.removeAdmin(useradmin);
 										group.saveGroup();
 									}
 								});
@@ -495,8 +509,29 @@ public class Body extends JFrame {
 					
 					scrollpane.setPreferredSize(new Dimension(200,200));
 					mainPanel.add(scrollpane);
+					
+					gPanel = new JPanel();
+					gPanel.setLayout(new GridLayout(0,1));
+					JLabel admins = new JLabel("Admins: ");
+					events.setVerticalAlignment(SwingConstants.BOTTOM);
+					events.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
+					mainPanel.add(admins);
+					scrollpane = new JScrollPane(gPanel,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+					
+					System.out.println(group.getAdmins().size()+" Admins found");
+					for(User a: group.getAdmins()){
+						System.out.println(group.getEvents().size()+" Admins found: "+a.getNick());
+						JLabel nickName = new JLabel(a.getNick());
+						nickName.setHorizontalAlignment(SwingConstants.LEFT);
+						nickName.setVerticalAlignment(SwingConstants.TOP);
+						gPanel.add(nickName);
+					}
+					
+					scrollpane.setPreferredSize(new Dimension(200,200));
+					mainPanel.add(scrollpane);
+					
 					mainPanel.add(addEvent);
-					mainPanel.add(manageUsers);
+					if(group.isAdmin(user))mainPanel.add(manageUsers);
 					gFrame.add(mainPanel);
 				}
 				gFrame.setMinimumSize(new Dimension(300,300));
@@ -659,7 +694,7 @@ public class Body extends JFrame {
 		
 		About.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null,"You are using Calendar V0.8.");
+				JOptionPane.showMessageDialog(null,"You are using Calendar Version JOption.noJpane.noJOptionPane.How do you do it? I forgot. showMessageDialog(). Okay, go and.");
 			}
 		});
 		
@@ -718,12 +753,6 @@ public class Body extends JFrame {
 					a.setLayout(new GridLayout(0,1));
 					spane.setBorder(BorderFactory.createEmptyBorder());
 					spane.getVerticalScrollBar().setPreferredSize(new Dimension(10,0));
-					
-					if( now && i == Calendar.getInstance().get(Calendar.DAY_OF_MONTH) ) {
-						//System.out.println("Checking successful");
-							JLabel today = new JLabel("Today");
-							a.add(today);
-					}
 
 					a.setBackground(user.getStyle().getDayBackground());
 					if(user.getEventsByDate(time.getYear(), time.getMonth(), i).size()>0){
@@ -754,9 +783,18 @@ public class Body extends JFrame {
 							a.add(eventlabel);
 						}
 					}
+					
+					if( now && i == Calendar.getInstance().get(Calendar.DAY_OF_MONTH) ) {
+						//System.out.println("Checking successful");
+							//JLabel today = new JLabel("Today");
+							//a.add(today);
+							Border border = BorderFactory.createMatteBorder(2, 2, 2, 2, user.getStyle().getTodayBorder());
+							a.setBorder(border);
+					}
+					
 					a.setHorizontalAlignment(SwingConstants.LEFT);
 					a.setVerticalAlignment(SwingConstants.TOP);
-					a.setBorder(null);
+					//a.setBorder(null);
 					spane.setPreferredSize(new Dimension(90,90));
 					//a.setPreferredSize(new Dimension(90,90));
 					main.add(spane);
