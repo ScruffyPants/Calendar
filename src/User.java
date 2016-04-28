@@ -233,7 +233,6 @@ public class User implements Serializable{
 	}
 	
 	public LinkedList<Event> getGEventsByDate(int y, int m, int d) {
-		System.out.println("getGEventsByDate called with " + y + "/" + m + "/" + d);
 		LinkedList<Event> ret = new LinkedList<Event>();
 		if( getGroups().size() > 0 ) {
 		for( String a : getGroups() ) {
@@ -243,9 +242,9 @@ public class User implements Serializable{
 			Event given = current.getEvents().getFirst();
 			for( int i = 0; i < current.getEvents().size(); i++ ) {
 				given = current.getEvents().get(i);
-				System.out.println(given.getYear() + "/" + given.getMonth() + "/" + given.getDay());
+				//System.out.println(given.getYear() + "/" + given.getMonth() + "/" + given.getDay());
 				if( given.getYear() == y && given.getMonth() == m && given.getDay() == d ) {
-					System.out.println("true");
+					//System.out.println("true");
 					ret.add(given);
 				}
 			}
