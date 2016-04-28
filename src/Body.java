@@ -928,7 +928,14 @@ public class Body extends JFrame {
 			
 			pFrame.add(panel);
 		}
-		pFrame.setLayout(new GridLayout(2,5));
+		if(pevents.size()==0 && events.size()==0){
+			JLabel noEvents = new JLabel("No events for this day");
+			noEvents.setHorizontalAlignment(SwingConstants.CENTER);
+			noEvents.setVerticalAlignment(SwingConstants.CENTER);
+			pFrame.add(noEvents);
+		}
+		pFrame.setLayout(new GridLayout(1,5));
+		pFrame.setMinimumSize(new Dimension(300,300));
 		pFrame.pack();
 		pFrame.setLocationRelativeTo(null);
 		pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
