@@ -397,13 +397,16 @@ public class Body extends JFrame {
 								JLabel nickname = new JLabel(u.getNick());
 								JButton remove = new JButton("remove");
 								JButton makeadmin = new JButton("make admin");
+								JButton removeadmin = new JButton("remove admin");
 								
 								remove.setActionCommand(u.getNick().toString());
 								makeadmin.setActionCommand(u.getNick().toString());
+								removeadmin.setActionCommand(u.getNick().toString());
 								
 								pPanel.add(nickname);
 								pPanel.add(remove);
-								pPanel.add(makeadmin);
+								if(!group.isAdmin(u))pPanel.add(makeadmin);
+								else pPanel.add(removeadmin);
 								
 								remove.addActionListener(new ActionListener(){
 									public void actionPerformed(ActionEvent e){
@@ -421,6 +424,15 @@ public class Body extends JFrame {
 										User useradmin = new User();
 										useradmin.loadUser(e.getActionCommand().toString());
 										group.addAdmin(useradmin);
+										group.saveGroup();
+									}
+								});
+								
+								removeadmin.addActionListener(new ActionListener(){
+									public void actionPerformed(ActionEvent e){
+										User useradmin = new User();
+										useradmin.loadUser(e.getActionCommand().toString());
+										group.removeAdmin(useradmin);
 										group.saveGroup();
 									}
 								});

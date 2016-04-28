@@ -130,8 +130,16 @@ public class Group implements Serializable{
 		}
 	}
 	public boolean isAdmin(User user){
-		if(users.contains(user))return true;
-		else return false;
+		for(User a: admins){
+			if(a.getNick().equals(user.getNick()))return true;
+		}
+		return false;
+	}
+	
+	public void removeAdmin(User user){
+		for(int i=0; i<admins.size(); i++){
+			if(admins.get(i).getNick().equals(user.getNick()))admins.remove(i);
+		}
 	}
 	
 	public void loadGroup(String Name){
