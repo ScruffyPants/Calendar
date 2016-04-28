@@ -795,6 +795,14 @@ public class Body extends JFrame {
 							a.add(eventlabel);
 						}
 					}
+					if(user.getGEventsByDate(time.getYear(), time.getMonth()+1, i).size()>0){
+						a.setBackground(user.getStyle().getEventBackground());
+						for(Event e: user.getGEventsByDate(time.getYear(), time.getMonth()+1, i)){
+							JLabel eventlabel = new JLabel(e.getName());
+							eventlabel.setHorizontalAlignment(SwingConstants.CENTER);
+							a.add(eventlabel);
+						}
+					}
 					
 					if( now && i == Calendar.getInstance().get(Calendar.DAY_OF_MONTH) ) {
 						//System.out.println("Checking successful");

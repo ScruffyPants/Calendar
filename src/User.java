@@ -207,7 +207,7 @@ public class User implements Serializable{
 			Event given = events.getFirst();
 			for( int i = 0; i < events.size(); i++) {
 				given = events.get(i);
-				if( given.getYear() == y & given.getMonth() == m & given.getDay() == d )
+				if( given.getYear() == y && given.getMonth() == m && given.getDay() == d )
 					ret.add(given);
 			}
 			return ret; }
@@ -222,14 +222,37 @@ public class User implements Serializable{
 			Event given = pEvents.getFirst();
 			for( int i = 0; i < pEvents.size(); i++) {
 				given = pEvents.get(i);
-				if( given.getYear() == y & given.getMonth() == m & given.getDay() == d )
+				if( given.getYear() == y && given.getMonth() == m && given.getDay() == d )
 					ret.add(given);
 			}
 			return ret; 
 		}
-		else{
+		else {
 			return pEvents;
 		}
+	}
+	
+	public LinkedList<Event> getGEventsByDate(int y, int m, int d) {
+		System.out.println("getGEventsByDate called with " + y + "/" + m + "/" + d);
+		LinkedList<Event> ret = new LinkedList<Event>();
+		if( getGroups().size() > 0 ) {
+		for( String a : getGroups() ) {
+			Group current = new Group();
+			current.loadGroup(a);
+			if( current.getEvents().size() > 0 ) {
+			Event given = current.getEvents().getFirst();
+			for( int i = 0; i < current.getEvents().size(); i++ ) {
+				given = current.getEvents().get(i);
+				System.out.println(given.getYear() + "/" + given.getMonth() + "/" + given.getDay());
+				if( given.getYear() == y && given.getMonth() == m && given.getDay() == d ) {
+					System.out.println("true");
+					ret.add(given);
+				}
+			}
+			}
+		}
+		}
+		return ret;
 	}
 	
 	public LinkedList<Event> getEventsByDateRange(int y1, int m1, int d1, int y2, int m2, int d2) {
