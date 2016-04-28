@@ -447,14 +447,25 @@ public class Body extends JFrame {
 							addbutton.addActionListener(new ActionListener(){
 								public void actionPerformed(ActionEvent e){
 									User adduser = new User();
-									adduser.loadUser(usertoadd.toString());
-									group.addUser(adduser);
-									group.saveGroup();
+									String temp = dir + "/src/Users/" + usertoadd.getText() + ".txt";
+									System.out.println(temp);
+					    			File f = new File(temp);
+									if(f.exists()){
+										adduser.loadUser(usertoadd.getText());
+										if(!group.isUser(adduser)){
+											group.addUser(adduser);
+											group.saveGroup();
+											adduser.saveUser();
+										}
+										else JOptionPane.showMessageDialog(null, "User already in this group");
+									}
+									else JOptionPane.showMessageDialog(null,"That user does not exist");
 								}
 							});
 							
 							pFrame.add(pPanel);
 							pFrame.setVisible(true);
+							pFrame.setMinimumSize(new Dimension(400,200));
 							pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 						}
 					});
@@ -494,7 +505,7 @@ public class Body extends JFrame {
 					
 					for(Event event: group.getEvents()){
 						System.out.println(group.getEvents().size()+" Events found: "+event.getName());
-						gPanel.add(new JLabel("==== Event" + event.getYear() + "/" + event.getMonth() + "/" + event.getDay() + ", " + event.getName() + " (" + event.getDescription() + ")"));
+						gPanel.add(new JLabel("Event " + event.getYear() + "/" + event.getMonth() + "/" + event.getDay() + " : " + event.getName() + " (" + event.getDescription() + ")"));
 					}
 					
 					scrollpane.setPreferredSize(new Dimension(200,200));
@@ -527,6 +538,7 @@ public class Body extends JFrame {
 				gFrame.setMinimumSize(new Dimension(300,300));
 				gFrame.setVisible(true);
 				gFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	
+				user.loadUser(user.getNick());
 			}
 		});
 		

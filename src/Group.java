@@ -90,6 +90,13 @@ public class Group implements Serializable{
 		events.add(a);
 	}
 	
+	public boolean isUser(User user){
+		for(User u: users){
+			if(u.getNick().equals(user.getNick()))return true;
+		}
+		return false;
+	}
+	
 	public String printEvents() {
 		LinkedList<Event> events = getEvents();
 		StringBuilder sb = new StringBuilder();
@@ -144,7 +151,7 @@ public class Group implements Serializable{
 	
 	public void loadGroup(String Name){
 		try{
-			System.out.println("Loading User");
+			System.out.println("Loading Group");
 			String temp = dir + "/src/Groups/" + Name + ".txt";
 			in = new FileInputStream(temp);
 			ObjectInputStream inObject = new ObjectInputStream(in);
