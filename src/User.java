@@ -361,6 +361,7 @@ public class User implements Serializable{
 		}
 		catch(FileNotFoundException e){
 			System.err.println("ERROR 404: FILE NOT FOUND");
+			JOptionPane.showMessageDialog(null, "File for user "+Nick+" not found");
 		}
 		catch(IOException i){
 			System.err.println("IOException error");
