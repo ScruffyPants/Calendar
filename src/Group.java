@@ -115,6 +115,7 @@ public class Group implements Serializable{
 			Group group = new Group();
 			group.setName(this.getName());
 			group.setUsers(this.getUsers());
+			group.setAdmins(this.getAdmins());
 			group.setEvents(this.getEvents());
 			outObject.writeObject(group);
 			outObject.close();
@@ -128,6 +129,10 @@ public class Group implements Serializable{
 			i.printStackTrace();
 		}
 	}
+	public boolean isAdmin(User user){
+		if(users.contains(user))return true;
+		else return false;
+	}
 	
 	public void loadGroup(String Name){
 		try{
@@ -138,6 +143,7 @@ public class Group implements Serializable{
 			Group group = new Group();
 			group = (Group) inObject.readObject();
 			this.setName(group.getName());
+			this.setAdmins(group.getAdmins());
 			this.setUsers(group.getUsers());
 			this.setEvents(group.getEvents());
 			inObject.close();

@@ -274,9 +274,10 @@ public class Body extends JFrame {
 					public void actionPerformed(ActionEvent e) {
 						if(!namepane.getText().isEmpty()){
 							group.setName(namepane.getText());
-							group.addUser(user);
 							group.addAdmin(user);
+							group.addUser(user);
 							group.saveGroup();
+							System.out.println("Group with "+group.getAdmins().size()+" has been saved");
 							user.addGroup(group.getName());
 							user.saveUser();
 							gFrame.setVisible(false);
@@ -287,7 +288,7 @@ public class Body extends JFrame {
 				});
 			}
 		});
-		
+
 		GroupsManage.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				gFrame = new JFrame();
@@ -303,6 +304,7 @@ public class Body extends JFrame {
 					JScrollPane scrollpane = new JScrollPane(gPanel,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 					JButton addEvent = new JButton("Add Event");
 					JButton manageUsers = new JButton("Manage Users");
+					
 					addEvent.addActionListener(new ActionListener(){
 						public void actionPerformed(ActionEvent e){
 							JButton submit = new JButton("Submit");
@@ -485,8 +487,29 @@ public class Body extends JFrame {
 					
 					scrollpane.setPreferredSize(new Dimension(200,200));
 					mainPanel.add(scrollpane);
+					
+					gPanel = new JPanel();
+					gPanel.setLayout(new GridLayout(0,1));
+					JLabel admins = new JLabel("Admins: ");
+					events.setVerticalAlignment(SwingConstants.BOTTOM);
+					events.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
+					mainPanel.add(admins);
+					scrollpane = new JScrollPane(gPanel,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+					
+					System.out.println(group.getAdmins().size()+" Admins found");
+					for(User a: group.getAdmins()){
+						System.out.println(group.getEvents().size()+" Admins found: "+a.getNick());
+						JLabel nickName = new JLabel(a.getNick());
+						nickName.setHorizontalAlignment(SwingConstants.LEFT);
+						nickName.setVerticalAlignment(SwingConstants.TOP);
+						gPanel.add(nickName);
+					}
+					
+					scrollpane.setPreferredSize(new Dimension(200,200));
+					mainPanel.add(scrollpane);
+					
 					mainPanel.add(addEvent);
-					mainPanel.add(manageUsers);
+					if(group.isAdmin(user))mainPanel.add(manageUsers);
 					gFrame.add(mainPanel);
 				}
 				gFrame.setMinimumSize(new Dimension(300,300));
