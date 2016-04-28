@@ -720,7 +720,7 @@ public class Body extends JFrame {
 					spane.getVerticalScrollBar().setPreferredSize(new Dimension(10,0));
 					
 					if( now && i == Calendar.getInstance().get(Calendar.DAY_OF_MONTH) ) {
-						System.out.println("Checking successful");
+						//System.out.println("Checking successful");
 							JLabel today = new JLabel("Today");
 							a.add(today);
 					}
