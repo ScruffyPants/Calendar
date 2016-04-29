@@ -866,13 +866,21 @@ public class Body extends JFrame {
 			panel.setLayout(new GridBagLayout());
 			
 			JLabel info = new JLabel(a.getName()+" ("+Integer.toString(a.getYear())+" "+Integer.toString(a.getMonth())+" "+Integer.toString(a.getDay())+")");
-			JLabel desc = new JLabel("Description: \n"+a.getDescription());
+			//JLabel desc = new JLabel("Description: \n"+a.getDescription());
+			JTextArea desc = new JTextArea("Description: \n"+a.getDescription());
+			
+			desc.setEditable(false);
+			desc.setFocusable(false);
+			desc.setWrapStyleWord(true);
+			desc.setLineWrap(true);
+			desc.setFont(new Font("Serif", Font.BOLD, 15));
 			
 			info.setSize(100000, 50);
 			info.setHorizontalAlignment(SwingConstants.LEFT);
 			info.setVerticalAlignment(SwingConstants.BOTTOM);
-			desc.setHorizontalAlignment(SwingConstants.LEFT);
-			desc.setVerticalAlignment(SwingConstants.TOP);
+			info.setForeground(user.getStyle().getForeground());
+			desc.setForeground(user.getStyle().getForeground());
+			desc.setBackground(user.getStyle().getBackground());
 			
 			c = new GridBagConstraints();
 			c.anchor = GridBagConstraints.FIRST_LINE_START;
@@ -885,6 +893,8 @@ public class Body extends JFrame {
 			c.gridx = 0;
 			c.gridy = 1;
 			JScrollPane scrollPane = new JScrollPane(desc);
+			scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			scrollPane.setPreferredSize(new Dimension(300,300));
 			panel.add(scrollPane,c);
 			panel.setBorder(BorderFactory.createEmptyBorder(0, 5, 10, 5));
@@ -899,14 +909,21 @@ public class Body extends JFrame {
 			JPanel panel = new JPanel();
 			panel.setLayout(new GridBagLayout());
 			
-			JLabel info = new JLabel(a.getName()+" ("+Integer.toString(a.getYear())+" "+Integer.toString(a.getMonth())+" "+Integer.toString(a.getDay())+")");
-			JLabel desc = new JLabel("Description: \n"+a.getDescription());
+			JLabel info = new JLabel(a.getName()+" (Public) ("+Integer.toString(a.getYear())+" "+Integer.toString(a.getMonth())+" "+Integer.toString(a.getDay())+")");
+			JTextArea desc = new JTextArea("Description: \n"+a.getDescription());
+			
+			desc.setEditable(false);
+			desc.setFocusable(false);
+			desc.setWrapStyleWord(true);
+			desc.setLineWrap(true);
+			desc.setFont(new Font("Serif", Font.BOLD, 15));
 			
 			info.setSize(100000, 50);
 			info.setHorizontalAlignment(SwingConstants.LEFT);
 			info.setVerticalAlignment(SwingConstants.BOTTOM);
-			desc.setHorizontalAlignment(SwingConstants.LEFT);
-			desc.setVerticalAlignment(SwingConstants.TOP);
+			info.setForeground(user.getStyle().getForeground());
+			desc.setForeground(user.getStyle().getForeground());
+			desc.setBackground(user.getStyle().getBackground());
 			
 			c = new GridBagConstraints();
 			c.anchor = GridBagConstraints.FIRST_LINE_START;
@@ -929,12 +946,20 @@ public class Body extends JFrame {
 			pFrame.add(panel);
 		}
 		if(pevents.size()==0 && events.size()==0){
+			JPanel panel = new JPanel();
 			JLabel noEvents = new JLabel("No events for this day");
+			noEvents.setForeground(user.getStyle().getForeground());
 			noEvents.setHorizontalAlignment(SwingConstants.CENTER);
 			noEvents.setVerticalAlignment(SwingConstants.CENTER);
-			pFrame.add(noEvents);
+			panel.add(noEvents);
+			panel.setBackground(user.getStyle().getBackground());
+			panel.setMinimumSize(new Dimension(300,300));
+			panel.setLayout(new GridBagLayout());
+			pFrame.add(panel);
 		}
-		pFrame.setLayout(new GridLayout(1,5));
+		
+		pFrame.setBackground(user.getStyle().getBackground());
+		pFrame.setLayout(new GridLayout(2,3));
 		pFrame.setMinimumSize(new Dimension(300,300));
 		pFrame.pack();
 		pFrame.setLocationRelativeTo(null);
