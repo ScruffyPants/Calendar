@@ -95,6 +95,41 @@ public class Table {
 		return userTable;
 	}
 	
+	public DefaultTableModel createGroupUserTable(Group group) {
+		String[] columns = {"User", "Name", "Rank"};		
+		String[][] data = new String[group.getUsers().size()][columns.length];
+		User utemp = new User();
+		for(int i = 0; i < group.getUsers().size(); i++) {
+			utemp = (group.getUsers().get(i));
+			utemp.sortEvent(utemp.getEvents());
+			data[i][0] = utemp.getNick();
+			
+			if(utemp.getFname() != null & utemp.getLname() != null)
+				data[i][1] = utemp.getFname() + " " + utemp.getLname();
+			else if(utemp.getFname() != null)
+				data[i][1] = utemp.getFname() + " N/A";
+			else if(utemp.getLname() != null)
+				data[i][1] = "N/A" + utemp.getLname();
+			else
+				data[i][1] = "N/A";
+			
+			if( group.isAdmin(utemp) )
+				data[i][2] = "Admin";
+			else
+				data[i][2] = "User";
+		}
+		
+		DefaultTableModel userTable = new DefaultTableModel(data, columns) {
+			private static final long serialVersionUID = 1504199602031999L;
+			@Override
+		    public boolean isCellEditable(int row, int column) {
+			       //all cells false
+			       return false;
+			}
+		};
+		return userTable;
+	}
+	
 	public String listFilesForFolder(final File folder) {
 		StringBuilder sb = new StringBuilder();
 	    for (final File fileEntry : folder.listFiles()) {

@@ -399,84 +399,7 @@ public class Body extends JFrame {
 					
 					manageUsers.addActionListener(new ActionListener(){
 						public void actionPerformed(ActionEvent e){
-							pFrame = new JFrame();
-							JPanel pPanel = new JPanel();
-							pPanel.setLayout(new GridLayout(0,3));
-							
-							for(User u: group.getUsers()){
-								JLabel nickname = new JLabel(u.getNick());
-								JButton remove = new JButton("remove");
-								JButton makeadmin = new JButton("make admin");
-								JButton removeadmin = new JButton("remove admin");
-								
-								remove.setActionCommand(u.getNick().toString());
-								makeadmin.setActionCommand(u.getNick().toString());
-								removeadmin.setActionCommand(u.getNick().toString());
-								
-								pPanel.add(nickname);
-								pPanel.add(remove);
-								if(!group.isAdmin(u))pPanel.add(makeadmin);
-								else pPanel.add(removeadmin);
-								
-								remove.addActionListener(new ActionListener(){
-									public void actionPerformed(ActionEvent e){
-										User userremove = new User();
-										userremove.loadUser(e.getActionCommand().toString());
-										System.out.println("Removing "+userremove.getNick()+" From The "+group.getName());
-										userremove.removeGroup(group.getName());
-										group.removeUser(e.getActionCommand().toString());
-										userremove.saveUser();
-									}
-								});
-								
-								makeadmin.addActionListener(new ActionListener(){
-									public void actionPerformed(ActionEvent e){
-										User useradmin = new User();
-										useradmin.loadUser(e.getActionCommand().toString());
-										group.addAdmin(useradmin);
-										group.saveGroup();
-									}
-								});
-								
-								removeadmin.addActionListener(new ActionListener(){
-									public void actionPerformed(ActionEvent e){
-										User useradmin = new User();
-										useradmin.loadUser(e.getActionCommand().toString());
-										group.removeAdmin(useradmin);
-										group.saveGroup();
-									}
-								});
-							}
-							
-							pPanel.add(new JLabel("Username:"));
-							usertoadd = new JTextField();
-							JButton addbutton = new JButton("add");
-							pPanel.add(usertoadd);
-							pPanel.add(addbutton);
-							
-							addbutton.addActionListener(new ActionListener(){
-								public void actionPerformed(ActionEvent e){
-									User adduser = new User();
-									String temp = dir + "/src/Users/" + usertoadd.getText() + ".txt";
-									System.out.println(temp);
-					    			File f = new File(temp);
-									if(f.exists()){
-										adduser.loadUser(usertoadd.getText());
-										if(!group.isUser(adduser)){
-											group.addUser(adduser);
-											group.saveGroup();
-											adduser.saveUser();
-										}
-										else JOptionPane.showMessageDialog(null, "User already in this group");
-									}
-									else JOptionPane.showMessageDialog(null,"That user does not exist");
-								}
-							});
-							
-							pFrame.add(pPanel);
-							pFrame.setVisible(true);
-							pFrame.setMinimumSize(new Dimension(400,200));
-							pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+							PopoutGroupUserControlDialog(group);
 						}
 					});
 					mainPanel.setLayout(new GridLayout(0,1));
@@ -753,7 +676,7 @@ public class Body extends JFrame {
 		weekpanel.add(friday);
 		weekpanel.add(saturday);
 		weekpanel.add(sunday);
-		weekpanel.setBackground(user.getStyle().getWeekpanelBackground());
+		weekpanel.setBackground(user.getStyle().getWeekPanelBackground());
 		calendar.add(weekpanel, calendar);
 		
 		double dim = (double)time.getDaysInMonth();
@@ -1458,6 +1381,220 @@ public class Body extends JFrame {
 					}
 					});
 				}
+			}
+		});
+		
+		pane.setLayout(new BoxLayout(pane, BoxLayout.PAGE_AXIS));
+		adminMenuBar.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		adminMenuBar.setMaximumSize(new Dimension(1920,30));
+		sp.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		pane.add(adminMenuBar);
+		pane.add(sp);
+		pane.setMinimumSize(new Dimension(300,300));
+		paneC.add(pane);
+		paneC.setMinimumSize(new Dimension(300,300));
+		
+		pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		pFrame.setMinimumSize(new Dimension(300,300));
+		pFrame.pack();
+		pFrame.setVisible(true);
+	}
+	
+	public void PopoutGroupUserControlDialog(Group group) {
+		pFrame = new JFrame();
+		JMenuBar adminMenuBar = new JMenuBar();
+
+		JMenu Options, Window, ChangeRank, Edit;
+		JMenuItem Remove, User, Admin, Refresh, Account, AddUser;
+		utable = new Table();
+		dtm = utable.createGroupUserTable(group);
+		table = new JTable(dtm);
+		
+		Container paneC = pFrame.getContentPane();
+		JScrollPane sp = new JScrollPane(table);
+		JPanel pane = new JPanel();
+		
+		Options = new JMenu("Options");
+		Remove = new JMenuItem("Remove");
+		
+		ChangeRank = new JMenu("Change Rank");
+		User = new JMenuItem("User");
+		Admin = new JMenuItem("Admin");
+		
+		Window = new JMenu("Window");
+		Refresh = new JMenuItem("Refresh");
+		
+		Edit = new JMenu("Edit");
+		Account = new JMenuItem("Account");
+		AddUser = new JMenuItem("Add User");
+		
+		ChangeRank.add(User);
+		ChangeRank.add(Admin);
+		Options.add(Remove);
+		Options.add(ChangeRank);
+		Window.add(Refresh);
+		Edit.add(Account);
+		Edit.add(AddUser);
+		adminMenuBar.add(Options);
+		adminMenuBar.add(Window);
+		adminMenuBar.add(Edit);
+		
+		Remove.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {	
+				if( table.getSelectedRow() >= 0 & !Objects.equals(dtm.getValueAt(table.getSelectedRow(), 0), user.getNick())) {
+					User user2 = new User();
+					user2.loadUser((String) table.getValueAt(table.getSelectedRow(), 0));
+					user2.removeGroup(group.getName());
+					group.removeUser(e.getActionCommand().toString());
+					user2.saveUser();
+					group.saveGroup();
+					dtm.removeRow(table.getSelectedRow());
+				}
+			}
+		});
+		User.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				if( table.getSelectedRow() >= 0 & !Objects.equals(dtm.getValueAt(table.getSelectedRow(), 0), user.getNick())) {
+					User user2 = new User();
+					user2.loadUser((String) table.getValueAt(table.getSelectedRow(), 0));
+					group.removeAdmin(user2);
+					group.saveGroup();
+					table.setValueAt("Admin", table.getSelectedRow(), 2);
+				}
+			}
+		});
+		Admin.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				if( table.getSelectedRow() >= 0 & !Objects.equals(dtm.getValueAt(table.getSelectedRow(), 0), user.getNick())) {
+					User user2 = new User();
+					user2.loadUser((String) table.getValueAt(table.getSelectedRow(), 0));
+					group.addAdmin(user2);
+					table.setValueAt("Admin", table.getSelectedRow(), 2);
+				}
+			}
+		});
+		Refresh.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				pFrame.setVisible(false);
+				pFrame.dispose();
+				PopoutGroupUserControlDialog(group);
+			}
+		});
+		Account.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				//Edited duplicate of SettingsActionListener code
+				if( table.getSelectedRow() >= 0 ) {
+				select = table.getSelectedRow();
+				String userS = (String) table.getValueAt(table.getSelectedRow(), 0);
+				user2 = new User();
+				user2.loadUser(userS);
+				JFrame pFrame = new JFrame();
+				JPanel panel1 = new JPanel();
+				panel1.setLayout(new BoxLayout(panel1, BoxLayout.PAGE_AXIS));
+				JLabel fName1 = new JLabel("First Name:");
+				fName2 = new JTextField(user2.getFname());
+				JButton editFName = new JButton("Commit");
+				JLabel lName1 = new JLabel("Last Name:");
+				lName2 = new JTextField(user2.getLname());
+				JButton editLName = new JButton("Commit");
+				JLabel pass1 = new JLabel("Password:");
+				pass2 = new JPasswordField();
+				JButton changePass = new JButton("Commit");
+				
+				panel1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+				fName1.setAlignmentX(Component.CENTER_ALIGNMENT);
+				editFName.setAlignmentX(Component.CENTER_ALIGNMENT);
+				lName1.setAlignmentX(Component.CENTER_ALIGNMENT);
+				editLName.setAlignmentX(Component.CENTER_ALIGNMENT);
+				fName2.setAlignmentX(Component.CENTER_ALIGNMENT);
+				lName2.setAlignmentX(Component.CENTER_ALIGNMENT);
+				pass1.setAlignmentX(Component.CENTER_ALIGNMENT);
+				pass2.setAlignmentX(Component.CENTER_ALIGNMENT);
+				changePass.setAlignmentX(Component.CENTER_ALIGNMENT);
+				
+				panel1.add(fName1);
+				panel1.add((Box.createRigidArea(new Dimension(0, 5))));
+				panel1.add(fName2);
+				panel1.add((Box.createRigidArea(new Dimension(0, 5))));
+				panel1.add(editFName);
+				panel1.add((Box.createRigidArea(new Dimension(0, 5))));
+				panel1.add(lName1);
+				panel1.add((Box.createRigidArea(new Dimension(0, 5))));
+				panel1.add(lName2);
+				panel1.add((Box.createRigidArea(new Dimension(0, 5))));
+				panel1.add(editLName);
+				panel1.add((Box.createRigidArea(new Dimension(0, 5))));
+				panel1.add(pass1);
+				panel1.add((Box.createRigidArea(new Dimension(0, 5))));
+				panel1.add(pass2);
+				panel1.add((Box.createRigidArea(new Dimension(0, 5))));
+				panel1.add(changePass);
+				panel1.add((Box.createRigidArea(new Dimension(0, 5))));
+				
+				pFrame.add(panel1);
+				pFrame.setVisible(true);
+				pFrame.setLocationRelativeTo(null);
+				pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				pFrame.setSize(225, 300);
+				editFName.addActionListener(new ActionListener(){
+					
+					public void actionPerformed(ActionEvent e) {
+						user2.setFname(fName2.getText());
+						user2.saveUser();
+						if(user2.getFname() != null & user2.getLname() != null)
+							table.setValueAt(user2.getFname() + " " + user2.getLname(), select, 1);
+						else if(user2.getFname() != null)
+							table.setValueAt(user2.getFname() + "N/A", select, 1);
+						else if(user2.getLname() != null)
+							table.setValueAt("N/A" + user2.getLname(), select, 1);
+						else
+							table.setValueAt("N/A", select, 1);
+						user2.saveUser();
+					}
+					});
+				editLName.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e) {
+						user2.setLname(lName2.getText());
+						user2.saveUser();
+						if(user2.getFname() != null & user2.getLname() != null)
+							table.setValueAt(user2.getFname() + " " + user2.getLname(), select, 1);
+						else if(user2.getFname() != null)
+							table.setValueAt(user2.getFname() + "N/A", select, 1);
+						else if(user2.getLname() != null)
+							table.setValueAt("N/A" + user2.getLname(), select, 1);
+						else
+							table.setValueAt("N/A", select, 1);
+						user2.saveUser();
+					}
+					});
+				changePass.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e) {
+						user2.setPW_Hash(user2.hashPassword(pass2.getText()));
+						user2.saveUser();
+					}
+					});
+				}
+			}
+		});
+		AddUser.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				String input = JOptionPane.showInputDialog("Enter the username: ");
+				if( input != null ) {
+				User adduser = new User();
+				String temp = dir + "/src/Users/" + input + ".txt";
+				System.out.println(temp);
+    			File f = new File(temp);
+				if(f.exists()){
+					adduser.loadUser(input);
+					if(!group.isUser(adduser)){
+						group.addUser(adduser);
+						group.saveGroup();
+						adduser.saveUser();
+					}
+					else JOptionPane.showMessageDialog(null, "User already in this group");
+				}
+				else JOptionPane.showMessageDialog(null,"That user does not exist");
+			}
 			}
 		});
 		

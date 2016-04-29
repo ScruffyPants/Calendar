@@ -37,6 +37,7 @@ public class Style implements Serializable{
 		setTodayBorder = new JButton("Set Color of Today's Border");
 		setTodayBorder.setBackground(user.getStyle().getTodayBorder());
 		setWeekPanelBackground = new JButton("Set Color of Week Panel's Background");
+		setWeekPanelBackground.setBackground(user.getStyle().getWeekPanelBackground());
 		
 		panel.add(setBackground);
 		panel.add(setForeground);
@@ -50,12 +51,14 @@ public class Style implements Serializable{
 		setBackground.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				Color color = makeColor();
-				setBackground(color);
-				setBackground.setBackground(color);
-				if( color.getBlue() < 80 && color.getRed() < 80 && color.getGreen() < 80 ) {
-					setBackground.setForeground(Color.WHITE);
-				} else {
-					setBackground.setForeground(Color.DARK_GRAY);
+				if( color != null ) {
+					setBackground(color);
+					setBackground.setBackground(color);
+					if( color.getBlue() < 80 && color.getRed() < 80 && color.getGreen() < 80 ) {
+						setBackground.setForeground(Color.WHITE);
+					} else {
+						setBackground.setForeground(Color.DARK_GRAY);
+					}
 				}
 			}
 		});
@@ -63,12 +66,14 @@ public class Style implements Serializable{
 		setForeground.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				Color color = makeColor();
-				setForeground(color);
-				setForeground.setBackground(color);
-				if( color.getBlue() < 80 && color.getRed() < 80 && color.getGreen() < 80 ) {
-					setForeground.setForeground(Color.WHITE);
-				} else {
-					setForeground.setForeground(Color.DARK_GRAY);
+				if( color != null ) {
+					setForeground(color);
+					setForeground.setBackground(color);
+					if( color.getBlue() < 80 && color.getRed() < 80 && color.getGreen() < 80 ) {
+						setForeground.setForeground(Color.WHITE);
+					} else {
+						setForeground.setForeground(Color.DARK_GRAY);
+					}
 				}
 			}
 		});
@@ -76,12 +81,14 @@ public class Style implements Serializable{
 		setDayBackground.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				Color color = makeColor();
-				setDayBackground(color);
-				setDayBackground.setBackground(color);
-				if( color.getBlue() < 80 && color.getRed() < 80 && color.getGreen() < 80 ) {
-					setDayBackground.setForeground(Color.WHITE);
-				} else {
-					setDayBackground.setForeground(Color.DARK_GRAY);
+				if( color != null ) {
+					setDayBackground(color);
+					setDayBackground.setBackground(color);
+					if( color.getBlue() < 80 && color.getRed() < 80 && color.getGreen() < 80 ) {
+						setDayBackground.setForeground(Color.WHITE);
+					} else {
+						setDayBackground.setForeground(Color.DARK_GRAY);
+					}
 				}
 			}
 		});
@@ -89,12 +96,14 @@ public class Style implements Serializable{
 		setEventBackground.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				Color color = makeColor();
-				setEventBackground(color);
-				setEventBackground.setBackground(color);
-				if( color.getBlue() < 80 && color.getRed() < 80 && color.getGreen() < 80 ) {
-					setEventBackground.setForeground(Color.WHITE);
-				} else {
-					setEventBackground.setForeground(Color.DARK_GRAY);
+				if( color != null ) {
+					setEventBackground(color);
+					setEventBackground.setBackground(color);
+					if( color.getBlue() < 80 && color.getRed() < 80 && color.getGreen() < 80 ) {
+						setEventBackground.setForeground(Color.WHITE);
+					} else {
+						setEventBackground.setForeground(Color.DARK_GRAY);
+					}
 				}
 			}
 		});
@@ -102,12 +111,14 @@ public class Style implements Serializable{
 		setTodayBorder.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				Color color = makeColor();
-				setTodayBorder(color);
-				setTodayBorder.setBackground(color);
-				if( color.getBlue() < 80 && color.getRed() < 80 && color.getGreen() < 80 ) {
-					setTodayBorder.setForeground(Color.WHITE);
-				} else {
-					setTodayBorder.setForeground(Color.DARK_GRAY);
+				if( color != null ) {
+					setTodayBorder(color);
+					setTodayBorder.setBackground(color);
+					if( color.getBlue() < 80 && color.getRed() < 80 && color.getGreen() < 80 ) {
+						setTodayBorder.setForeground(Color.WHITE);
+					} else {
+						setTodayBorder.setForeground(Color.DARK_GRAY);
+					}
 				}
 			}
 		});
@@ -115,12 +126,14 @@ public class Style implements Serializable{
 		setWeekPanelBackground.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				Color color = makeColor();
-				setWeekpanelBackground(color);
-				setWeekPanelBackground.setBackground(color);
-				if( color.getBlue() < 80 && color.getRed() < 80 && color.getGreen() < 80 ) {
-					setWeekPanelBackground.setForeground(Color.WHITE);
-				} else {
-					setWeekPanelBackground.setForeground(Color.DARK_GRAY);
+				if( color != null ) {
+					setWeekPanelBackground(color);
+					setWeekPanelBackground.setBackground(color);
+					if( color.getBlue() < 80 && color.getRed() < 80 && color.getGreen() < 80 ) {
+						setWeekPanelBackground.setForeground(Color.WHITE);
+					} else {
+						setWeekPanelBackground.setForeground(Color.DARK_GRAY);
+					}
 				}
 			}
 		});
@@ -165,10 +178,10 @@ public class Style implements Serializable{
 	public void setTodayBorder(Color todayBorder) {
 		this.todayBorder = todayBorder;
 	}
-	public Color getWeekpanelBackground() {
+	public Color getWeekPanelBackground() {
 		return weekpanelBackground;
 	}
-	public void setWeekpanelBackground(Color weekpanelBackground) {
+	public void setWeekPanelBackground(Color weekpanelBackground) {
 		this.weekpanelBackground = weekpanelBackground;
 	}
 
