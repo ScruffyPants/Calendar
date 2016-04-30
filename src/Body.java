@@ -882,8 +882,11 @@ public class Body extends JFrame {
 		}
 		
 		pFrame.setBackground(user.getStyle().getBackground());
-		pFrame.setLayout(new GridLayout(2,3));
+		if((pevents.size()==0 && events.size()==0) || (events.size()==1 || events.size()==1))pFrame.setLayout(new GridLayout(0,1));
+		//else if(pevents.size()+events.size() > 4)pFrame.setLayout(new GridLayout(4,4));
+		else pFrame.setLayout(new GridLayout(2,2));
 		pFrame.setMinimumSize(new Dimension(300,300));
+		pFrame.setResizable(false);
 		pFrame.pack();
 		pFrame.setLocationRelativeTo(null);
 		pFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -1425,10 +1428,11 @@ public class Body extends JFrame {
 		pFrame.setVisible(true);
 	}
 	
-	public void PopoutGroupUserControlDialog(Group group) {
+	public void PopoutGroupUserControlDialog(Group group2) {
 		pFrame = new JFrame();
 		JMenuBar adminMenuBar = new JMenuBar();
-
+		group = group2;
+		
 		JMenu Options, Window, ChangeRank, Edit;
 		JMenuItem Remove, User, Admin, Refresh, Account, AddUser;
 		utable = new Table();
